@@ -14,7 +14,7 @@ import * as Joi from 'joi';
           .valid('development', 'production', 'tests')
           .default('development')
           .required(),
-        APP_PORT: Joi.number().required(),
+        APP_PORT: Joi.number().default(3001),
         APP_URL: Joi.string(),
       }),
     }),
