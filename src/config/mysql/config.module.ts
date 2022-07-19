@@ -11,7 +11,7 @@ import { MysqlConfigService } from './config.service';
       validationSchema: Joi.object({
         DB_HOST: Joi.string().default('localhost'),
         DB_USERNAME: Joi.string().default('root'),
-        DB_PASSWORD: Joi.string().default('root'),
+        DB_PASSWORD: Joi.string(),
         DB_DATABASE: Joi.string().required(),
         DB_PORT: Joi.number().default(3306),
       }),
