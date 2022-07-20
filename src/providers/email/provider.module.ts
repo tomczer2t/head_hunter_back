@@ -18,7 +18,7 @@ import { EmailProviderService } from './provider.service';
         // set to true will open a preview of the email with the browser
         preview: false,
         template: {
-          dir: './templates/email',
+          dir: './templates',
           adapter: new HandlebarsAdapter(),
           options: {
             strict: true,
