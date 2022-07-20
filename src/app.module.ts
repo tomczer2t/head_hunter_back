@@ -7,7 +7,14 @@ import { AdminModule } from './models/admin/admin.module';
 import { HrModule } from './models/hr/hr.module';
 
 @Module({
-  imports: [AppConfigModule, MysqlProviderModule, AuthModule, UsersModule, AdminModule, HrModule],
+  imports: [
+    AppConfigModule,
+    MysqlProviderModule,
+    AuthModule,
+    UsersModule,
+    AdminModule,
+    HrModule,
+  ],
   controllers: [],
   providers: [],
 })
