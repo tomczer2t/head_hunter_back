@@ -1,15 +1,20 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
 import { LoginDto } from './dto';
 
-@Controller('auth')
+@Controller('/auth')
 export class AuthController {
-  @Post('login')
+  @Post('/login')
   login(@Body() loginDto: LoginDto) {
-    console.log(LoginDto);
+    console.log(loginDto);
   }
 
-  @Post('logout')
+  @Get('/logout')
   logout() {
     console.log('logout');
+  }
+
+  @Patch('/refresh')
+  refreshTokens() {
+    return 'refresh';
   }
 }
