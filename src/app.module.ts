@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppConfigModule } from './config/app/config.module';
 import { MysqlProviderModule } from './providers/mysql/provider.module';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './models/users/users.module';
+import { UserModule } from './models/user/user.module';
 import { AdminModule } from './models/admin/admin.module';
 import { HrModule } from './models/hr/hr.module';
 
@@ -11,7 +11,7 @@ import { HrModule } from './models/hr/hr.module';
     AppConfigModule,
     MysqlProviderModule,
     AuthModule,
-    UsersModule,
+    UserModule,
     AdminModule,
     HrModule,
   ],
