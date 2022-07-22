@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './models/user/user.module';
 import { AdminModule } from './models/admin/admin.module';
 import { HrModule } from './models/hr/hr.module';
+import { StudentModule } from './models/student/student.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { HrModule } from './models/hr/hr.module';
     UserModule,
     AdminModule,
     HrModule,
+    StudentModule,
   ],
   controllers: [],
   providers: [],
