@@ -8,9 +8,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const appConfig = app.get(AppConfigService);
   app.useGlobalPipes(
-      new ValidationPipe({
-        whitelist: true,
-      }),
+    new ValidationPipe({
+      whitelist: true,
+    }),
   );
   app.use(cookieParser());
   app.setGlobalPrefix('api');
