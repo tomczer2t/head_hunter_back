@@ -4,7 +4,6 @@ import { JwtPayload, LoginResponse, Tokens, UserRole } from '../../types';
 import { ConfigService } from '@nestjs/config';
 import { LoginDto } from './dto';
 import { Response } from 'express';
-import { use } from 'passport';
 
 @Injectable()
 export class AuthService {
