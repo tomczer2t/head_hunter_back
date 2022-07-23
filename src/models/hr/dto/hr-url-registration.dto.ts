@@ -1,19 +1,7 @@
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 import { MatchDecorator } from '../../../common';
 
 export class HrUrlRegistrationDto {
-  @IsOptional()
-  @IsEmail()
-  @MaxLength(255)
-  email: string;
-
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
