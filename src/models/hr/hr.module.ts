@@ -3,7 +3,7 @@ import { HrService } from './hr.service';
 import { HrController } from './hr.controller';
 
 @Module({
+  controllers: [HrController],
   providers: [HrService],
-  controllers: [HrController]
 })
 export class HrModule {}
