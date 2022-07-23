@@ -18,6 +18,7 @@ import {
   USER_INPUT_PASSWORD_MAX_LENGTH,
   USER_INPUT_PASSWORD_MIN_LENGTH,
 } from '../../../config/global';
+import { MatchDecorator } from '../../../common';
 
 enum ContractType {
   EmploymentContract = 'Umowa o prace',
@@ -70,5 +71,6 @@ export class StudentUrlRegistrationDto {
   @IsString()
   @MinLength(USER_INPUT_PASSWORD_MIN_LENGTH)
   @MaxLength(USER_INPUT_PASSWORD_MAX_LENGTH)
+  @MatchDecorator('password', { message: 'Provided passwords are different' })
   passwordConfirm: string;
 }
