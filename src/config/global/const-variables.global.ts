@@ -1,4 +1,4 @@
-export const USER_INPUT_EMAIL_MAX_LENGTH = 254; // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address#:~:text=%22There%20is%20a%20length%20limit,total%20length%20of%20320%20characters.
+export const USER_INPUT_EMAIL_MAX_LENGTH = 254; // total number of user input + domain https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address#:~:text=%22There%20is%20a%20length%20limit,total%20length%20of%20320%20characters.
 
 export const USER_INPUT_PASSWORD_MIN_LENGTH = 8;
 export const USER_INPUT_PASSWORD_MAX_LENGTH = 64; // min and max password length - https://www.auditboard.com/blog/nist-password-guidelines/
