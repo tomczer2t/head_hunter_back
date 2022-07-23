@@ -29,7 +29,7 @@ export class AuthController {
   }
 
   @UseGuards(JwtRefreshGuard)
-  @Patch('/refresh')
+  @Get('/refresh')
   refreshTokens() {
     return this.authService.getNewTokens({ userId: '13' });
   }
