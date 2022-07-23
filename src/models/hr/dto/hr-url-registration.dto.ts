@@ -17,7 +17,7 @@ export class HrUrlRegistrationDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
-  @MaxLength(64) // min and max password length supported by https://www.auditboard.com/blog/nist-password-guidelines/
+  @MaxLength(64) //  min and max password length supported by https://www.auditboard.com/blog/nist-password-guidelines/
   password: string;
 
   @IsString()
