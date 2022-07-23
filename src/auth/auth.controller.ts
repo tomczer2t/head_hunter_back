@@ -2,23 +2,27 @@ import {
   Body,
   Controller,
   Get,
-  Patch,
   Post,
   Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { LoginDto } from './dto';
 import { AuthService } from './auth.service';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { JwtAccessGuard, JwtRefreshGuard } from '../common/guards';
+import { LoginResponse } from '../../types';
 
 @Controller('/auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/login')
-  login(@Body() loginDto: LoginDto) {
-    return this.authService.getNewTokens({ userId: '13' });
+  login(
+    @Res({ passthrough: true }) res: Response,
+    @Body() loginDto: LoginDto,
+  ): Promise<LoginResponse> {
+    return this.authService.login(res, loginDto);
   }
 
   @UseGuards(JwtAccessGuard)
