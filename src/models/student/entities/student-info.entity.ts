@@ -28,53 +28,56 @@ export class StudentInfoEntity extends BaseEntity {
   teamProjectDegree: number;
 
   @Column({ type: 'longtext' })
-  bonusProjectUrlsInJson: string;
+  bonusProjectUrlsJson: string;
 
-  @Column({ nullable: true, width: 9 })
+  @Column({ width: 9, nullable: true })
   tel: number;
 
-  @Column({ length: 20 })
+  @Column({ length: 20, nullable: true })
   firstName: string;
 
-  @Column({ length: 28 })
+  @Column({ length: 28, nullable: true })
   lastName: string;
 
-  @Column({ length: 39 })
+  @Column({ length: 39, nullable: true })
   githubUsername: string;
 
-  @Column({ type: 'longtext' })
-  portfolioUrlsInJson: string;
+  @Column({ type: 'longtext', nullable: true })
+  portfolioUrlsJson: string;
 
-  @Column({ type: 'longtext' })
-  projectUrlsInJson: string;
+  @Column({ type: 'longtext', nullable: true })
+  projectUrlsJson: string;
 
-  @Column({ type: 'longtext' })
+  @Column({ length: '2500', nullable: true })
   bio: string;
 
-  @Column()
+  @Column({ length: 25, nullable: true })
   expectedTypeWork: string;
 
-  @Column({ length: 22 })
+  @Column({ length: 22, nullable: true })
   targetWorkCity: string;
 
-  @Column({ length: 9 })
+  @Column({ length: 9, nullable: true })
   expectedContractType: string;
 
-  @Column()
+  @Column({ width: 6, nullable: true })
   expectedSalary: number;
 
-  @Column()
+  @Column({ nullable: true })
   canTakeApprenticeship: boolean;
 
-  @Column()
+  @Column({ width: 3, nullable: true })
   monthsOfCommercialExp: number;
 
-  @Column()
+  @Column({ type: 'longtext', nullable: true })
   education: string;
 
-  @Column()
+  @Column({ type: 'longtext', nullable: true })
   workExperience: string;
 
-  @Column()
+  @Column({ type: 'longtext', nullable: true })
   courses: string;
+
+  @Column({ width: 1, nullable: true })
+  studentStatus: number;
 }
