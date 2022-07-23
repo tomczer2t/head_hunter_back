@@ -1,4 +1,5 @@
 import {
+  ArrayMinSize,
   IsArray,
   IsBoolean,
   IsDefined,
@@ -19,6 +20,7 @@ import {
   USER_INPUT_PASSWORD_MIN_LENGTH,
 } from '../../../config/global';
 import { MatchDecorator } from '../../../common';
+import { Type } from 'class-transformer';
 
 enum ContractType {
   EmploymentContract = 'Umowa o prace',
@@ -27,7 +29,7 @@ enum ContractType {
   Any = 'Dowolna',
 }
 
-export class StudentUrlRegistrationDto {
+export class UserUrlRegistrationDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(USER_INPUT_FIRSTNAME_MIN_LENGTH)
@@ -46,19 +48,23 @@ export class StudentUrlRegistrationDto {
   githubUsername: string;
 
   @IsArray()
-  projectUrls: Array<string> | [];
+  @IsString({ each: true })
+  @ArrayMinSize(0)
+  projectUrls: Array<string> | []; // when testing in Postman / Insomnia remember to insert data in JSON format
 
   @IsDefined()
   @IsEnum(ContractType)
-  expectedContractType: ContractType; // @TODO enum;
+  expectedContractType: ContractType;
 
   @IsDefined()
   @IsBoolean()
+  @Type(() => Boolean)
   canTakeApprenticeship: boolean;
 
   @IsDefined()
   @IsNotEmpty()
-  @IsNumber({ allowNaN: false })
+  @IsNumber({ allowNaN: false }, { each: true })
+  @Type(() => Number)
   monthsOfCommercialExp: number;
 
   @IsNotEmpty()
