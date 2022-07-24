@@ -6,6 +6,15 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserEntity } from '../../user/entities';
+import {
+  USER_INPUT_BIO_MAX_LENGTH,
+  USER_INPUT_CITY_NAME_MAX_LENGTH,
+  USER_INPUT_CONTRACT_TYPE_MAX_LENGTH,
+  USER_INPUT_EXPECTED_SALARY_MAX_LENGTH,
+  USER_INPUT_FIRSTNAME_MAX_LENGTH,
+  USER_INPUT_GITHUB_USERNAME_MAX_LENGTH,
+  USER_INPUT_LASTNAME_MAX_LENGTH,
+} from '../../../config/global';
 
 @Entity()
 export class StudentInfoEntity extends BaseEntity {
@@ -33,13 +42,13 @@ export class StudentInfoEntity extends BaseEntity {
   @Column({ width: 9, nullable: true })
   tel: number;
 
-  @Column({ length: 20, nullable: true })
+  @Column({ length: USER_INPUT_FIRSTNAME_MAX_LENGTH, nullable: true })
   firstName: string;
 
-  @Column({ length: 28, nullable: true })
+  @Column({ length: USER_INPUT_LASTNAME_MAX_LENGTH, nullable: true })
   lastName: string;
 
-  @Column({ length: 39, nullable: true })
+  @Column({ length: USER_INPUT_GITHUB_USERNAME_MAX_LENGTH, nullable: true })
   githubUsername: string;
 
   @Column({ type: 'longtext', nullable: true })
@@ -48,19 +57,19 @@ export class StudentInfoEntity extends BaseEntity {
   @Column({ type: 'longtext', nullable: true })
   projectUrlsJson: string;
 
-  @Column({ length: '2500', nullable: true })
+  @Column({ length: USER_INPUT_BIO_MAX_LENGTH, nullable: true })
   bio: string;
 
   @Column({ length: 25, nullable: true })
   expectedTypeWork: string;
 
-  @Column({ length: 22, nullable: true })
+  @Column({ length: USER_INPUT_CITY_NAME_MAX_LENGTH, nullable: true })
   targetWorkCity: string;
 
-  @Column({ length: 9, nullable: true })
+  @Column({ length: USER_INPUT_CONTRACT_TYPE_MAX_LENGTH, nullable: true })
   expectedContractType: string;
 
-  @Column({ width: 6, nullable: true })
+  @Column({ width: USER_INPUT_EXPECTED_SALARY_MAX_LENGTH, nullable: true })
   expectedSalary: number;
 
   @Column({ nullable: true })

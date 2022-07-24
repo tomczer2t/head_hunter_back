@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { StudentUrlRegistrationDto } from './dto/student-url-registration.dto';
+import { StudentUrlRegistrationDto } from './dto/student-form-profile.dto';
 
 @Injectable()
 export class StudentService {

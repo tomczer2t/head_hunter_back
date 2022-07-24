@@ -1,17 +1,29 @@
-import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
-import { MatchDecorator } from '../../../common';
+import {
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import {
   USER_INPUT_PASSWORD_MAX_LENGTH,
   USER_INPUT_PASSWORD_MIN_LENGTH,
 } from '../../../config/global';
+import { MatchDecorator } from '../../../common';
 
-export class HrUrlRegistrationDto {
-  @IsString()
+export class UserRegistrationDto {
   @IsNotEmpty()
+  @IsString()
+  @IsUUID()
+  userId: string;
+
+  @IsNotEmpty()
+  @IsString()
   @MinLength(USER_INPUT_PASSWORD_MIN_LENGTH)
-  @MaxLength(USER_INPUT_PASSWORD_MAX_LENGTH) //  min and max password length supported by https://www.auditboard.com/blog/nist-password-guidelines/
+  @MaxLength(USER_INPUT_PASSWORD_MAX_LENGTH)
   password: string;
 
+  @IsNotEmpty()
   @IsString()
   @MinLength(USER_INPUT_PASSWORD_MIN_LENGTH)
   @MaxLength(USER_INPUT_PASSWORD_MAX_LENGTH)
