@@ -19,6 +19,11 @@ export class UserRegistrationDto {
 
   @IsNotEmpty()
   @IsString()
+  @IsUUID()
+  authorizationToken: string;
+
+  @IsNotEmpty()
+  @IsString()
   @MinLength(USER_INPUT_PASSWORD_MIN_LENGTH)
   @MaxLength(USER_INPUT_PASSWORD_MAX_LENGTH)
   password: string;
