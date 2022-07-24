@@ -1,12 +1,20 @@
-import { Controller, Post } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AdminService } from './admin.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
 
 @Controller('/admin')
 export class AdminController {
   constructor(private adminService: AdminService) {}
 
+  @UseInterceptors(FileInterceptor('students'))
   @Post('/import-students')
-  importStudents() {
-    return this.adminService.importStudents();
+  addStudents(@UploadedFile() studentsFile: Express.Multer.File) {
+    return this.adminService.addStudents(studentsFile);
   }
 }
