@@ -6,7 +6,8 @@ import {
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Express } from 'express';
+import { ParseCsvPipe } from '../../common/pipes';
+import { StudentCsv } from '../../../types';
 
 @Controller('/admin')
 export class AdminController {
@@ -14,7 +15,7 @@ export class AdminController {
 
   @UseInterceptors(FileInterceptor('students'))
   @Post('/import-students')
-  addStudents(@UploadedFile() studentsFile: Express.Multer.File) {
-    return this.adminService.addStudents(studentsFile);
+  addStudents(@UploadedFile(ParseCsvPipe) students: StudentCsv[]) {
+    return this.adminService.addStudents(students);
   }
 }
