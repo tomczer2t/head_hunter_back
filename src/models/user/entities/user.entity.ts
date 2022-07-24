@@ -1,5 +1,13 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserAccountStatus, UserRole } from '../../../../types';
+import { StudentInfoEntity } from '../../student/entities';
 
 @Entity()
 export class UserEntity extends BaseEntity {
@@ -15,6 +23,10 @@ export class UserEntity extends BaseEntity {
   role: UserRole;
   @Column({ default: UserAccountStatus.PENDING, length: 7 })
   accountStatus: UserAccountStatus;
-  //@todo add one to one relation with StudentInfo - nullable
+  @JoinColumn({ name: 'studentInfoId' })
+  @OneToOne(() => StudentInfoEntity, (entity) => entity.user, {
+    nullable: true,
+  })
+  studentInfo: StudentInfoEntity;
   //@todo add one to one relation with HrInfo - nullable
 }
