@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { StudentService } from './student.service';
-import { StudentUrlRegistrationDto } from './dto/student-url-registration.dto';
+import { StudentUrlRegistrationDto } from './dto/student-form-profile.dto';
 
 @Controller('student')
 export class StudentController {

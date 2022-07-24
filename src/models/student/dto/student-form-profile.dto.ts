@@ -6,24 +6,29 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   MaxLength,
   MinLength,
 } from 'class-validator';
 import {
+  USER_INPUT_BIO_MAX_LENGTH,
+  USER_INPUT_CITY_NAME_MAX_LENGTH,
+  USER_INPUT_CONTRACT_TYPE_MAX_LENGTH,
+  USER_INPUT_EXPECTED_SALARY_MAX_LENGTH,
   USER_INPUT_FIRSTNAME_MAX_LENGTH,
   USER_INPUT_FIRSTNAME_MIN_LENGTH,
   USER_INPUT_GITHUB_USERNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MIN_LENGTH,
-  USER_INPUT_PASSWORD_MAX_LENGTH,
-  USER_INPUT_PASSWORD_MIN_LENGTH,
 } from '../../../config/global';
-import { MatchDecorator } from '../../../common';
 import { Type } from 'class-transformer';
 import { ContractType } from '../../../../types';
 
-export class StudentUrlRegistrationDto {
+export class StudentFormProfileDto {
+  @IsOptional()
+  tel: number;
+
   @IsNotEmpty()
   @IsString()
   @MinLength(USER_INPUT_FIRSTNAME_MIN_LENGTH)
@@ -41,15 +46,40 @@ export class StudentUrlRegistrationDto {
   @MaxLength(USER_INPUT_GITHUB_USERNAME_MAX_LENGTH)
   githubUsername: string;
 
+  @IsOptional()
   @IsArray()
   @IsString({ each: true })
   @ArrayMinSize(0)
+  portfolioUrls: Array<string> | [];
+
+  @IsNotEmpty()
+  @IsArray()
+  @IsString({ each: true })
+  @ArrayMinSize(1)
   projectUrls: Array<string> | []; // when testing in Postman / Insomnia remember to insert data in JSON format
 
+  @IsOptional()
+  @IsString()
+  @MaxLength(USER_INPUT_BIO_MAX_LENGTH)
+  bio: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(USER_INPUT_CITY_NAME_MAX_LENGTH)
+  targetWorkCity: string;
+
+  @IsNotEmpty()
   @IsDefined()
   @IsEnum(ContractType)
+  @MaxLength(USER_INPUT_CONTRACT_TYPE_MAX_LENGTH)
   expectedContractType: ContractType;
 
+  @IsNumber({ allowNaN: false })
+  @IsOptional()
+  @MaxLength(USER_INPUT_EXPECTED_SALARY_MAX_LENGTH)
+  expectedSalary: number;
+
+  @IsNotEmpty()
   @IsDefined()
   @IsBoolean()
   @Type(() => Boolean)
@@ -57,20 +87,19 @@ export class StudentUrlRegistrationDto {
 
   @IsDefined()
   @IsNotEmpty()
-  @IsNumber({ allowNaN: false }, { each: true })
+  @IsNumber({ allowNaN: false })
   @Type(() => Number)
   monthsOfCommercialExp: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  @MinLength(USER_INPUT_PASSWORD_MIN_LENGTH)
-  @MaxLength(USER_INPUT_PASSWORD_MAX_LENGTH)
-  password: string;
+  education: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  @MinLength(USER_INPUT_PASSWORD_MIN_LENGTH)
-  @MaxLength(USER_INPUT_PASSWORD_MAX_LENGTH)
-  @MatchDecorator('password', { message: 'Provided passwords are different' })
-  passwordConfirm: string;
+  workExperience: string;
+
+  @IsOptional()
+  @IsString()
+  courses: string;
 }
