@@ -10,7 +10,7 @@ import {
   USER_INPUT_BIO_MAX_LENGTH,
   USER_INPUT_CITY_NAME_MAX_LENGTH,
   USER_INPUT_CONTRACT_TYPE_MAX_LENGTH,
-  USER_INPUT_EXPECTED_SALARY_MAX_LENGTH,
+  USER_INPUT_EXPECTED_SALARY_MAX_LENGTH_ENTITY,
   USER_INPUT_FIRSTNAME_MAX_LENGTH,
   USER_INPUT_GITHUB_USERNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MAX_LENGTH,
@@ -69,7 +69,10 @@ export class StudentInfoEntity extends BaseEntity {
   @Column({ length: USER_INPUT_CONTRACT_TYPE_MAX_LENGTH, nullable: true })
   expectedContractType: string;
 
-  @Column({ width: USER_INPUT_EXPECTED_SALARY_MAX_LENGTH, nullable: true })
+  @Column({
+    width: USER_INPUT_EXPECTED_SALARY_MAX_LENGTH_ENTITY,
+    nullable: true,
+  })
   expectedSalary: number;
 
   @Column({ nullable: true })

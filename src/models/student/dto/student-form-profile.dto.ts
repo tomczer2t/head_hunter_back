@@ -8,6 +8,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Max,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -15,7 +16,7 @@ import {
   USER_INPUT_BIO_MAX_LENGTH,
   USER_INPUT_CITY_NAME_MAX_LENGTH,
   USER_INPUT_CONTRACT_TYPE_MAX_LENGTH,
-  USER_INPUT_EXPECTED_SALARY_MAX_LENGTH,
+  USER_INPUT_EXPECTED_SALARY_MAX_LENGTH_DTO,
   USER_INPUT_FIRSTNAME_MAX_LENGTH,
   USER_INPUT_FIRSTNAME_MIN_LENGTH,
   USER_INPUT_GITHUB_USERNAME_MAX_LENGTH,
@@ -27,7 +28,7 @@ import { ContractType } from '../../../../types';
 
 export class StudentFormProfileDto {
   @IsOptional()
-  tel: number;
+  tel: number; // @TODO to be verified
 
   @IsNotEmpty()
   @IsString()
@@ -76,7 +77,7 @@ export class StudentFormProfileDto {
 
   @IsNumber({ allowNaN: false })
   @IsOptional()
-  @MaxLength(USER_INPUT_EXPECTED_SALARY_MAX_LENGTH)
+  @Max(USER_INPUT_EXPECTED_SALARY_MAX_LENGTH_DTO)
   expectedSalary: number;
 
   @IsNotEmpty()
