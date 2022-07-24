@@ -4,9 +4,11 @@ export const USER_INPUT_PASSWORD_MIN_LENGTH = 8;
 export const USER_INPUT_PASSWORD_MAX_LENGTH = 64; // min and max password length - https://www.auditboard.com/blog/nist-password-guidelines/
 
 export const USER_INPUT_FIRSTNAME_MIN_LENGTH = 2; // https://babynames1000.com/three-letter/
-export const USER_INPUT_FIRSTNAME_MAX_LENGTH = 50; // 35 characters recommended in GB for first name. Forename p. 7 https://webarchive.nationalarchives.gov.uk/ukgwa/+/http://www.cabinetoffice.gov.uk/media/254290/GDS%20Catalogue%20Vol%202.pdf
+export const USER_INPUT_FIRSTNAME_MAX_LENGTH = 35; // 35 characters recommended in GB for first name. Forename p. 7 https://webarchive.nationalarchives.gov.uk/ukgwa/+/http://www.cabinetoffice.gov.uk/media/254290/GDS%20Catalogue%20Vol%202.pdf
 
 export const USER_INPUT_LASTNAME_MIN_LENGTH = 2; // http://www.americanlastnames.us/articles/shortest-last-names.html
-export const USER_INPUT_LASTNAME_MAX_LENGTH = 50; // 70 characters recommended in GB for full name. Individual full name p. 8 https://webarchive.nationalarchives.gov.uk/ukgwa/+/http://www.cabinetoffice.gov.uk/media/254290/GDS%20Catalogue%20Vol%202.pdf
+export const USER_INPUT_LASTNAME_MAX_LENGTH = 35; // 70 characters recommended in GB for full name. Individual full name p. 8 https://webarchive.nationalarchives.gov.uk/ukgwa/+/http://www.cabinetoffice.gov.uk/media/254290/GDS%20Catalogue%20Vol%202.pdf
 
 export const USER_INPUT_GITHUB_USERNAME_MAX_LENGTH = 39; // https://github.com/join
+
+export const USER_INPUT_COMPANY_NAME_MAX_LENGTH = 160; // https://companieshouse.blog.gov.uk/2019/02/14/symbols-and-characters-in-a-company-name/

@@ -21,15 +21,9 @@ import {
 } from '../../../config/global';
 import { MatchDecorator } from '../../../common';
 import { Type } from 'class-transformer';
+import { ContractType } from '../../../../types';
 
-enum ContractType {
-  EmploymentContract = 'Umowa o prace',
-  Business2Business = 'B2B',
-  MandateContractOrWorkContract = 'Umowa zlecenie lub umowa o dzielo',
-  Any = 'Dowolna',
-}
-
-export class UserUrlRegistrationDto {
+export class StudentUrlRegistrationDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(USER_INPUT_FIRSTNAME_MIN_LENGTH)
