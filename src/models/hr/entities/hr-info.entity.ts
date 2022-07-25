@@ -27,16 +27,18 @@ export class HrInfoEntity extends BaseEntity {
   @OneToOne(() => UserEntity, (entity) => entity.studentInfo)
   user: UserEntity;
 
-  @OneToMany(() => StudentInfoEntity, (entity) => entity.studentInfoId)
+  @OneToMany(() => StudentInfoEntity, (entity) => entity.studentInfoId, {
+    nullable: true,
+  })
   students: StudentInfoEntity[];
 
-  @Column({ length: USER_INPUT_FIRSTNAME_MAX_LENGTH, nullable: true })
+  @Column({ length: USER_INPUT_FIRSTNAME_MAX_LENGTH })
   firstName: string;
 
-  @Column({ length: USER_INPUT_LASTNAME_MAX_LENGTH, nullable: true })
+  @Column({ length: USER_INPUT_LASTNAME_MAX_LENGTH })
   lastName: string;
 
-  @Column({ length: USER_INPUT_COMPANY_NAME_MAX_LENGTH, nullable: true })
+  @Column({ length: USER_INPUT_COMPANY_NAME_MAX_LENGTH })
   company: string;
 
   @Column({ type: 'int', width: 3 })
