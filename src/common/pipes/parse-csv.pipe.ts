@@ -27,7 +27,7 @@ export class ParseCsvPipe implements PipeTransform {
             field === 'projectDegree' ||
             field === 'teamProjectDegree'
           ) {
-            return +Number(value).toFixed(2);
+            return +Number(value.replace(',', '.')).toFixed(2);
           }
           return value;
         },
