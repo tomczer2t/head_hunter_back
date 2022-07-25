@@ -11,7 +11,11 @@ export class StudentService {
   }: StudentCsv): Promise<StudentInfoEntity> {
     const studentInfo = new StudentInfoEntity();
     for (const [key, value] of Object.entries(restStudentData)) {
-      studentInfo[key] = value;
+      if (key === 'bonusProjectUrls') {
+        studentInfo[key] = JSON.stringify(value);
+      } else {
+        studentInfo[key] = value;
+      }
     }
     await studentInfo.save();
     return studentInfo;
