@@ -9,14 +9,15 @@ import {
 import { UserAccountStatus, UserRole } from '../../../../types';
 import { StudentInfoEntity } from '../../student/entities';
 import { HrInfoEntity } from '../../hr/entities';
+import { USER_INPUT_EMAIL_MAX_LENGTH } from '../../../config/global';
 
 @Entity()
 export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @Column({ unique: true, length: 255 })
+  @Column({ unique: true, length: USER_INPUT_EMAIL_MAX_LENGTH })
   email: string;
-  @Column({ length: 64 })
+  @Column({ length: 64 }) // @TODO hashed password will be much longer than password provided by a user
   passwordHash: string;
   @Column({ unique: true, nullable: true, default: null })
   refreshTokenHash: string;
@@ -35,5 +36,4 @@ export class UserEntity extends BaseEntity {
     nullable: true,
   })
   hrInfoId: HrInfoEntity;
-  //@todo add one to one relation with HrInfo - nullable
 }
