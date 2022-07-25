@@ -39,7 +39,6 @@ export class StudentsCsvValidatorPipe implements PipeTransform {
   }
 
   async validateEmail(email: string, row: number) {
-    console.log({ email });
     if (!email.includes('@')) {
       throw new BadRequestException({
         statusCode: 400,
