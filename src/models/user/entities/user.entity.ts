@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { UserAccountStatus, UserRole } from '../../../../types';
 import { StudentInfoEntity } from '../../student/entities';
+import { HrInfoEntity } from '../../hr/entities';
 
 @Entity()
 export class UserEntity extends BaseEntity {
@@ -28,5 +29,11 @@ export class UserEntity extends BaseEntity {
     nullable: true,
   })
   studentInfo: StudentInfoEntity;
+
+  @JoinColumn({ name: 'hrInfoId' })
+  @OneToOne(() => HrInfoEntity, (entity) => entity.hrInfoId, {
+    nullable: true,
+  })
+  hrInfoId: HrInfoEntity;
   //@todo add one to one relation with HrInfo - nullable
 }

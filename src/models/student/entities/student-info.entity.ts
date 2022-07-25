@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -15,6 +16,7 @@ import {
   USER_INPUT_GITHUB_USERNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MAX_LENGTH,
 } from '../../../config/global';
+import { HrInfoEntity } from '../../hr/entities';
 
 @Entity()
 export class StudentInfoEntity extends BaseEntity {
@@ -23,6 +25,10 @@ export class StudentInfoEntity extends BaseEntity {
 
   @OneToOne(() => UserEntity, (entity) => entity.studentInfo)
   user: UserEntity;
+
+  @JoinColumn({ name: 'hrInfoId' })
+  @OneToOne(() => HrInfoEntity, (entity) => entity.hrInfoId)
+  bookedBy: HrInfoEntity;
 
   @Column({ type: 'int', width: 1 })
   courseCompletion: number;
