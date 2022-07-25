@@ -21,9 +21,16 @@ export class ParseCsvPipe implements PipeTransform {
               .map((url) => url.trim())
               .filter((url) => !!url);
           }
+          if (
+            field === 'courseCompletion' ||
+            field === 'courseEngagment' ||
+            field === 'projectDegree' ||
+            field === 'teamProjectDegree'
+          ) {
+            return +Number(value).toFixed(2);
+          }
           return value;
         },
-        dynamicTyping: true,
         complete: async (results: ParseResult<StudentCsv>) => {
           return resolve(results.data);
         },
