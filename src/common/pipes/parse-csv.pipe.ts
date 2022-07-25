@@ -22,6 +22,7 @@ export class ParseCsvPipe implements PipeTransform {
           }
           return value;
         },
+        dynamicTyping: true,
         complete: (results) => {
           return resolve(results.data);
         },
