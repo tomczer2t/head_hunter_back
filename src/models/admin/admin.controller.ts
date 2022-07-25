@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ParseCsvPipe } from '../../common/pipes';
+import { ParseCsvPipe, StudentsCsvValidatorPipe } from '../../common/pipes';
 import { StudentCsv } from '../../../types';
 import { fileCsvFilter } from '../../common/utils';
 
@@ -16,7 +16,10 @@ export class AdminController {
 
   @UseInterceptors(FileInterceptor('students', { fileFilter: fileCsvFilter }))
   @Post('/import-students')
-  addStudents(@UploadedFile(ParseCsvPipe) students: StudentCsv[]) {
+  addStudents(
+    @UploadedFile(ParseCsvPipe, StudentsCsvValidatorPipe)
+    students: StudentCsv[],
+  ) {
     return this.adminService.addStudents(students);
   }
 }

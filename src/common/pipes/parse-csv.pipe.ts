@@ -1,6 +1,7 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
 import { Express } from 'express';
-import { parse } from 'papaparse';
+import { parse, ParseResult } from 'papaparse';
+import { StudentCsv } from '../../../types';
 
 @Injectable()
 export class ParseCsvPipe implements PipeTransform {
@@ -23,7 +24,7 @@ export class ParseCsvPipe implements PipeTransform {
           return value;
         },
         dynamicTyping: true,
-        complete: (results) => {
+        complete: async (results: ParseResult<StudentCsv>) => {
           return resolve(results.data);
         },
         error: (error) => {
