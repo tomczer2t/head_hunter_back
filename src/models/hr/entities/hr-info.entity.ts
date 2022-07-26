@@ -11,7 +11,7 @@ import {
   USER_INPUT_COMPANY_NAME_MAX_LENGTH,
   USER_INPUT_FIRSTNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MAX_LENGTH,
-  USER_INPUT_MAX_RESERVED_STUDENTS_ENTITY,
+  USER_INPUT_MAX_RESERVED_STUDENTS_MAX_LENGTH_ENTITY,
 } from '../../../config/global';
 import { StudentInfoEntity } from '../../student/entities';
 
@@ -37,6 +37,9 @@ export class HrInfoEntity extends BaseEntity {
   @Column({ length: USER_INPUT_COMPANY_NAME_MAX_LENGTH })
   company: string;
 
-  @Column({ type: 'int', width: USER_INPUT_MAX_RESERVED_STUDENTS_ENTITY })
+  @Column({
+    type: 'int',
+    width: USER_INPUT_MAX_RESERVED_STUDENTS_MAX_LENGTH_ENTITY,
+  })
   maxReservedStudents: number;
 }

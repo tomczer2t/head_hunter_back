@@ -15,6 +15,7 @@ import {
   USER_INPUT_FIRSTNAME_MAX_LENGTH,
   USER_INPUT_GITHUB_USERNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MAX_LENGTH,
+  USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_ENTITY,
 } from '../../../config/global';
 import { HrInfoEntity } from '../../hr/entities';
 
@@ -84,7 +85,10 @@ export class StudentInfoEntity extends BaseEntity {
   @Column({ nullable: true })
   canTakeApprenticeship: boolean;
 
-  @Column({ width: 3, nullable: true })
+  @Column({
+    width: USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_ENTITY,
+    nullable: true,
+  })
   monthsOfCommercialExp: number;
 
   @Column({ type: 'longtext', nullable: true })

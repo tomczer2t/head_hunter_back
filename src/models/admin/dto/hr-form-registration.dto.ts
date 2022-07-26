@@ -15,7 +15,7 @@ import {
   USER_INPUT_FIRSTNAME_MIN_LENGTH,
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MIN_LENGTH,
-  USER_INPUT_MAX_RESERVED_STUDENTS_DTO,
+  USER_INPUT_MAX_RESERVED_STUDENTS_MAX_LENGTH_DTO,
 } from '../../../config/global';
 
 export class HrFormRegistrationDto {
@@ -44,7 +44,7 @@ export class HrFormRegistrationDto {
 
   @IsNotEmpty()
   @IsNumber({ allowNaN: false })
-  @Max(USER_INPUT_MAX_RESERVED_STUDENTS_DTO)
+  @Max(USER_INPUT_MAX_RESERVED_STUDENTS_MAX_LENGTH_DTO)
   @Min(0)
   maxReservedStudents: number;
 }

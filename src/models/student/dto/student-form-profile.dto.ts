@@ -23,6 +23,7 @@ import {
   USER_INPUT_GITHUB_USERNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MIN_LENGTH,
+  USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_DTO,
 } from '../../../config/global';
 import { Type } from 'class-transformer';
 import { ContractType } from '../../../../types';
@@ -92,6 +93,7 @@ export class StudentFormProfileDto {
   @IsNotEmpty()
   @IsNumber({ allowNaN: false })
   @Min(0)
+  @Max(USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_DTO)
   @Type(() => Number)
   monthsOfCommercialExp: number;
 
