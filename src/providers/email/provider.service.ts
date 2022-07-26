@@ -1,6 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 
+interface SendMailSuccess {
+  isOk: true;
+}
+
+interface SendMailError {
+  isOk: false;
+  email: string;
+  error: string;
+}
+
+type SendMailResponse = SendMailSuccess | SendMailError;
+
 @Injectable()
 export class EmailProviderService {
   constructor(private mailerService: MailerService) {}
@@ -9,17 +21,17 @@ export class EmailProviderService {
     to: string,
     subject: string,
     html: string,
-  ): Promise<{ isOk: boolean; email: string }> {
+  ): Promise<SendMailResponse> {
     try {
       await this.mailerService.sendMail({
         to,
         subject,
         html,
       });
-      return { isOk: true, email: to };
+      return { isOk: true };
     } catch (err) {
       console.log(err);
-      return { isOk: false, email: to };
+      return { isOk: false, email: to, error: err.message };
     }
   }
 }
