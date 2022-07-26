@@ -19,7 +19,7 @@ export class UserService {
         studentCsv,
       );
       await student.save();
-      return { isOk: true };
+      return { isOk: true, student };
     } catch (err) {
       console.log(err);
       return { isOk: false, error: err.message };

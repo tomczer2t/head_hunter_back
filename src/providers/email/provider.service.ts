@@ -18,6 +18,7 @@ export class EmailProviderService {
       });
       return { isOk: true, email: to };
     } catch (err) {
+      console.log(err);
       return { isOk: false, email: to };
     }
   }
