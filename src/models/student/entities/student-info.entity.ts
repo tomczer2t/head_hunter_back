@@ -30,16 +30,16 @@ export class StudentInfoEntity extends BaseEntity {
   @OneToOne(() => HrInfoEntity, (entity) => entity.hrInfoId)
   bookedBy: HrInfoEntity;
 
-  @Column({ type: 'decimal', scale: 2, precision: 3 })
+  @Column({ type: 'int', width: 1 })
   courseCompletion: number;
 
-  @Column({ type: 'decimal', scale: 2, precision: 3 })
+  @Column({ type: 'int', width: 1 })
   courseEngagment: number;
 
-  @Column({ type: 'decimal', scale: 2, precision: 3 })
+  @Column({ type: 'int', width: 1 })
   projectDegree: number;
 
-  @Column({ type: 'decimal', scale: 2, precision: 3 })
+  @Column({ type: 'int', width: 1 })
   teamProjectDegree: number;
 
   @Column({ type: 'longtext' })

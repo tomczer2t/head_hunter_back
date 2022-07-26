@@ -7,7 +7,7 @@ import {
 import { AdminService } from './admin.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ParseCsvPipe, StudentsCsvValidatorPipe } from '../../common/pipes';
-import { StudentCsv } from '../../../types';
+import { AddStudentsResponse, StudentCsv } from '../../../types';
 import { fileCsvFilter } from '../../common/utils';
 
 @Controller('/admin')
@@ -19,7 +19,7 @@ export class AdminController {
   addStudents(
     @UploadedFile(ParseCsvPipe, StudentsCsvValidatorPipe)
     students: StudentCsv[],
-  ) {
+  ): Promise<AddStudentsResponse> {
     return this.adminService.addStudents(students);
   }
 }

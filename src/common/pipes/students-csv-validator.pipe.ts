@@ -64,7 +64,7 @@ export class StudentsCsvValidatorPipe implements PipeTransform {
       if (typeof degree !== 'number') {
         throw new BadRequestException({
           statusCode: 400,
-          message: 'Each degree must be a number',
+          message: 'Each degree must be an integer',
           row,
         });
       }
