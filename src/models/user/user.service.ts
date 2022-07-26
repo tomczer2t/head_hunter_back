@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { StudentCsv, UserRole } from '../../../types';
 import { UserEntity } from './entities';
 import { v4 as uuid } from 'uuid';
@@ -10,6 +10,12 @@ export class UserService {
 
   async addStudentFromCsvFile(studentCsv: StudentCsv) {
     try {
+      const emailExists = !!(await UserEntity.findOneBy({
+        email: studentCsv.email,
+      }));
+      if (emailExists) {
+        throw new Error('Email already exists in database');
+      }
       const student = new UserEntity();
       student.email = studentCsv.email;
       student.verificationToken = this.getVerificationToken();

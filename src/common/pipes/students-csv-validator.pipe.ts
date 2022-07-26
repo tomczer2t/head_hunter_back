@@ -46,14 +46,6 @@ export class StudentsCsvValidatorPipe implements PipeTransform {
         row,
       });
     }
-    const emailExists = !!(await UserEntity.findOneBy({ email }));
-    if (emailExists) {
-      throw new ConflictException({
-        statusCode: 409,
-        message: `Email already exists in database - ${email}`,
-        row,
-      });
-    }
   }
 
   validateDegrees(
