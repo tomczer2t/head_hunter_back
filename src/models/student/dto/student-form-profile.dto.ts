@@ -10,6 +10,7 @@ import {
   IsString,
   Max,
   MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
 import {
@@ -78,6 +79,7 @@ export class StudentFormProfileDto {
   @IsNumber({ allowNaN: false })
   @IsOptional()
   @Max(USER_INPUT_EXPECTED_SALARY_MAX_LENGTH_DTO)
+  @Min(0)
   expectedSalary: number;
 
   @IsNotEmpty()
@@ -89,6 +91,7 @@ export class StudentFormProfileDto {
   @IsDefined()
   @IsNotEmpty()
   @IsNumber({ allowNaN: false })
+  @Min(0)
   @Type(() => Number)
   monthsOfCommercialExp: number;
 
