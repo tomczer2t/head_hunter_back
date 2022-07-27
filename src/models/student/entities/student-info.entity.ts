@@ -44,7 +44,7 @@ export class StudentInfoEntity extends BaseEntity {
   teamProjectDegree: number;
 
   @Column({ type: 'longtext' })
-  bonusProjectUrlsJson: string;
+  bonusProjectUrls: string;
 
   @Column({ width: 9, nullable: true })
   tel: number;
@@ -59,10 +59,10 @@ export class StudentInfoEntity extends BaseEntity {
   githubUsername: string;
 
   @Column({ type: 'longtext', nullable: true })
-  portfolioUrlsJson: string;
+  portfolioUrls: string;
 
   @Column({ type: 'longtext', nullable: true })
-  projectUrlsJson: string;
+  projectUrls: string;
 
   @Column({ length: USER_INPUT_BIO_MAX_LENGTH, nullable: true })
   bio: string;

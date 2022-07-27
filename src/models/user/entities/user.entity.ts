@@ -17,7 +17,7 @@ export class UserEntity extends BaseEntity {
   id: string;
   @Column({ unique: true, length: USER_INPUT_EMAIL_MAX_LENGTH })
   email: string;
-  @Column({ length: 64 }) // @TODO hashed password will be much longer than password provided by a user
+  @Column({ length: 64, nullable: true }) // @TODO hashed password will be much longer than password provided by a user
   passwordHash: string;
   @Column({ unique: true, nullable: true, default: null })
   refreshTokenHash: string;
@@ -25,6 +25,8 @@ export class UserEntity extends BaseEntity {
   role: UserRole;
   @Column({ default: UserAccountStatus.PENDING, length: 7 })
   accountStatus: UserAccountStatus;
+  @Column({ length: 64, nullable: true })
+  verificationToken: string;
   @JoinColumn({ name: 'studentInfoId' })
   @OneToOne(() => StudentInfoEntity, (entity) => entity.user, {
     nullable: true,
