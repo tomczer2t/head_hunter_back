@@ -25,6 +25,8 @@ export class TestService {
 
     student.passwordHash = await hash(password, await genSalt(10));
     student.accountStatus = UserAccountStatus.ACTIVE;
+    student.hrInfo.firstName = 'Franciszek';
+    student.hrInfo.lastName = 'Smuda';
     await student.save();
 
     const admin = new UserEntity();
