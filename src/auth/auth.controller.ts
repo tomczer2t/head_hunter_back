@@ -12,6 +12,8 @@ import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
 import { JwtAccessGuard, JwtRefreshGuard } from '../common/guards';
 import { LoginResponse } from '../../types';
+import { GetUser } from '../common';
+import { UserEntity } from '../models/user/entities';
 
 @Controller('/auth')
 export class AuthController {
@@ -27,9 +29,8 @@ export class AuthController {
 
   @UseGuards(JwtAccessGuard)
   @Get('/logout')
-  logout(@Req() req: Request) {
-    const userId = (req.user as { userId: string }).userId;
-    return { userId };
+  logout(@GetUser() user: UserEntity) {
+    return user;
   }
 
   @UseGuards(JwtRefreshGuard)
