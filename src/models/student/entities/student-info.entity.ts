@@ -18,6 +18,7 @@ import {
   USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_ENTITY,
 } from '../../../config/global';
 import { HrInfoEntity } from '../../hr/entities';
+import { HrInterviewEntity } from '../../hr/entities/hr-appointments.entity';
 
 @Entity()
 export class StudentInfoEntity extends BaseEntity {
@@ -29,9 +30,8 @@ export class StudentInfoEntity extends BaseEntity {
   })
   user: UserEntity;
 
-  @JoinColumn({ name: 'hrInfoId' })
-  @OneToOne(() => HrInfoEntity, (entity) => entity.hrInfoId)
-  bookedBy: HrInfoEntity;
+  @OneToOne(() => HrInterviewEntity, (entity) => entity.student)
+  appointment: HrInterviewEntity;
 
   @Column({ type: 'int', width: 1 })
   courseCompletion: number;

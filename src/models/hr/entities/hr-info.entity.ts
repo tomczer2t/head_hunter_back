@@ -13,7 +13,7 @@ import {
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_MAX_RESERVED_STUDENTS_MAX_LENGTH_ENTITY,
 } from '../../../config/global';
-import { StudentInfoEntity } from '../../student/entities';
+import { HrInterviewEntity } from './hr-appointments.entity';
 
 @Entity()
 export class HrInfoEntity extends BaseEntity {
@@ -23,10 +23,8 @@ export class HrInfoEntity extends BaseEntity {
   @OneToOne(() => UserEntity, (entity) => entity.studentInfo)
   user: UserEntity;
 
-  @OneToMany(() => StudentInfoEntity, (entity) => entity.studentInfoId, {
-    nullable: true,
-  })
-  students: StudentInfoEntity[];
+  @OneToMany(() => HrInterviewEntity, (entity) => entity.hr)
+  interview: HrInterviewEntity[];
 
   @Column({ length: USER_INPUT_FIRSTNAME_MAX_LENGTH })
   firstName: string;
