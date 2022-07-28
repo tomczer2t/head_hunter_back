@@ -1,11 +1,22 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
+import {
+  ArgumentMetadata,
+  BadRequestException,
+  Injectable,
+  PipeTransform,
+} from '@nestjs/common';
 import { Express } from 'express';
 import { parse, ParseResult } from 'papaparse';
-import { StudentCsv } from '../../../types';
+import { ErrorType, StudentCsv } from '../../../types';
 
 @Injectable()
 export class ParseCsvPipe implements PipeTransform {
   async transform(file: Express.Multer.File, metada: ArgumentMetadata) {
+    if (!file) {
+      throw new BadRequestException({
+        errorType: ErrorType.FILE_ERROR,
+        massage: 'This action requires csv file.',
+      });
+    }
     return await this.parseCsv(file);
   }
 

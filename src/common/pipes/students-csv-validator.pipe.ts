@@ -4,7 +4,7 @@ import {
   Injectable,
   PipeTransform,
 } from '@nestjs/common';
-import { StudentCsv } from '../../../types';
+import { ErrorType, StudentCsv } from '../../../types';
 import { UserEntity } from '../../models/user/entities';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class StudentsCsvValidatorPipe implements PipeTransform {
     const isAnyNull = Object.values(student).some((value) => !value);
     if (isAnyNull) {
       throw new BadRequestException({
-        statusCode: 400,
+        errorType: ErrorType.VALIDATION_PARSED_FILE,
         message: 'All fields are required',
         row,
       });
@@ -41,7 +41,7 @@ export class StudentsCsvValidatorPipe implements PipeTransform {
   async validateEmail(email: string, row: number) {
     if (!email.includes('@')) {
       throw new BadRequestException({
-        statusCode: 400,
+        errorType: ErrorType.VALIDATION_PARSED_FILE,
         message: `Email is not valid - ${email}`,
         row,
       });
@@ -55,14 +55,14 @@ export class StudentsCsvValidatorPipe implements PipeTransform {
     Object.values(degrees).forEach((degree) => {
       if (typeof degree !== 'number') {
         throw new BadRequestException({
-          statusCode: 400,
+          errorType: ErrorType.VALIDATION_PARSED_FILE,
           message: 'Each degree must be an integer',
           row,
         });
       }
       if (degree < 0 || degree > 5) {
         throw new BadRequestException({
-          statusCode: 400,
+          errorType: ErrorType.VALIDATION_PARSED_FILE,
           message: 'Each degree must be in the range of 0-5',
           row,
         });
@@ -84,7 +84,7 @@ export class StudentsCsvValidatorPipe implements PipeTransform {
     });
     if (!isEveryValid) {
       throw new BadRequestException({
-        statusCode: 400,
+        errorType: ErrorType.VALIDATION_PARSED_FILE,
         message: 'Each bonus project URL should be proper github url',
         row,
       });
@@ -107,7 +107,7 @@ export class StudentsCsvValidatorPipe implements PipeTransform {
 
     if (isThereAllRequiredHeaders) {
       throw new BadRequestException({
-        statusCode: 400,
+        errorType: ErrorType.VALIDATION_PARSED_FILE,
         message: `Headers: ${requiredHeaders.join(', ')} are required.`,
         row: 0,
       });
@@ -119,7 +119,7 @@ export class StudentsCsvValidatorPipe implements PipeTransform {
 
     if (isThereUnnecessaryHeaders) {
       throw new BadRequestException({
-        statusCode: 400,
+        errorType: ErrorType.VALIDATION_PARSED_FILE,
         message: `Only ${requiredHeaders.join(', ')} headers are accepted.`,
         row: 0,
       });

@@ -10,18 +10,17 @@ export interface AddStudentsResponse {
   message: string;
 }
 
-enum ErrorType {
-  INVALID_EXTENSION_FILE,
+export enum ErrorType {
+  FILE_ERROR,
   VALIDATION_PARSED_FILE,
 }
 
 interface BasicError {
   massage: string;
-  statusCode: number;
 }
 
-interface ExtensionError extends BasicError {
-  errorType: ErrorType.INVALID_EXTENSION_FILE;
+interface FileError extends BasicError {
+  errorType: ErrorType.FILE_ERROR;
 }
 
 interface ValidationError extends BasicError {
@@ -29,4 +28,4 @@ interface ValidationError extends BasicError {
   row: number;
 }
 
-export type AddStudentsError = ExtensionError | ValidationError;
+export type AddStudentsError = FileError | ValidationError;
