@@ -1,28 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload, LoginResponse, Tokens, UserRole } from '../../types';
+import { JwtPayload, LoginResponse, Tokens } from '../../types';
 import { ConfigService } from '@nestjs/config';
 import { LoginDto } from './dto';
 import { Response } from 'express';
+import { UserService } from '../models/user/user.service';
+import { UserEntity } from '../models/user/entities';
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
+    private userService: UserService,
   ) {}
 
+  filter(user: UserEntity) {
+    const { role, studentInfo, hrInfo, accountStatus } = user;
+    let firstName: string;
+    let lastName: string;
+    if (studentInfo) {
+      firstName = studentInfo.firstName;
+      lastName = studentInfo.lastName;
+    }
+    if (hrInfo) {
+      firstName = hrInfo.firstName;
+      lastName = hrInfo.lastName;
+    }
+    return { role, firstName, lastName, accountStatus };
+  }
+
   async login(res: Response, loginDto: LoginDto): Promise<LoginResponse> {
-    const userExample = {
-      id: '12321321',
-      firstName: 'Jacek',
-      lastName: 'Kowalski',
-      role: UserRole.STUDENT,
-      githubUsername: null,
-    };
+    const user = await this.userService.getUserByEmailWithRelations(
+      loginDto.email,
+    );
+    if (!user) {
+      throw new BadRequestException('Wrong email or password');
+    }
+    const pwdMatch = await compare(loginDto.password, user?.passwordHash);
+    if (!pwdMatch) {
+      throw new BadRequestException('Wrong email or password');
+    }
 
     const { accessToken, refreshToken } = await this.getNewTokens({
-      userId: userExample.id,
+      userId: user.id,
     });
 
     res.cookie('jwt-refresh-token', refreshToken, {
@@ -31,7 +53,7 @@ export class AuthService {
       secure: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
-    return { ...userExample, accessToken };
+    return { ...this.filter(user), accessToken };
   }
 
   async getNewTokens(payload: JwtPayload): Promise<Tokens> {

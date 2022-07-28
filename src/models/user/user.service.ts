@@ -40,6 +40,13 @@ export class UserService {
     return true;
   }
 
+  async getUserByEmailWithRelations(email: string): Promise<UserEntity | null> {
+    return await UserEntity.findOne({
+      where: { email },
+      relations: ['studentInfo', 'hrInfo'],
+    });
+  }
+
   getVerificationToken() {
     return uuid();
   }

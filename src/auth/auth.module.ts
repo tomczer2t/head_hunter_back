@@ -8,11 +8,13 @@ import {
   JwtRefreshStrategy,
 } from './strategies';
 import { JwtModule } from '@nestjs/jwt';
+import { UserModule } from '../models/user/user.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [jwtConfiguration] }),
     JwtModule.register({}),
+    UserModule,
   ],
   providers: [AuthService, JwtAccessStrategy, JwtRefreshStrategy],
   controllers: [AuthController],
