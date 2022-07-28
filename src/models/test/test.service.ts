@@ -30,6 +30,7 @@ export class TestService {
     student.accountStatus = UserAccountStatus.ACTIVE;
     student.studentInfo.firstName = 'Franciszek';
     student.studentInfo.lastName = 'Smuda';
+    await student.studentInfo.save();
     await student.save();
 
     const admin = new UserEntity();
@@ -61,9 +62,9 @@ export class TestService {
       relations: ['studentInfo', 'hrInfo'],
     });
     for (const user of users) {
+      await user.remove();
       if (user.hrInfo) await user.hrInfo.remove();
       if (user.studentInfo) await user.studentInfo.remove();
-      await user.remove();
     }
     return { isOk: true };
   }
