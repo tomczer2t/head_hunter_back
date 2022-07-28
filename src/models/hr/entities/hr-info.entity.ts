@@ -13,14 +13,14 @@ import {
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_MAX_RESERVED_STUDENTS_MAX_LENGTH_ENTITY,
 } from '../../../config/global';
-import { HrInterviewEntity } from './hr-appointments.entity';
+import { HrInterviewEntity } from './hr-interview.entity';
 
 @Entity()
 export class HrInfoEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   hrInfoId: string;
 
-  @OneToOne(() => UserEntity, (entity) => entity.studentInfo, {
+  @OneToOne(() => UserEntity, (entity) => entity.hrInfo, {
     onDelete: 'CASCADE',
   })
   user: UserEntity;

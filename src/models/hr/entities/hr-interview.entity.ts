@@ -7,19 +7,19 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { StudentInfoEntity } from '../../student/entities';
 import { HrInfoEntity } from './hr-info.entity';
+import { UserEntity } from '../../user/entities';
 
 @Entity()
 export class HrInterviewEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  hrInterviewId: string;
+  id: string;
 
   @JoinColumn({ name: 'studentInfoId' })
-  @OneToOne(() => StudentInfoEntity, (entity) => entity.studentInfoId, {
+  @OneToOne(() => UserEntity, (entity) => entity.studentInfo, {
     onDelete: 'CASCADE',
   })
-  student: StudentInfoEntity;
+  studentInfoId: UserEntity;
 
   @ManyToOne(() => HrInfoEntity, (entity) => entity.hrInfoId, {
     onDelete: 'CASCADE',
