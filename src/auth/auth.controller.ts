@@ -35,7 +35,7 @@ export class AuthController {
 
   @UseGuards(JwtRefreshGuard)
   @Get('/refresh')
-  refreshTokens() {
-    return this.authService.getNewTokens({ userId: '13' });
+  refreshTokens(@GetUser('id') id: string) {
+    return this.authService.getNewTokens({ userId: id });
   }
 }
