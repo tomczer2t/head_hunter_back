@@ -1,11 +1,5 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  PipeTransform,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import { ErrorType, StudentCsv } from '../../../types';
-import { UserEntity } from '../../models/user/entities';
 
 @Injectable()
 export class StudentsCsvValidatorPipe implements PipeTransform {
