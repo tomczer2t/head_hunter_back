@@ -20,10 +20,14 @@ export class HrInfoEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   hrInfoId: string;
 
-  @OneToOne(() => UserEntity, (entity) => entity.studentInfo)
+  @OneToOne(() => UserEntity, (entity) => entity.studentInfo, {
+    onDelete: 'CASCADE',
+  })
   user: UserEntity;
 
-  @OneToMany(() => HrInterviewEntity, (entity) => entity.hr)
+  @OneToMany(() => HrInterviewEntity, (entity) => entity.hr, {
+    onDelete: 'CASCADE',
+  })
   interview: HrInterviewEntity[];
 
   @Column({ length: USER_INPUT_FIRSTNAME_MAX_LENGTH })

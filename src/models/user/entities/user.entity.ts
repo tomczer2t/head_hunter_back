@@ -37,6 +37,7 @@ export class UserEntity extends BaseEntity {
   @JoinColumn({ name: 'hrInfoId' })
   @OneToOne(() => HrInfoEntity, (entity) => entity.hrInfoId, {
     nullable: true,
+    onDelete: 'CASCADE',
   })
   hrInfo: HrInfoEntity;
 }

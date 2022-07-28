@@ -2,7 +2,6 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -17,7 +16,6 @@ import {
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_ENTITY,
 } from '../../../config/global';
-import { HrInfoEntity } from '../../hr/entities';
 import { HrInterviewEntity } from '../../hr/entities/hr-appointments.entity';
 
 @Entity()
@@ -30,7 +28,9 @@ export class StudentInfoEntity extends BaseEntity {
   })
   user: UserEntity;
 
-  @OneToOne(() => HrInterviewEntity, (entity) => entity.student)
+  @OneToOne(() => HrInterviewEntity, (entity) => entity.student, {
+    onDelete: 'CASCADE',
+  })
   appointment: HrInterviewEntity;
 
   @Column({ type: 'int', width: 1 })

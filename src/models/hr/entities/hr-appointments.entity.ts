@@ -4,17 +4,9 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { UserEntity } from '../../user/entities';
-import {
-  USER_INPUT_COMPANY_NAME_MAX_LENGTH,
-  USER_INPUT_FIRSTNAME_MAX_LENGTH,
-  USER_INPUT_LASTNAME_MAX_LENGTH,
-  USER_INPUT_MAX_RESERVED_STUDENTS_MAX_LENGTH_ENTITY,
-} from '../../../config/global';
 import { StudentInfoEntity } from '../../student/entities';
 import { HrInfoEntity } from './hr-info.entity';
 
@@ -24,10 +16,14 @@ export class HrInterviewEntity extends BaseEntity {
   hrInterviewId: string;
 
   @JoinColumn({ name: 'studentInfoId' })
-  @OneToOne(() => StudentInfoEntity, (entity) => entity.studentInfoId)
+  @OneToOne(() => StudentInfoEntity, (entity) => entity.studentInfoId, {
+    onDelete: 'CASCADE',
+  })
   student: StudentInfoEntity;
 
-  @ManyToOne(() => HrInfoEntity, (entity) => entity.hrInfoId)
+  @ManyToOne(() => HrInfoEntity, (entity) => entity.hrInfoId, {
+    onDelete: 'CASCADE',
+  })
   hr: HrInfoEntity;
 
   @Column({
