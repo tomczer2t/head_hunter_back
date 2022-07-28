@@ -5,65 +5,53 @@ import { UserEntity } from '../user/entities';
 import { EmailProviderService } from '../../providers/email/provider.service';
 import { studentRegistrationTemplate } from '../../providers/email/templates';
 import { AppConfigService } from '../../config/app/config.service';
+import { StudentService } from '../student/student.service';
 
 @Injectable()
 export class AdminService {
   constructor(
+    private studentService: StudentService,
     private userService: UserService,
     private emailProviderService: EmailProviderService,
     private appConfigService: AppConfigService,
   ) {}
 
   async addStudents(students: StudentCsv[]): Promise<AddStudentsResponse> {
-    const databaseResults = await this.addStudentsToDatabase(students);
-    const emailResults = await this.sendRegistrationMails(
-      databaseResults.addedStudents,
-    );
+    const failedFor: FailedFor[] = [];
 
-    const failedCount =
-      databaseResults.failedFor.length + emailResults.failedFor.length;
+    for (const student of students) {
+      try {
+        const newStudent = await this.studentService.addStudent(student);
+        await this.sendStudentRegistrationMail(newStudent);
+      } catch (err) {
+        failedFor.push({ email: student.email, error: err.message });
+        await this.userService.findAndDelete(student.email);
+      }
+    }
+
+    const failedCount = failedFor.length;
     const successCount = students.length - failedCount;
     return {
-      failedFor: [...databaseResults.failedFor, ...emailResults.failedFor],
+      failedFor,
       failedCount,
       message: `Successfully imported and registered ${successCount} students out of a possible ${students.length}.`,
       successCount,
     };
   }
 
-  async addStudentsToDatabase(studentsCsv: StudentCsv[]) {
-    const failedFor: FailedFor[] = [];
-    const addedStudents: UserEntity[] = [];
-    for (const student of studentsCsv) {
-      const result = await this.userService.addStudentFromCsvFile(student);
-      if (result.isOk) {
-        addedStudents.push(result.student);
-      } else {
-        failedFor.push({ email: student.email, error: result.error });
-      }
-    }
-    return { failedFor, addedStudents };
-  }
-
-  async sendRegistrationMails(students: UserEntity[]) {
+  async sendStudentRegistrationMail(student: UserEntity) {
     const origin = this.appConfigService.origin;
     const subject = 'Finish your registration process on MegaK Head Hunter.';
-    const failedFor: FailedFor[] = [];
-    for (const student of students) {
-      const emailBody = studentRegistrationTemplate(
-        student.id,
-        student.verificationToken,
-        origin,
-      );
-      const result = await this.emailProviderService.sendMail(
-        student.email,
-        subject,
-        emailBody,
-      );
-      if (result.isOk === false) {
-        failedFor.push({ email: result.email, error: result.error });
-      }
-    }
-    return { failedFor };
+
+    const emailBody = studentRegistrationTemplate(
+      student.id,
+      student.verificationToken,
+      origin,
+    );
+    return await this.emailProviderService.sendMail(
+      student.email,
+      subject,
+      emailBody,
+    );
   }
 }

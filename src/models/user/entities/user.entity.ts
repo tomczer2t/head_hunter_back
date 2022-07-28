@@ -30,6 +30,7 @@ export class UserEntity extends BaseEntity {
   @JoinColumn({ name: 'studentInfoId' })
   @OneToOne(() => StudentInfoEntity, (entity) => entity.user, {
     nullable: true,
+    onDelete: 'CASCADE',
   })
   studentInfo: StudentInfoEntity;
 
@@ -37,5 +38,5 @@ export class UserEntity extends BaseEntity {
   @OneToOne(() => HrInfoEntity, (entity) => entity.hrInfoId, {
     nullable: true,
   })
-  hrInfoId: HrInfoEntity;
+  hrInfo: HrInfoEntity;
 }

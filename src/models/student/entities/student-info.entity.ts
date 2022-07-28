@@ -24,7 +24,9 @@ export class StudentInfoEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   studentInfoId: string;
 
-  @OneToOne(() => UserEntity, (entity) => entity.studentInfo)
+  @OneToOne(() => UserEntity, (entity) => entity.studentInfo, {
+    onDelete: 'CASCADE',
+  })
   user: UserEntity;
 
   @JoinColumn({ name: 'hrInfoId' })
