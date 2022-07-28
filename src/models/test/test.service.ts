@@ -4,6 +4,9 @@ import { genSalt, hash } from 'bcrypt';
 import { UserAccountStatus, UserRole } from '../../../types';
 import { UserEntity } from '../user/entities';
 import { HrInfoEntity } from '../hr/entities';
+import { find } from 'rxjs';
+import { UserService } from '../user/user.service';
+import { UserModule } from '../user/user.module';
 
 @Injectable()
 export class TestService {
@@ -25,8 +28,8 @@ export class TestService {
 
     student.passwordHash = await hash(password, await genSalt(10));
     student.accountStatus = UserAccountStatus.ACTIVE;
-    student.hrInfo.firstName = 'Franciszek';
-    student.hrInfo.lastName = 'Smuda';
+    student.studentInfo.firstName = 'Franciszek';
+    student.studentInfo.lastName = 'Smuda';
     await student.save();
 
     const admin = new UserEntity();
@@ -51,5 +54,17 @@ export class TestService {
     await hr.save();
 
     return { student, admin, hr };
+  }
+
+  async removeAll() {
+    const users = await UserEntity.find({
+      relations: ['studentInfo', 'hrInfo'],
+    });
+    for (const user of users) {
+      if (user.hrInfo) await user.hrInfo.remove();
+      if (user.studentInfo) await user.studentInfo.remove();
+      await user.remove();
+    }
+    return { isOk: true };
   }
 }
