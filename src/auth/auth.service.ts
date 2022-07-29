@@ -20,15 +20,17 @@ export class AuthService {
     const { role, studentInfo, hrInfo, accountStatus } = user;
     let firstName: string;
     let lastName: string;
+    let githubUsername: string;
     if (studentInfo) {
       firstName = studentInfo.firstName;
       lastName = studentInfo.lastName;
+      githubUsername = studentInfo.githubUsername;
     }
     if (hrInfo) {
       firstName = hrInfo.firstName;
       lastName = hrInfo.lastName;
     }
-    return { role, firstName, lastName, accountStatus };
+    return { role, firstName, lastName, accountStatus, githubUsername };
   }
 
   async login(res: Response, loginDto: LoginDto): Promise<LoginResponse> {
