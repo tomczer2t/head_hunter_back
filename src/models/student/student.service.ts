@@ -3,13 +3,25 @@ import { StudentCsv, UserRole } from '../../../types';
 import { StudentInfoEntity } from './entities';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
+import { UserEntity } from '../user/entities';
+import { GetUser } from '../../common';
 
 @Injectable()
 export class StudentService {
   constructor(private userService: UserService) {}
 
-  urlRegistration(studentFormProfileDto: StudentFormProfileDto) {
-    console.log('studentUrlRegistrationDto', studentFormProfileDto);
+  async updateStudentInfo(
+    studentFormProfileDto: StudentFormProfileDto,
+    user: UserEntity,
+  ) {
+    const { studentInfo } = await UserEntity.findOne({
+      where: { id: 'user4-student4-update' },
+    });
+    if (!studentInfo) {
+      console.log('user does not exist');
+    } else {
+      console.log('updateStudentInfo', user);
+    }
   }
 
   async addStudent(studentCsvData: StudentCsv) {
