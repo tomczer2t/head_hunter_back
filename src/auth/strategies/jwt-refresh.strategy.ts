@@ -27,7 +27,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
   }
 
   async validate(req: Request, payload: JwtPayloadDecoded) {
-    const refreshToken = req?.cookies?.['jwt-refresh'];
+    const refreshToken = req?.cookies?.['jwt-refresh-token'];
     const user = await UserEntity.findOne({
       where: { id: payload.userId },
       relations: ['studentInfo', 'hrInfo'],
