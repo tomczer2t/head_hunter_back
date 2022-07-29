@@ -31,7 +31,6 @@ export class AuthController {
     const userId = (req.user as { userId: string }).userId;
     return { userId };
   }
-
   @UseGuards(JwtRefreshGuard)
   @Get('/refresh')
   refreshTokens() {
