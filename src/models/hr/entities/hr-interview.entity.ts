@@ -24,7 +24,7 @@ export class HrInterviewEntity extends BaseEntity {
   @ManyToOne(() => HrInfoEntity, (entity) => entity.hrInfoId, {
     onDelete: 'CASCADE',
   })
-  hr: HrInfoEntity;
+  hrInfoId: HrInfoEntity | string;
 
   @Column({
     default: () => 'CURRENT_TIMESTAMP',

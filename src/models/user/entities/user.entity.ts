@@ -31,6 +31,7 @@ export class UserEntity extends BaseEntity {
   @OneToOne(() => StudentInfoEntity, (entity) => entity.user, {
     nullable: true,
     onDelete: 'CASCADE',
+    eager: true,
   })
   studentInfo: StudentInfoEntity;
 

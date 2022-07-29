@@ -25,7 +25,7 @@ export class HrInfoEntity extends BaseEntity {
   })
   user: UserEntity;
 
-  @OneToMany(() => HrInterviewEntity, (entity) => entity.hr, {
+  @OneToMany(() => HrInterviewEntity, (entity) => entity.hrInfoId, {
     onDelete: 'CASCADE',
   })
   interview: HrInterviewEntity[];
