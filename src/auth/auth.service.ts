@@ -6,7 +6,7 @@ import { LoginDto } from './dto';
 import { Response } from 'express';
 import { UserService } from '../models/user/user.service';
 import { UserEntity } from '../models/user/entities';
-import { compare } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -48,6 +48,9 @@ export class AuthService {
     const { accessToken, refreshToken } = await this.getNewTokens({
       userId: user.id,
     });
+
+    user.refreshTokenHash = await hash(refreshToken, 10);
+    await user.save();
 
     res.cookie('jwt-refresh-token', refreshToken, {
       httpOnly: true,
