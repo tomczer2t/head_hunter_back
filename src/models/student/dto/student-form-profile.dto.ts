@@ -8,6 +8,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUrl,
   Max,
   MaxLength,
   Min,
@@ -24,9 +25,11 @@ import {
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MIN_LENGTH,
   USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_DTO,
-} from '../../../config/global';
+  USER_INPUT_TYPE_OF_WORK_MAX_LENGTH,
+} from '../../../config/constants';
 import { Type } from 'class-transformer';
-import { ContractType } from '../../../../types';
+import { ExpectedContractType } from '../../../../types';
+import { ExpectedWorkType } from '../../../../types/student/expected-work-type';
 
 export class StudentFormProfileDto {
   @IsOptional()
@@ -51,20 +54,26 @@ export class StudentFormProfileDto {
 
   @IsOptional()
   @IsArray()
-  @IsString({ each: true })
+  @IsUrl(undefined, { each: true })
   @ArrayMinSize(0)
   portfolioUrls: Array<string> | [];
 
   @IsNotEmpty()
   @IsArray()
-  @IsString({ each: true })
+  @IsUrl(undefined, { each: true })
   @ArrayMinSize(1)
-  projectUrls: Array<string> | []; // when testing in Postman / Insomnia remember to insert data in JSON format
+  projectUrls: Array<string> | [];
 
   @IsOptional()
   @IsString()
   @MaxLength(USER_INPUT_BIO_MAX_LENGTH)
   bio: string;
+
+  @IsNotEmpty()
+  @IsDefined()
+  @IsEnum(ExpectedWorkType)
+  @MaxLength(USER_INPUT_TYPE_OF_WORK_MAX_LENGTH)
+  expectedTypeWork: ExpectedWorkType;
 
   @IsOptional()
   @IsString()
@@ -73,9 +82,9 @@ export class StudentFormProfileDto {
 
   @IsNotEmpty()
   @IsDefined()
-  @IsEnum(ContractType)
+  @IsEnum(ExpectedContractType)
   @MaxLength(USER_INPUT_CONTRACT_TYPE_MAX_LENGTH)
-  expectedContractType: ContractType;
+  expectedContractType: ExpectedContractType;
 
   @IsNumber({ allowNaN: false })
   @IsOptional()

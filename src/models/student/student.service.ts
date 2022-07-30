@@ -4,24 +4,26 @@ import { StudentInfoEntity } from './entities';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities';
-import { GetUser } from '../../common';
 
 @Injectable()
 export class StudentService {
   constructor(private userService: UserService) {}
 
-  async updateStudentInfo(
+  async updateStudent(
     studentFormProfileDto: StudentFormProfileDto,
     user: UserEntity,
   ) {
-    const { studentInfo } = await UserEntity.findOne({
-      where: { id: 'user4-student4-update' },
-    });
-    if (!studentInfo) {
-      console.log('user does not exist');
-    } else {
-      console.log('updateStudentInfo', user);
+    const { studentInfo } = user;
+    for (const [key, value] of Object.entries(studentFormProfileDto)) {
+      if (key === 'portfolioUrls' || key === 'projectUrls') {
+        studentInfo[key] = JSON.stringify(value);
+      } else {
+        studentInfo[key] = value;
+      }
     }
+    studentInfo.bonusProjectUrls = JSON.stringify(studentInfo.bonusProjectUrls);
+    await studentInfo.save();
+    return studentInfo;
   }
 
   async addStudent(studentCsvData: StudentCsv) {

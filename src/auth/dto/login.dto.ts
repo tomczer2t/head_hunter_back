@@ -2,7 +2,7 @@ import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
 import {
   USER_INPUT_EMAIL_MAX_LENGTH,
   USER_INPUT_PASSWORD_MAX_LENGTH,
-} from 'src/config/global';
+} from 'src/config/constants';
 
 export class LoginDto {
   @IsEmail()

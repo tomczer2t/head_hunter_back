@@ -16,7 +16,7 @@ import {
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MIN_LENGTH,
   USER_INPUT_MAX_RESERVED_STUDENTS_MAX_LENGTH_DTO,
-} from '../../../config/global';
+} from '../../../config/constants';
 
 export class HrFormRegistrationDto {
   @IsNotEmpty()

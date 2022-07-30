@@ -16,7 +16,7 @@ import {
   USER_INPUT_GITHUB_USERNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_ENTITY,
-} from '../../../config/global';
+} from '../../../config/constants';
 import { HrInfoEntity } from '../../hr/entities';
 
 @Entity()
