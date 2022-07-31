@@ -1,13 +1,13 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
-import { StudentEmploymentStatus } from '../../common/decorators/student-employment-status.decorator';
+import { StudentEmploymentStatus } from '../../common';
 import { StudentStatus } from 'types';
-import { StudentEmploymentVerificationGuard } from '../../common/guards/student-employment-verification.guard';
+import { StudentEmploymentVerificationGuard } from '../../common/guards';
 import { JwtAccessGuard } from 'src/common/guards';
 
 @Controller('student')
-@UseGuards(StudentEmploymentVerificationGuard, JwtAccessGuard)
+@UseGuards(JwtAccessGuard, StudentEmploymentVerificationGuard)
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
