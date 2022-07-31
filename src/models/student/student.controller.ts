@@ -3,11 +3,11 @@ import { StudentService } from './student.service';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { StudentEmploymentStatus } from '../../common';
 import { StudentStatus } from 'types';
-import { StudentEmploymentVerificationGuard } from '../../common/guards';
+import { StudentEmploymentStatusVerificationGuard } from '../../common/guards';
 import { JwtAccessGuard } from 'src/common/guards';
 
 @Controller('student')
-@UseGuards(JwtAccessGuard, StudentEmploymentVerificationGuard)
+@UseGuards(JwtAccessGuard, StudentEmploymentStatusVerificationGuard)
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
