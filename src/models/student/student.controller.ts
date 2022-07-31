@@ -17,6 +17,6 @@ export class StudentController {
     @Body() studentFormProfileDto: StudentFormProfileDto,
     @GetUser() user: UserEntity,
   ) {
-    this.studentService.updateStudent(studentFormProfileDto, user);
+    return this.studentService.updateStudent(studentFormProfileDto, user);
   }
 }
