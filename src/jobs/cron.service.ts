@@ -5,24 +5,23 @@ import { onlyBusinessDays } from '../common/utils/moment-business-days';
 import { InterviewToBeDeletedInterface } from './interface/interview-to-be-deleted-interface';
 import { StudentInfoEntity } from '../models/student/entities';
 import { StudentStatus } from 'types';
-import { UserEntity } from '../models/user/entities';
 
 @Injectable()
 export class CronService {
-  @Cron(CronExpression.EVERY_10_SECONDS)
-  async deleteInterviewsOlderThan10BusinessDays() {
-    const interviews: HrInterviewEntity[] | [] = await HrInterviewEntity.find();
+  @Cron(CronExpression.EVERY_DAY_AT_1AM)
+  async deleteInterviewsOlderThan10BusinessDays(): Promise<void> {
+    const interviews: HrInterviewEntity[] | [] = await HrInterviewEntity.find({
+      relations: ['student'],
+    });
     if (interviews.length > 0) {
       for (const { id, studentId } of this.filter(10, interviews)) {
         const { affected } = await HrInterviewEntity.delete(id);
         if (affected) {
-          const user = await UserEntity.findOne({
-            where: { id: studentId },
+          const student = await StudentInfoEntity.findOne({
+            where: { studentInfoId: studentId },
           });
-          console.log('user przed zapisaniem', user);
-          user.studentInfo.studentStatus = StudentStatus.AVAILABLE;
-          await user.save();
-          console.log('user po zapisaniem', user);
+          student.studentStatus = StudentStatus.AVAILABLE;
+          await student.save();
         }
       }
     }
@@ -31,12 +30,11 @@ export class CronService {
   private filter(
     days: number,
     interviews: HrInterviewEntity[],
-  ): InterviewToBeDeletedInterface[] | [] {
-    console.log('interviews', interviews);
+  ): InterviewToBeDeletedInterface[] {
     return interviews
       .map((item) => ({
         id: item.id,
-        studentId: item.student.id,
+        studentId: item.student.studentInfo.studentInfoId,
         createdAt: item.createdAt.toLocaleDateString(),
       }))
       .filter(
