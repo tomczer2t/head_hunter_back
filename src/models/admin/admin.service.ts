@@ -36,13 +36,18 @@ export class AdminService {
     }
 
     const failedCount = failedFor.length;
-    const successCount = studentsCsv.length - failedCount;
+    const successfullyUpdated = updatedFor.length;
+    const successfullyAdded =
+      studentsCsv.length - failedCount - successfullyUpdated;
     return {
       failedFor,
       updatedFor,
       failedCount,
-      message: `Successfully imported and registered ${successCount} students out of a possible ${studentsCsv.length}.`,
-      successCount,
+      message: `Successfully imported and registered ${
+        successfullyAdded + successfullyUpdated
+      } students out of a possible ${studentsCsv.length}.`,
+      successfullyUpdated,
+      successfullyAdded,
     };
   }
   async sendStudentRegistrationMail(student: UserEntity) {
