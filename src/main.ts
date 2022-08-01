@@ -14,6 +14,7 @@ async function bootstrap() {
   );
   app.use(cookieParser());
   app.setGlobalPrefix('api');
+  app.enableCors({ credentials: true });
   await app.listen(appConfig.port);
 }
 bootstrap();

@@ -8,7 +8,7 @@ import {
 import {
   USER_INPUT_PASSWORD_MAX_LENGTH,
   USER_INPUT_PASSWORD_MIN_LENGTH,
-} from '../../../config/global';
+} from '../../../config/constants';
 import { MatchDecorator } from '../../../common';
 
 export class UserRegistrationDto {

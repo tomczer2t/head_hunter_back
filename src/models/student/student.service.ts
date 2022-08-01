@@ -3,13 +3,27 @@ import { StudentCsv, UserRole } from '../../../types';
 import { StudentInfoEntity } from './entities';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
+import { UserEntity } from '../user/entities';
 
 @Injectable()
 export class StudentService {
   constructor(private userService: UserService) {}
 
-  urlRegistration(studentFormProfileDto: StudentFormProfileDto) {
-    console.log('studentUrlRegistrationDto', studentFormProfileDto);
+  async updateStudent(
+    studentFormProfileDto: StudentFormProfileDto,
+    user: UserEntity,
+  ) {
+    const { studentInfo } = user;
+    for (const [key, value] of Object.entries(studentFormProfileDto)) {
+      if (key === 'portfolioUrls' || key === 'projectUrls') {
+        studentInfo[key] = JSON.stringify(value);
+      } else {
+        studentInfo[key] = value;
+      }
+    }
+    studentInfo.bonusProjectUrls = JSON.stringify(studentInfo.bonusProjectUrls);
+    await studentInfo.save();
+    return studentInfo;
   }
 
   async addStudent(studentCsvData: StudentCsv) {

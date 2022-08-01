@@ -11,7 +11,7 @@ import {
   USER_INPUT_FIRSTNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_MAX_RESERVED_STUDENTS_MAX_LENGTH_ENTITY,
-} from '../../../config/global';
+} from '../../../config/constants';
 
 @Entity()
 export class HrInfoEntity extends BaseEntity {

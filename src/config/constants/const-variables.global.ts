@@ -1,4 +1,5 @@
-import { ContractType } from '../../../types';
+import { ExpectedContractType } from '../../../types';
+import { ExpectedWorkType } from '../../../types/student/expected-work-type';
 
 export const USER_INPUT_EMAIL_MAX_LENGTH = 254; // total number of user input + domain https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address#:~:text=%22There%20is%20a%20length%20limit,total%20length%20of%20320%20characters.
 
@@ -16,7 +17,10 @@ export const USER_INPUT_GITHUB_USERNAME_MAX_LENGTH = 39; // https://github.com/j
 export const USER_INPUT_COMPANY_NAME_MAX_LENGTH = 160; // https://companieshouse.blog.gov.uk/2019/02/14/symbols-and-characters-in-a-company-name/
 
 export const USER_INPUT_CONTRACT_TYPE_MAX_LENGTH = Math.max(
-  ...Object.values(ContractType).map((item) => item.length),
+  ...Object.values(ExpectedContractType).map((item) => item.length),
+);
+export const USER_INPUT_TYPE_OF_WORK_MAX_LENGTH = Math.max(
+  ...Object.values(ExpectedWorkType).map((item) => item.length),
 );
 
 export const USER_INPUT_CITY_NAME_MAX_LENGTH = 22; // https://worldpopulationreview.com/world-city-rankings/longest-city-names
