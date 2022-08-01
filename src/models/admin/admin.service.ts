@@ -16,29 +16,40 @@ export class AdminService {
     private appConfigService: AppConfigService,
   ) {}
 
-  async addStudents(students: StudentCsv[]): Promise<AddStudentsResponse> {
+  async addStudents(studentsCsv: StudentCsv[]): Promise<AddStudentsResponse> {
     const failedFor: FailedFor[] = [];
+    const updatedFor: string[] = [];
 
-    for (const student of students) {
+    for (const studentCsv of studentsCsv) {
       try {
-        const newStudent = await this.studentService.addStudent(student);
-        await this.sendStudentRegistrationMail(newStudent);
+        const { student, isUpdated } =
+          await this.studentService.addStudentOrUpdate(studentCsv);
+        if (!isUpdated) {
+          await this.sendStudentRegistrationMail(student);
+        } else {
+          updatedFor.push(student.email);
+        }
       } catch (err) {
-        failedFor.push({ email: student.email, error: err.message });
-        await this.userService.findAndDelete(student.email);
+        failedFor.push({ email: studentCsv.email, error: err.message });
+        await this.userService.findAndDelete(studentCsv.email);
       }
     }
 
     const failedCount = failedFor.length;
-    const successCount = students.length - failedCount;
+    const successfullyUpdated = updatedFor.length;
+    const successfullyAdded =
+      studentsCsv.length - failedCount - successfullyUpdated;
     return {
       failedFor,
+      updatedFor,
       failedCount,
-      message: `Successfully imported and registered ${successCount} students out of a possible ${students.length}.`,
-      successCount,
+      message: `Successfully imported and registered ${
+        successfullyAdded + successfullyUpdated
+      } students out of a possible ${studentsCsv.length}.`,
+      successfullyUpdated,
+      successfullyAdded,
     };
   }
-
   async sendStudentRegistrationMail(student: UserEntity) {
     const origin = this.appConfigService.origin;
     const subject = 'Finish your registration process on MegaK Head Hunter.';

@@ -5,8 +5,10 @@ export interface FailedFor {
 
 export interface AddStudentsResponse {
   failedFor: FailedFor[];
+  updatedFor: string[];
   failedCount: number;
-  successCount: number;
+  successfullyAdded: number;
+  successfullyUpdated: number;
   message: string;
 }
 
