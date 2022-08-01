@@ -16,7 +16,8 @@ import {
   USER_INPUT_GITHUB_USERNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_ENTITY,
-} from '../../../config/global';
+  USER_INPUT_TYPE_OF_WORK_MAX_LENGTH,
+} from '../../../config/constants';
 import { HrInfoEntity } from '../../hr/entities';
 
 @Entity()
@@ -69,7 +70,7 @@ export class StudentInfoEntity extends BaseEntity {
   @Column({ length: USER_INPUT_BIO_MAX_LENGTH, nullable: true })
   bio: string;
 
-  @Column({ length: 25, nullable: true })
+  @Column({ length: USER_INPUT_TYPE_OF_WORK_MAX_LENGTH, nullable: true })
   expectedTypeWork: string;
 
   @Column({ length: USER_INPUT_CITY_NAME_MAX_LENGTH, nullable: true })

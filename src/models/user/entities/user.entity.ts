@@ -9,7 +9,7 @@ import {
 import { UserAccountStatus, UserRole } from '../../../../types';
 import { StudentInfoEntity } from '../../student/entities';
 import { HrInfoEntity } from '../../hr/entities';
-import { USER_INPUT_EMAIL_MAX_LENGTH } from '../../../config/global';
+import { USER_INPUT_EMAIL_MAX_LENGTH } from '../../../config/constants';
 
 @Entity()
 export class UserEntity extends BaseEntity {
@@ -31,12 +31,14 @@ export class UserEntity extends BaseEntity {
   @OneToOne(() => StudentInfoEntity, (entity) => entity.user, {
     nullable: true,
     onDelete: 'CASCADE',
+    eager: true,
   })
   studentInfo: StudentInfoEntity;
 
   @JoinColumn({ name: 'hrInfoId' })
   @OneToOne(() => HrInfoEntity, (entity) => entity.hrInfoId, {
     nullable: true,
+    eager: true,
   })
   hrInfo: HrInfoEntity;
 }
