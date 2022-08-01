@@ -3,6 +3,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -10,6 +11,7 @@ import { UserAccountStatus, UserRole } from '../../../../types';
 import { StudentInfoEntity } from '../../student/entities';
 import { HrInfoEntity } from '../../hr/entities';
 import { USER_INPUT_EMAIL_MAX_LENGTH } from '../../../config/global';
+import { HrInterviewEntity } from '../../hr/entities/hr-interview.entity';
 
 @Entity()
 export class UserEntity extends BaseEntity {
@@ -41,4 +43,10 @@ export class UserEntity extends BaseEntity {
     onDelete: 'CASCADE',
   })
   hrInfo: HrInfoEntity;
+
+  @OneToOne(() => HrInterviewEntity, (entity) => entity.student)
+  interview: HrInterviewEntity;
+
+  @OneToMany(() => HrInterviewEntity, (entity) => entity.hr)
+  interviews: HrInterviewEntity[];
 }

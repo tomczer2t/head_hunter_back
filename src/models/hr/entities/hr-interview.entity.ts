@@ -3,11 +3,11 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { HrInfoEntity } from './hr-info.entity';
 import { UserEntity } from '../../user/entities';
 
 @Entity()
@@ -15,16 +15,15 @@ export class HrInterviewEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @JoinColumn({ name: 'studentInfoId' })
-  @OneToOne(() => UserEntity, (entity) => entity.studentInfo, {
-    onDelete: 'CASCADE',
+  @JoinColumn()
+  @OneToOne(() => UserEntity, (entity) => entity.interview, {
+    eager: true,
   })
-  studentInfoId: UserEntity;
+  student: UserEntity;
 
-  @ManyToOne(() => HrInfoEntity, (entity) => entity.hrInfoId, {
-    onDelete: 'CASCADE',
-  })
-  hrInfoId: HrInfoEntity | string;
+  @JoinTable()
+  @ManyToOne(() => UserEntity, (entity) => entity.interviews)
+  hr: UserEntity | string;
 
   @Column({
     default: () => 'CURRENT_TIMESTAMP',
