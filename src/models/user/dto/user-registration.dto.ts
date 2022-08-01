@@ -9,7 +9,7 @@ import {
   USER_INPUT_PASSWORD_MAX_LENGTH,
   USER_INPUT_PASSWORD_MIN_LENGTH,
 } from '../../../config/constants';
-import { MatchDecorator } from '../../../common';
+import { MatchDecorator } from '../../../common/decorators';
 
 export class UserRegistrationDto {
   @IsNotEmpty()

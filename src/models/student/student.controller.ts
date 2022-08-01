@@ -1,9 +1,11 @@
 import { Body, Controller, Inject, Patch } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
-import { GetUser } from '../../common';
 import { UserEntity } from '../user/entities';
+import { UserRole } from '../../../types';
+import { GetUser, SetAccessRole } from '../../common/decorators';
 
+@SetAccessRole(UserRole.STUDENT)
 @Controller('/student')
 export class StudentController {
   constructor(

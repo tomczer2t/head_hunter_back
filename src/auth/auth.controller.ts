@@ -4,8 +4,8 @@ import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { JwtRefreshGuard } from '../common/guards';
 import { LoginResponse } from '../../types';
-import { GetUser, UsePublic } from '../common';
 import { UserEntity } from '../models/user/entities';
+import { GetUser, UsePublic } from '../common/decorators';
 
 @Controller('/auth')
 export class AuthController {

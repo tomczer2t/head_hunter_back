@@ -1,6 +1,9 @@
 import { Controller, Get, Inject, Post } from '@nestjs/common';
 import { HrService } from './hr.service';
+import { SetAccessRole } from '../../common/decorators';
+import { UserRole } from '../../../types';
 
+@SetAccessRole(UserRole.HR)
 @Controller('hr')
 export class HrController {
   constructor(@Inject(HrService) private hrService: HrService) {}
