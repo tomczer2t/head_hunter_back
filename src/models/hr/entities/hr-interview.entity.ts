@@ -21,7 +21,6 @@ export class HrInterviewEntity extends BaseEntity {
   })
   student: UserEntity;
 
-  @JoinTable()
   @ManyToOne(() => UserEntity, (entity) => entity.interviews)
   hr: UserEntity;
 
