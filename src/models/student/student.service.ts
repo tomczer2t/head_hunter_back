@@ -26,18 +26,44 @@ export class StudentService {
     return studentInfo;
   }
 
-  async addStudent(studentCsvData: StudentCsv) {
+  async addStudentOrUpdate(
+    studentCsvData: StudentCsv,
+  ): Promise<{ student: UserEntity; isUpdated: boolean }> {
     const { email, ...restStudentData } = studentCsvData;
-    const student = await this.userService.addUser(email, UserRole.STUDENT);
-    student.studentInfo = await this.addStudentInfo(restStudentData);
+    let isUpdated = false;
+    let student = await this.userService.getUserByEmailWithRelations(
+      studentCsvData.email,
+    );
+    if (!student) {
+      student = await this.userService.addUser(email, UserRole.STUDENT);
+      student.studentInfo = await this.addStudentInfo(restStudentData);
+    } else {
+      isUpdated = true;
+      await this.updateStudentInfoFromCsv(studentCsvData, student.studentInfo);
+    }
     await student.save();
-    return student;
+    return { student, isUpdated };
   }
 
   async addStudentInfo(
     studentInfoCsvData: Omit<StudentCsv, 'email'>,
   ): Promise<StudentInfoEntity> {
     const studentInfo = new StudentInfoEntity();
+    for (const [key, value] of Object.entries(studentInfoCsvData)) {
+      if (key === 'bonusProjectUrls') {
+        studentInfo[key] = JSON.stringify(value);
+      } else {
+        studentInfo[key] = value;
+      }
+    }
+    await studentInfo.save();
+    return studentInfo;
+  }
+
+  async updateStudentInfoFromCsv(
+    studentInfoCsvData: Omit<StudentCsv, 'email'>,
+    studentInfo: StudentInfoEntity,
+  ): Promise<StudentInfoEntity> {
     for (const [key, value] of Object.entries(studentInfoCsvData)) {
       if (key === 'bonusProjectUrls') {
         studentInfo[key] = JSON.stringify(value);
