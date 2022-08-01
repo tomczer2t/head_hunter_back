@@ -10,9 +10,9 @@ export class HrController {
     this.hrService.urlRegistration();
   }
 
-  // @Get('/students')
-  // async allInterviewsFromOneHr() {
-  //   const hrId = '';
-  //   return this.hrService.allInterviewsFromOneHr(hrId);
-  // }
+  @Get('/students')
+  async allInterviewsFromOneHr() {
+    const hrId = 'user-hr1'; // for testing purposes
+    return this.hrService.allInterviewsFromOneHr(hrId);
+  }
 }

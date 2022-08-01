@@ -23,7 +23,7 @@ export class HrInterviewEntity extends BaseEntity {
 
   @JoinTable()
   @ManyToOne(() => UserEntity, (entity) => entity.interviews)
-  hr: UserEntity | string;
+  hr: UserEntity;
 
   @Column({
     default: () => 'CURRENT_TIMESTAMP',

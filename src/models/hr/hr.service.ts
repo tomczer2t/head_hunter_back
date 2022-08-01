@@ -7,10 +7,10 @@ export class HrService {
     console.log('hrUrlRegistration test');
   }
 
-  // async allInterviewsFromOneHr(hrId: string): Promise<HrInterviewEntity[]> {
-  //   return await HrInterviewEntity.find({
-  //     relations: ['studentInfoId'],
-  //     where: { hrInfoId: hrId },
-  //   });
-  // }
+  async allInterviewsFromOneHr(hrId: string): Promise<HrInterviewEntity[]> {
+    return await HrInterviewEntity.find({
+      relations: ['student'],
+      where: { hr: { id: hrId } },
+    });
+  }
 }
