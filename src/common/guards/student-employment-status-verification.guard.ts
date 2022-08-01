@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { StudentStatus } from '../../../types';
-import { METADATA_KEY_STUDENT_EMPLOYMENT_STATUS } from '../../config/global';
+import { StudentStatus, UserRole } from '../../../types';
+import { METADATA_KEY_STUDENT_EMPLOYMENT_STATUS } from '../../config/constants';
 
 @Injectable()
 export class StudentEmploymentStatusVerificationGuard implements CanActivate {
@@ -16,10 +16,11 @@ export class StudentEmploymentStatusVerificationGuard implements CanActivate {
     if (!requireStatuses) return true;
 
     const request = context.switchToHttp().getRequest();
-    const user = request.user.studentInfo;
+    const user = request.user;
+    if (!user || !user.role || user.role !== UserRole.STUDENT) return false;
 
-    if (!user) return false;
-
-    return requireStatuses.some((status) => user.studentStatus == status);
+    return requireStatuses.some(
+      (status) => user.studentInfo.studentStatus == status,
+    );
   }
 }
