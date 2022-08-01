@@ -7,9 +7,11 @@ import {
 import { AdminService } from './admin.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ParseCsvPipe, StudentsCsvValidatorPipe } from '../../common/pipes';
-import { AddStudentsResponse, StudentCsv } from '../../../types';
+import { AddStudentsResponse, StudentCsv, UserRole } from '../../../types';
 import { fileCsvFilter } from '../../common/utils';
+import { SetAccessRole } from '../../common/decorators';
 
+@SetAccessRole(UserRole.ADMIN)
 @Controller('/admin')
 export class AdminController {
   constructor(private adminService: AdminService) {}
