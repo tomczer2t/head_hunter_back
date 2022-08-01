@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { AppConfigService } from './config/app/config.service';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
-import { JwtAccessGuard } from './common/guards';
+import { JwtAccessGuard, RoleGuard } from './common/guards';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +18,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.enableCors({ credentials: true });
   app.useGlobalGuards(new JwtAccessGuard(reflector));
+  app.useGlobalGuards(new RoleGuard(reflector));
   await app.listen(appConfig.port);
 }
 bootstrap();
