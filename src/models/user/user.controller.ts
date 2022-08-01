@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { UserRegistrationDto } from './dto/user-registration.dto';
 import { RegisterResponse } from '../../../types';
 
-@Controller('user')
+@Controller('/user')
 export class UserController {
   constructor(private userService: UserService) {}
 
