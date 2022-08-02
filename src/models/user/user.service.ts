@@ -1,11 +1,13 @@
-import { Injectable } from '@nestjs/common';
-import { UserRole } from '../../../types';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { RegisterResponse, UserRole } from '../../../types';
 import { UserEntity } from './entities';
 import { v4 as uuid } from 'uuid';
+import { UserRegistrationDto } from './dto/user-registration.dto';
+import { genSalt, hash } from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  async addUser(email: string, role: UserRole) {
+  async addUser(email: string, role: UserRole): Promise<UserEntity> {
     const emailExists = !!(await UserEntity.findOneBy({
       email,
     }));
@@ -47,7 +49,25 @@ export class UserService {
     });
   }
 
-  getVerificationToken() {
+  async register(
+    registrationDto: UserRegistrationDto,
+  ): Promise<RegisterResponse> {
+    const user = await UserEntity.findOneBy({ id: registrationDto.id });
+    if (!user) {
+      throw new NotFoundException(
+        'user with that id does not exist in database',
+      );
+    }
+    user.passwordHash = await this.hashData(registrationDto.password);
+    await user.save();
+    return { isOk: true };
+  }
+
+  getVerificationToken(): string {
     return uuid();
+  }
+
+  async hashData(data: string): Promise<string> {
+    return await hash(data, await genSalt(10));
   }
 }

@@ -15,12 +15,12 @@ export class UserRegistrationDto {
   @IsNotEmpty()
   @IsString()
   @IsUUID()
-  userId: string;
+  id: string;
 
   @IsNotEmpty()
   @IsString()
   @IsUUID()
-  authorizationToken: string;
+  verificationToken: string;
 
   @IsNotEmpty()
   @IsString()
@@ -33,5 +33,5 @@ export class UserRegistrationDto {
   @MinLength(USER_INPUT_PASSWORD_MIN_LENGTH)
   @MaxLength(USER_INPUT_PASSWORD_MAX_LENGTH)
   @MatchDecorator('password', { message: 'Provided passwords are different' })
-  passwordConfirm: string;
+  repeatPassword: string;
 }
