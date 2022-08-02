@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserRole } from '../../../types';
 import { UserEntity } from './entities';
 import { v4 as uuid } from 'uuid';
+import { UserRegistrationDto } from './dto/user-registration.dto';
+import { genSalt, hash } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -49,5 +51,9 @@ export class UserService {
 
   getVerificationToken() {
     return uuid();
+  }
+
+  async hashData(data: string) {
+    return await hash(data, await genSalt(10));
   }
 }
