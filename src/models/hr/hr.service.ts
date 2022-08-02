@@ -3,7 +3,7 @@ import { HrInterviewEntity } from './entities/hr-interview.entity';
 import { StudentInfoEntity } from '../student/entities';
 import { UserEntity } from '../user/entities';
 import { StudentStatus } from 'types';
-import { AddInterviewResponse } from '../../../types/hr/add-interview-response';
+import { AddInterviewResponse } from '../../../types';
 
 @Injectable()
 export class HrService {
