@@ -7,7 +7,7 @@ import { genSalt, hash } from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  async addUser(email: string, role: UserRole) {
+  async addUser(email: string, role: UserRole): Promise<UserEntity> {
     const emailExists = !!(await UserEntity.findOneBy({
       email,
     }));
@@ -63,11 +63,11 @@ export class UserService {
     return { isOk: true };
   }
 
-  getVerificationToken() {
+  getVerificationToken(): string {
     return uuid();
   }
 
-  async hashData(data: string) {
+  async hashData(data: string): Promise<string> {
     return await hash(data, await genSalt(10));
   }
 }
