@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { StudentCsv, UserRole } from '../../../types';
+import { StudentCsv, StudentStatus, UserRole } from '../../../types';
 import { StudentInfoEntity } from './entities';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class StudentService {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private dataSource: DataSource,
+  ) {}
 
   async updateStudent(
     studentFormProfileDto: StudentFormProfileDto,
@@ -73,5 +77,19 @@ export class StudentService {
     }
     await studentInfo.save();
     return studentInfo;
+  }
+
+  async listAvailable() {
+    const students = await this.dataSource
+      .createQueryBuilder()
+      .select('userEntity')
+      .from(UserEntity, 'userEntity')
+      .leftJoinAndSelect('userEntity.studentInfo', 'studentInfo')
+      .where('studentInfo.studentStatus = :status', {
+        status: StudentStatus.AVAILABLE,
+      })
+      .getMany();
+    console.log({ students });
+    return students;
   }
 }
