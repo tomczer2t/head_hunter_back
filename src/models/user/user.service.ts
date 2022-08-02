@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserRole } from '../../../types';
+import { RegisterResponse, UserRole } from '../../../types';
 import { UserEntity } from './entities';
 import { v4 as uuid } from 'uuid';
 import { UserRegistrationDto } from './dto/user-registration.dto';
@@ -49,7 +49,9 @@ export class UserService {
     });
   }
 
-  async register(registrationDto: UserRegistrationDto) {
+  async register(
+    registrationDto: UserRegistrationDto,
+  ): Promise<RegisterResponse> {
     const user = await UserEntity.findOneBy({ id: registrationDto.id });
     if (!user) {
       throw new NotFoundException(
