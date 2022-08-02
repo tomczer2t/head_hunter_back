@@ -7,6 +7,7 @@ import { UserModule } from './models/user/user.module';
 import { AdminModule } from './models/admin/admin.module';
 import { HrModule } from './models/hr/hr.module';
 import { StudentModule } from './models/student/student.module';
+import { CronModule } from './jobs/cron.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { StudentModule } from './models/student/student.module';
     AdminModule,
     HrModule,
     StudentModule,
+    CronModule,
   ],
   controllers: [],
   providers: [],
