@@ -49,6 +49,18 @@ export class UserService {
     });
   }
 
+  async register(registrationDto: UserRegistrationDto) {
+    const user = await UserEntity.findOneBy({ id: registrationDto.id });
+    if (!user) {
+      throw new NotFoundException(
+        'user with that id does not exist in database',
+      );
+    }
+    user.passwordHash = await this.hashData(registrationDto.password);
+    await user.save();
+    return { isOk: true };
+  }
+
   getVerificationToken() {
     return uuid();
   }
