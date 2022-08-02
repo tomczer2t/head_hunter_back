@@ -10,11 +10,12 @@ export class RoleGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest<Request>();
     const user = req.user as UserEntity;
-    const accessRole = this.reflector.getAllAndOverride('accessRole', [
-      context.getHandler(),
-      context.getClass(),
-    ]);
-    if (!user || !accessRole) return true;
-    return user.role === accessRole;
+    const accessRoles = this.reflector.getAllAndOverride<string[]>(
+      'accessRole',
+      [context.getHandler(), context.getClass()],
+    );
+    console.log({ accessRoles });
+    if (!user || accessRoles.length === 0) return true;
+    return accessRoles.includes(user.role);
   }
 }
