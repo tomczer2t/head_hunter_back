@@ -10,7 +10,7 @@ import { StudentStatus } from 'types';
 export class CronService {
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async deleteInterviewsOlderThan10BusinessDays(): Promise<void> {
-    const interviews: HrInterviewEntity[] | [] = await HrInterviewEntity.find({
+    const interviews: HrInterviewEntity[] = await HrInterviewEntity.find({
       relations: ['student'],
     });
     if (interviews.length > 0) {
