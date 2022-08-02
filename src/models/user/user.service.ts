@@ -60,7 +60,7 @@ export class UserService {
     }
     user.passwordHash = await this.hashData(registrationDto.password);
     await user.save();
-    return { isOk: true };
+    return { isSuccess: true };
   }
 
   getVerificationToken(): string {

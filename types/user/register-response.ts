@@ -1,3 +1,3 @@
 export interface RegisterResponse {
-  isOk: boolean;
+  isSuccess: true;
 }
