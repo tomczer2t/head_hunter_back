@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { HrInterviewEntity } from '../models/hr/entities/hr-interview.entity';
-import { onlyBusinessDays } from '../common/utils/moment-business-days';
-import { InterviewToBeDeletedInterface } from './interface/interview-to-be-deleted-interface';
+import { businessDaysFilter } from '../common/utils/business-days-filter';
+import { InterviewToBeDeletedInterface } from './interface/interview-to-be-deleted.interface';
 import { StudentInfoEntity } from '../models/student/entities';
 import { StudentStatus } from 'types';
 
@@ -39,8 +39,8 @@ export class CronService {
       }))
       .filter(
         (item) =>
-          onlyBusinessDays()(item.createdAt, 'DD/MM/YYYY').businessDiff(
-            onlyBusinessDays()(new Date().toLocaleDateString(), 'DD/MM/YYYY'),
+          businessDaysFilter()(item.createdAt, 'DD/MM/YYYY').businessDiff(
+            businessDaysFilter()(new Date().toLocaleDateString(), 'DD/MM/YYYY'),
           ) >= days,
       );
   }
