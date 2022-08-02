@@ -1,6 +1,14 @@
-import { Body, Controller, Inject, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Patch,
+  UseGuards,
+} from '@nestjs/common';
 import { StudentService } from './student.service';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
+import { GetUser } from '../../common/decorators';
 import { UserEntity } from '../user/entities';
 import { UserRole } from '../../../types';
 import { GetUser, SetAccessRole } from '../../common/decorators';
@@ -18,5 +26,10 @@ export class StudentController {
     @GetUser() user: UserEntity,
   ) {
     return this.studentService.updateStudent(studentFormProfileDto, user);
+  }
+
+  @Get('/')
+  listAvailable() {
+    return this.studentService.listAvailable();
   }
 }
