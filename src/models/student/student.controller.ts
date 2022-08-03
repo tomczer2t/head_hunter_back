@@ -4,6 +4,7 @@ import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserEntity } from '../user/entities';
 import { UserRole } from '../../../types';
 import { GetUser, SetAccessRole } from '../../common/decorators';
+import { ListAvailableResponse } from '../../../types/student/list-available-response';
 
 @SetAccessRole(UserRole.STUDENT)
 @Controller('/student')
@@ -22,7 +23,7 @@ export class StudentController {
 
   @SetAccessRole(UserRole.HR)
   @Get('/')
-  listAvailable() {
+  listAvailable(): Promise<ListAvailableResponse> {
     return this.studentService.listAvailable();
   }
 }

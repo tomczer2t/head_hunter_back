@@ -19,6 +19,8 @@ import {
   USER_INPUT_TYPE_OF_WORK_MAX_LENGTH,
 } from '../../../config/constants';
 import { HrInfoEntity } from '../../hr/entities';
+import { ExpectedContractType } from '../../../../types';
+import { ExpectedWorkType } from '../../../../types/student/expected-work-type';
 
 @Entity()
 export class StudentInfoEntity extends BaseEntity {
@@ -71,13 +73,13 @@ export class StudentInfoEntity extends BaseEntity {
   bio: string;
 
   @Column({ length: USER_INPUT_TYPE_OF_WORK_MAX_LENGTH, nullable: true })
-  expectedTypeWork: string;
+  expectedTypeWork: ExpectedWorkType;
 
   @Column({ length: USER_INPUT_CITY_NAME_MAX_LENGTH, nullable: true })
   targetWorkCity: string;
 
   @Column({ length: USER_INPUT_CONTRACT_TYPE_MAX_LENGTH, nullable: true })
-  expectedContractType: string;
+  expectedContractType: ExpectedContractType;
 
   @Column({
     width: USER_INPUT_EXPECTED_SALARY_MAX_LENGTH_ENTITY,

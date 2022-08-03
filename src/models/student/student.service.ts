@@ -10,6 +10,8 @@ import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities';
 import { DataSource } from 'typeorm';
+import { ListAvailableResponse } from '../../../types/student/list-available-response';
+import { FilteredAvailableStudent } from '../../../types/student/filtered-available-student';
 
 @Injectable()
 export class StudentService {
@@ -87,7 +89,7 @@ export class StudentService {
     return studentInfo;
   }
 
-  async listAvailable() {
+  async listAvailable(): Promise<ListAvailableResponse> {
     const students = await this.dataSource
       .createQueryBuilder()
       .select('userEntity')
@@ -101,7 +103,7 @@ export class StudentService {
     return this.filterAvailableStudents(students);
   }
 
-  filterAvailableStudents(students: UserEntity[]) {
+  filterAvailableStudents(students: UserEntity[]): FilteredAvailableStudent[] {
     return students.map(({ studentInfo }) => ({
       fullName: `${studentInfo.firstName} ${studentInfo.lastName[0]}.`,
       courseCompletion: studentInfo.courseCompletion,
@@ -114,7 +116,7 @@ export class StudentService {
       expectedSalary: studentInfo.expectedSalary,
       canTakeApprenticeship: studentInfo.canTakeApprenticeship,
       monthsOfCommercialExp: studentInfo.monthsOfCommercialExp,
-      id: studentInfo.studentInfoId,
+      studentInfoId: studentInfo.studentInfoId,
     }));
   }
 }
