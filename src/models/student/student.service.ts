@@ -114,6 +114,7 @@ export class StudentService {
       expectedSalary: studentInfo.expectedSalary,
       canTakeApprenticeship: studentInfo.canTakeApprenticeship,
       monthsOfCommercialExp: studentInfo.monthsOfCommercialExp,
+      id: studentInfo.studentInfoId,
     }));
   }
 }
