@@ -99,7 +99,6 @@ export class StudentService {
         status: StudentStatus.AVAILABLE,
       })
       .getMany();
-    console.log({ students });
     return this.filterAvailableStudents(students);
   }
 
