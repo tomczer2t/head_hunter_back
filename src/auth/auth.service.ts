@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload, LoginResponse, Tokens } from '../../types';
+import { JwtPayload, LoginResponse, Tokens, LogoutResponse } from '../../types';
 import { ConfigService } from '@nestjs/config';
 import { LoginDto } from './dto';
 import { Response } from 'express';
@@ -73,5 +73,18 @@ export class AuthService {
       }),
     ]);
     return { accessToken, refreshToken };
+  }
+
+  async logout(res: Response, user: UserEntity): Promise<LogoutResponse> {
+    user.refreshTokenHash = null;
+    await user.save();
+
+    res.clearCookie('jwt-refresh-token', {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
+
+    return { isSuccess: true };
   }
 }

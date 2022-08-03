@@ -3,7 +3,7 @@ import { LoginDto } from './dto';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { JwtRefreshGuard } from '../common/guards';
-import { LoginResponse } from '../../types';
+import { LoginResponse, LogoutResponse } from '../../types';
 import { UserEntity } from '../models/user/entities';
 import { GetUser, UsePublic } from '../common/decorators';
 
@@ -21,8 +21,11 @@ export class AuthController {
   }
 
   @Get('/logout')
-  logout(@GetUser() user: UserEntity) {
-    return user;
+  logout(
+    @Res({ passthrough: true }) res: Response,
+    @GetUser() user: UserEntity,
+  ): Promise<LogoutResponse> {
+    return this.authService.logout(res, user);
   }
 
   @UsePublic()
