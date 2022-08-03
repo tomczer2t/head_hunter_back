@@ -4,7 +4,7 @@ import { GetUser, SetAccessRole } from '../../common/decorators';
 import { UserRole } from '../../../types';
 import { UserEntity } from '../user/entities';
 import { AddStudentToInterviewDto } from './dto/add-student-to-interview.dto';
-import { HrFormRegistrationDto } from './dto/hr-form-profile.dto';
+import { HrFormProfileDto } from './dto/hr-form-profile.dto';
 
 @SetAccessRole(UserRole.HR)
 @Controller('/hr')
@@ -26,9 +26,9 @@ export class HrController {
 
   @Patch('/')
   updateHrInfo(
-    @Body() hrFormRegistration: HrFormRegistrationDto,
+    @Body() hrFormProfileDto: HrFormProfileDto,
     @GetUser() { hrInfo }: UserEntity,
   ) {
-    return this.hrService.updateHrInfo(hrFormRegistration, hrInfo);
+    return this.hrService.updateHrInfo(hrFormProfileDto, hrInfo);
   }
 }

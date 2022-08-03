@@ -8,8 +8,9 @@ import { StudentInfoEntity } from '../student/entities';
 import { UserEntity } from '../user/entities';
 import { StudentStatus } from 'types';
 import { AddInterviewResponse } from '../../../types';
-import { HrFormRegistrationDto } from './dto/hr-form-profile.dto';
+import { HrFormProfileDto } from './dto/hr-form-profile.dto';
 import { HrInfoEntity } from './entities';
+import { HrDto } from './dto/hr.dto';
 
 @Injectable()
 export class HrService {
@@ -53,10 +54,10 @@ export class HrService {
   }
 
   async updateHrInfo(
-    hrFormRegistration: HrFormRegistrationDto,
+    hrFormProfileDto: HrFormProfileDto,
     hrInfo: HrInfoEntity,
   ): Promise<HrInfoEntity> {
-    for (const [key, value] of Object.entries(hrFormRegistration)) {
+    for (const [key, value] of Object.entries(hrFormProfileDto)) {
       hrInfo[key] = value;
     }
     await hrInfo.save();

@@ -7,7 +7,7 @@ import {
   USER_INPUT_LASTNAME_MIN_LENGTH,
 } from '../../../config/constants';
 
-export class HrFormRegistrationDto {
+export class HrFormProfileDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(USER_INPUT_FIRSTNAME_MIN_LENGTH)
