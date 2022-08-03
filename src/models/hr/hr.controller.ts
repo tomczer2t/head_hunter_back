@@ -16,7 +16,7 @@ export class HrController {
     return this.hrService.allInterviewsFromOneHr(hrId);
   }
 
-  @Post('/')
+  @Post('/student')
   addStudentToInterview(
     @GetUser() hr: UserEntity,
     @Body() { githubUsername }: AddStudentToInterviewDto,
