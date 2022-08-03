@@ -20,6 +20,7 @@ export class StudentController {
     return this.studentService.updateStudent(studentFormProfileDto, user);
   }
 
+  @SetAccessRole(UserRole.HR)
   @Get('/')
   listAvailable() {
     return this.studentService.listAvailable();
