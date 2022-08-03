@@ -11,16 +11,16 @@ export class HrController {
   constructor(@Inject(HrService) private hrService: HrService) {}
 
   @Get('/students')
-  async allInterviewsFromOneHr() {
+  async allInterviewsFromOneHr(@GetUser() hr: UserEntity) {
     const hrId = 'user-hr1'; // for testing purposes
-    return this.hrService.allInterviewsFromOneHr(hrId);
+    return this.hrService.allInterviewsFromOneHr(hr.id);
   }
 
   @Post('/student')
   addStudentToInterview(
     @GetUser() hr: UserEntity,
-    @Body() { githubUsername }: AddStudentToInterviewDto,
+    @Body() { studentInfoId }: AddStudentToInterviewDto,
   ) {
-    return this.hrService.addStudentToInterview(githubUsername, hr);
+    return this.hrService.addStudentToInterview(studentInfoId, hr);
   }
 }

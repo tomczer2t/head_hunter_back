@@ -19,16 +19,16 @@ export class HrService {
   }
 
   async addStudentToInterview(
-    studentGitHubUsername: string,
+    studentInfoId: string,
     hr: UserEntity,
   ): Promise<AddInterviewResponse> {
     const student = await StudentInfoEntity.findOne({
-      where: { githubUsername: studentGitHubUsername },
+      where: { studentInfoId },
       relations: ['user'],
     });
 
     if (!student) {
-      throw new NotFoundException('GitHub username not found');
+      throw new NotFoundException('Student info not found');
     }
     if (
       student.studentStatus === StudentStatus.BUSY ||

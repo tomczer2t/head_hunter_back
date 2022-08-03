@@ -1,9 +1,7 @@
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
-import { USER_INPUT_GITHUB_USERNAME_MAX_LENGTH } from '../../../config/constants';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 
 export class AddStudentToInterviewDto {
-  @IsString()
+  @IsUUID()
   @IsNotEmpty()
-  @MaxLength(USER_INPUT_GITHUB_USERNAME_MAX_LENGTH)
-  githubUsername: string;
+  studentInfoId: string;
 }
