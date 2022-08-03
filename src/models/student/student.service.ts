@@ -90,6 +90,22 @@ export class StudentService {
       })
       .getMany();
     console.log({ students });
-    return students;
+    return this.filterAvailableStudents(students);
+  }
+
+  filterAvailableStudents(students: UserEntity[]) {
+    return students.map(({ studentInfo }) => ({
+      fullName: `${studentInfo.firstName} ${studentInfo.lastName[0]}.`,
+      courseCompletion: studentInfo.courseCompletion,
+      courseEngagment: studentInfo.courseEngagment,
+      projectDegree: studentInfo.projectDegree,
+      teamProjectDegree: studentInfo.teamProjectDegree,
+      expectedTypeWork: studentInfo.expectedTypeWork,
+      targetWorkCity: studentInfo.targetWorkCity,
+      expectedContractType: studentInfo.expectedContractType,
+      expectedSalary: studentInfo.expectedSalary,
+      canTakeApprenticeship: studentInfo.canTakeApprenticeship,
+      monthsOfCommercialExp: studentInfo.monthsOfCommercialExp,
+    }));
   }
 }
