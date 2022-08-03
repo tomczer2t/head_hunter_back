@@ -6,14 +6,17 @@ import {
 import { HrInterviewEntity } from './entities/hr-interview.entity';
 import { StudentInfoEntity } from '../student/entities';
 import { UserEntity } from '../user/entities';
-import { StudentStatus } from 'types';
+import { StudentStatus, UserRole } from 'types';
 import { AddInterviewResponse } from '../../../types';
 import { HrFormProfileDto } from './dto/hr-form-profile.dto';
 import { HrInfoEntity } from './entities';
 import { HrDto } from './dto/hr.dto';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class HrService {
+  constructor(private userService: UserService) {}
+
   async allInterviewsFromOneHr(hrId: string): Promise<HrInterviewEntity[]> {
     return await HrInterviewEntity.find({
       relations: ['student'],
@@ -62,5 +65,22 @@ export class HrService {
     }
     await hrInfo.save();
     return hrInfo;
+  }
+
+  async addNewHr(hrDto: HrDto) {
+    const { email, ...restHrData } = hrDto;
+    const hr = await this.userService.addUser(email, UserRole.HR);
+    hr.hrInfo = await this.addHrInfo(restHrData);
+    await hr.save();
+    return hr;
+  }
+
+  async addHrInfo(hrInfo: Omit<HrDto, 'email'>) {
+    const newHrInfo = new HrInfoEntity();
+    for (const [key, value] of Object.entries(hrInfo)) {
+      newHrInfo[key] = value;
+    }
+    await newHrInfo.save();
+    return newHrInfo;
   }
 }
