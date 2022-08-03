@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { RegisterResponse, UserRole } from '../../../types';
+import { RegisterResponse, UserAccountStatus, UserRole } from '../../../types';
 import { UserEntity } from './entities';
 import { v4 as uuid } from 'uuid';
 import { UserRegistrationDto } from './dto/user-registration.dto';
@@ -59,6 +59,7 @@ export class UserService {
       );
     }
     user.passwordHash = await this.hashData(registrationDto.password);
+    user.accountStatus = UserAccountStatus.ACTIVE;
     await user.save();
     return { isSuccess: true };
   }
