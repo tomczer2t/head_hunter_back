@@ -17,6 +17,7 @@ import {
   USER_INPUT_LASTNAME_MIN_LENGTH,
   USER_INPUT_MAX_RESERVED_STUDENTS_MAX_LENGTH_DTO,
 } from '../../../config/constants';
+import { Transform } from 'class-transformer';
 
 export class HrFormRegistrationDto {
   @IsNotEmpty()
@@ -42,6 +43,7 @@ export class HrFormRegistrationDto {
   @MaxLength(USER_INPUT_COMPANY_NAME_MAX_LENGTH)
   company: string;
 
+  @Transform(({ value }) => Number(value))
   @IsNotEmpty()
   @IsNumber({ allowNaN: false })
   @Max(USER_INPUT_MAX_RESERVED_STUDENTS_MAX_LENGTH_DTO)
