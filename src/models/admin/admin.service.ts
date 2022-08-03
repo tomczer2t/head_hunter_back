@@ -1,11 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  InternalServerErrorException,
+  Injectable,
+} from '@nestjs/common';
 import { AddStudentsResponse, FailedFor, StudentCsv } from '../../../types';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities';
 import { EmailProviderService } from '../../providers/email/provider.service';
-import { studentRegistrationTemplate } from '../../providers/email/templates';
+import {
+  hrRegistrationTemplate,
+  studentRegistrationTemplate,
+} from '../../providers/email/templates';
 import { AppConfigService } from '../../config/app/config.service';
 import { StudentService } from '../student/student.service';
+import { HrFormRegistrationDto } from './dto/hr-form-registration.dto';
+import { HrService } from '../hr/hr.service';
 
 @Injectable()
 export class AdminService {
@@ -14,6 +23,7 @@ export class AdminService {
     private userService: UserService,
     private emailProviderService: EmailProviderService,
     private appConfigService: AppConfigService,
+    private hrService: HrService,
   ) {}
 
   async addStudents(studentsCsv: StudentCsv[]): Promise<AddStudentsResponse> {
@@ -64,5 +74,34 @@ export class AdminService {
       subject,
       emailBody,
     );
+  }
+
+  async sendHrRegistrationMail(hr: UserEntity) {
+    const origin = this.appConfigService.origin;
+    const subject = 'Finish your registration process on MegaK Head Hunter.';
+
+    const emailBody = hrRegistrationTemplate(
+      hr.id,
+      hr.verificationToken,
+      origin,
+    );
+    return await this.emailProviderService.sendMail(
+      hr.email,
+      subject,
+      emailBody,
+    );
+  }
+
+  async addHr(hrDto: HrFormRegistrationDto) {
+    try {
+      const hr = await this.hrService.addNewHr(hrDto);
+      await this.sendHrRegistrationMail(hr);
+    } catch (err) {
+      if (err.message.includes('Email already exists')) {
+        throw new ConflictException('Email already exists in database');
+      }
+      await this.userService.findAndDelete(hrDto.email);
+      throw new InternalServerErrorException(err.message);
+    }
   }
 }
