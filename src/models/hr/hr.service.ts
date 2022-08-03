@@ -8,6 +8,8 @@ import { StudentInfoEntity } from '../student/entities';
 import { UserEntity } from '../user/entities';
 import { StudentStatus } from 'types';
 import { AddInterviewResponse } from '../../../types';
+import { HrFormRegistrationDto } from './dto/hr-form-profile.dto';
+import { HrInfoEntity } from './entities';
 
 @Injectable()
 export class HrService {
@@ -48,5 +50,16 @@ export class HrService {
     await student.save();
 
     return { isSuccess: true };
+  }
+
+  async updateHrInfo(
+    hrFormRegistration: HrFormRegistrationDto,
+    hrInfo: HrInfoEntity,
+  ): Promise<HrInfoEntity> {
+    for (const [key, value] of Object.entries(hrFormRegistration)) {
+      hrInfo[key] = value;
+    }
+    await hrInfo.save();
+    return hrInfo;
   }
 }
