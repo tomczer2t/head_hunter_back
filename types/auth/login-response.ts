@@ -1,7 +1,7 @@
-import { UserAccountStatus } from '../user';
+import { UserAccountStatus, UserRole } from '../user';
 
 export interface LoginResponse {
-  role: string;
+  role: UserRole;
   accessToken: string;
   firstName?: string;
   lastName?: string;
