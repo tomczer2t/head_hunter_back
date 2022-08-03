@@ -16,7 +16,7 @@ async function bootstrap() {
   );
   app.use(cookieParser());
   app.setGlobalPrefix('api');
-  app.enableCors({ credentials: true });
+  app.enableCors({ origin: appConfig.origin, credentials: true });
   app.useGlobalGuards(new JwtAccessGuard(reflector));
   app.useGlobalGuards(new RoleGuard(reflector));
   await app.listen(appConfig.port);
