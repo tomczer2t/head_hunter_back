@@ -26,6 +26,7 @@ export class StudentService {
       }
     }
     studentInfo.bonusProjectUrls = JSON.stringify(studentInfo.bonusProjectUrls);
+    studentInfo.studentStatus = StudentStatus.AVAILABLE;
     await studentInfo.save();
     return studentInfo;
   }
