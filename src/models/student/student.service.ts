@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { StudentCsv, StudentStatus, UserRole } from '../../../types';
+import {
+  StudentCsv,
+  StudentStatus,
+  UserAccountStatus,
+  UserRole,
+} from '../../../types';
 import { StudentInfoEntity } from './entities';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
@@ -25,6 +30,8 @@ export class StudentService {
         studentInfo[key] = value;
       }
     }
+    user.accountStatus = UserAccountStatus.ACTIVE;
+    await user.save();
     studentInfo.bonusProjectUrls = JSON.stringify(studentInfo.bonusProjectUrls);
     studentInfo.studentStatus = StudentStatus.AVAILABLE;
     await studentInfo.save();

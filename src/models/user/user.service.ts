@@ -59,7 +59,9 @@ export class UserService {
       );
     }
     user.passwordHash = await this.hashData(registrationDto.password);
-    user.accountStatus = UserAccountStatus.ACTIVE;
+    if (user.role === UserRole.HR) {
+      user.accountStatus = UserAccountStatus.ACTIVE;
+    }
     await user.save();
     return { isSuccess: true };
   }

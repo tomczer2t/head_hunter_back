@@ -13,7 +13,7 @@ export class StudentController {
   ) {}
 
   @Patch('/')
-  updateStudentInfo(
+  updateStudent(
     @Body() studentFormProfileDto: StudentFormProfileDto,
     @GetUser() user: UserEntity,
   ) {
