@@ -1,4 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { HrInterviewEntity } from './entities/hr-interview.entity';
 import { StudentInfoEntity } from '../student/entities';
 import { UserEntity } from '../user/entities';
@@ -24,18 +28,14 @@ export class HrService {
     });
 
     if (!student) {
-      throw new HttpException(
-        'GitHub username not found',
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException('GitHub username not found');
     }
     if (
       student.studentStatus === StudentStatus.BUSY ||
       student.studentStatus === StudentStatus.HIRED
     ) {
-      throw new HttpException(
+      throw new ConflictException(
         'Selected student is already appointed or hired',
-        HttpStatus.CONFLICT,
       );
     }
 
