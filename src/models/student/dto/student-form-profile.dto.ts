@@ -27,7 +27,7 @@ import {
   USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_DTO,
   USER_INPUT_TYPE_OF_WORK_MAX_LENGTH,
 } from '../../../config/constants';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { ExpectedContractType } from '../../../../types';
 import { ExpectedWorkType } from '../../../../types/student/expected-work-type';
 
@@ -86,6 +86,7 @@ export class StudentFormProfileDto {
   @MaxLength(USER_INPUT_CONTRACT_TYPE_MAX_LENGTH)
   expectedContractType: ExpectedContractType;
 
+  @Transform(({ value }) => Number(value))
   @IsNumber({ allowNaN: false })
   @IsOptional()
   @Max(USER_INPUT_EXPECTED_SALARY_MAX_LENGTH_DTO)
