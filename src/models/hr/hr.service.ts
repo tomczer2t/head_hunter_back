@@ -73,7 +73,7 @@ export class HrService {
   private filterStudentsForInterview(interviews: HrInterviewEntity[]) {
     const studentsForInterview: StudentOnInterviewList[] = interviews.map(
       (interview) => ({
-        bookedUntill: businessDaysFilter()(interview.createdAt)
+        bookedUntil: businessDaysFilter()(interview.createdAt)
           .businessAdd(10, 'd')
           .toDate()
           .toLocaleDateString(),

@@ -5,7 +5,7 @@ export interface StudentOnInterviewList
   extends Omit<PickedStudentInfoProperties, 'studentInfoId'> {
   firstName: string;
   lastName: string;
-  bookedUntill: string;
+  bookedUntil: string;
   studentStatus: StudentStatus;
   userId: string;
 }
