@@ -41,6 +41,7 @@ export class UserEntity extends BaseEntity {
   @OneToOne(() => HrInfoEntity, (entity) => entity.hrInfoId, {
     nullable: true,
     eager: true,
+    onDelete: 'CASCADE',
   })
   hrInfo: HrInfoEntity;
 

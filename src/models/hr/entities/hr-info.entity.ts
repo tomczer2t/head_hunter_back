@@ -18,9 +18,7 @@ export class HrInfoEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   hrInfoId: string;
 
-  @OneToOne(() => UserEntity, (entity) => entity.hrInfo, {
-    onDelete: 'CASCADE',
-  })
+  @OneToOne(() => UserEntity, (entity) => entity.hrInfo, {})
   user: UserEntity;
 
   @Column({ length: USER_INPUT_FIRSTNAME_MAX_LENGTH })
