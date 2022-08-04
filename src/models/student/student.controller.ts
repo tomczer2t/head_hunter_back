@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Inject, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+} from '@nestjs/common';
 import { StudentService } from './student.service';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserEntity } from '../user/entities';
@@ -24,5 +32,14 @@ export class StudentController {
   @Get('/')
   listAvailable(): Promise<ListAvailableResponse> {
     return this.studentService.listAvailable();
+  }
+
+  @SetAccessRole(UserRole.HR)
+  @Get('/:userStudentId')
+  showOneStudentFromHrList(
+    @Param('userStudentId', ParseUUIDPipe)
+    userStudentId: string,
+  ) {
+    return this.studentService.showOneStudentFromHrList(userStudentId);
   }
 }

@@ -26,7 +26,7 @@ export class HrService {
       relations: ['student'],
       where: { hr: { id: hrId } },
     });
-    if (!interviews) return [];
+    if (interviews.length === 0) return [];
 
     return this.filterStudentsForInterview(interviews);
   }
