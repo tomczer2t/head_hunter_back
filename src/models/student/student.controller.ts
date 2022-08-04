@@ -2,9 +2,8 @@ import { Body, Controller, Get, Inject, Patch } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserEntity } from '../user/entities';
-import { UserRole } from '../../../types';
+import { UserRole, ListAvailableResponse } from '../../../types';
 import { GetUser, SetAccessRole } from '../../common/decorators';
-import { ListAvailableResponse } from '../../../types/student/list-available-response';
 
 @SetAccessRole(UserRole.STUDENT)
 @Controller('/student')
