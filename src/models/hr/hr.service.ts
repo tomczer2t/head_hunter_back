@@ -12,16 +12,23 @@ import { HrFormProfileDto } from './dto/hr-form-profile.dto';
 import { HrInfoEntity } from './entities';
 import { HrDto } from './dto/hr.dto';
 import { UserService } from '../user/user.service';
+import { StudentOnInterviewList } from '../../../types/student/student-on-interview-list';
+import { businessDaysFilter } from '../../common/utils/business-days-filter';
 
 @Injectable()
 export class HrService {
   constructor(private userService: UserService) {}
 
-  async allInterviewsFromOneHr(hrId: string): Promise<HrInterviewEntity[]> {
-    return await HrInterviewEntity.find({
+  async allInterviewsFromOneHr(
+    hrId: string,
+  ): Promise<StudentOnInterviewList[]> {
+    const interviews = await HrInterviewEntity.find({
       relations: ['student'],
       where: { hr: { id: hrId } },
     });
+    if (!interviews) return [];
+
+    return this.filterStudentsForInterview(interviews);
   }
 
   async addStudentToInterview(
@@ -65,6 +72,36 @@ export class HrService {
     }
     await hrInfo.save();
     return hrInfo;
+  }
+
+  private filterStudentsForInterview(interviews: HrInterviewEntity[]) {
+    const studentsForInterview: StudentOnInterviewList[] = interviews.map(
+      (interview) => ({
+        bookedUntil: businessDaysFilter()(interview.createdAt)
+          .businessAdd(10, 'd')
+          .toDate()
+          .toLocaleDateString(),
+        firstName: interview.student.studentInfo.firstName,
+        lastName: interview.student.studentInfo.lastName,
+        studentStatus: interview.student.studentInfo.studentStatus,
+        githubUsername: interview.student.studentInfo.githubUsername,
+        canTakeApprenticeship:
+          interview.student.studentInfo.canTakeApprenticeship,
+        courseCompletion: interview.student.studentInfo.courseCompletion,
+        courseEngagment: interview.student.studentInfo.courseEngagment,
+        expectedContractType:
+          interview.student.studentInfo.expectedContractType,
+        expectedSalary: interview.student.studentInfo.expectedSalary,
+        expectedTypeWork: interview.student.studentInfo.expectedTypeWork,
+        monthsOfCommercialExp:
+          interview.student.studentInfo.monthsOfCommercialExp,
+        projectDegree: interview.student.studentInfo.projectDegree,
+        userId: interview.student.id,
+        targetWorkCity: interview.student.studentInfo.targetWorkCity,
+        teamProjectDegree: interview.student.studentInfo.teamProjectDegree,
+      }),
+    );
+    return studentsForInterview;
   }
 
   async addNewHr(hrDto: HrDto) {

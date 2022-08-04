@@ -1,6 +1,6 @@
 import { StudentInfoEntity } from '../../src/models/student/entities';
 
-type PickedStudentInfoProperties = Pick<
+export type PickedStudentInfoProperties = Pick<
   StudentInfoEntity,
   | 'studentInfoId'
   | 'courseEngagment'
