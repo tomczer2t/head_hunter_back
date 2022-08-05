@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   StudentCsv,
   StudentStatus,
@@ -10,8 +10,9 @@ import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities';
 import { DataSource } from 'typeorm';
-import { ListAvailableResponse } from '../../../types/student/list-available-response';
-import { FilteredAvailableStudent } from '../../../types/student/filtered-available-student';
+import { ListAvailableResponse } from '../../../types';
+import { FilteredAvailableStudent } from '../../../types';
+import { SingleStudentProfile } from '../../../types/student/single-student-profile';
 
 @Injectable()
 export class StudentService {
@@ -118,5 +119,49 @@ export class StudentService {
       canTakeApprenticeship: studentInfo.canTakeApprenticeship,
       monthsOfCommercialExp: studentInfo.monthsOfCommercialExp,
     }));
+  }
+
+  async showOneStudentFromHrList(userStudentId: string) {
+    const user = await UserEntity.findOne({
+      where: { id: userStudentId },
+    });
+    if (!user) {
+      throw new NotFoundException('Student not found');
+    }
+    const student = user.studentInfo;
+
+    return this.filterStudentProfile(student);
+  }
+
+  private filterStudentProfile(
+    student: StudentInfoEntity,
+  ): SingleStudentProfile {
+    const studentProfile = {};
+
+    for (const [key, value] of Object.entries(student)) {
+      if (
+        key === 'firstName' ||
+        key === 'lastName' ||
+        key === 'bio' ||
+        key === 'githubUsername' ||
+        key === 'courseEngagment' ||
+        key === 'courseCompletion' ||
+        key === 'teamProjectDegree' ||
+        key === 'projectDegree' ||
+        key === 'expectedTypeWork' ||
+        key === 'targetWorkCity' ||
+        key === 'expectedContractType' ||
+        key === 'expectedSalary' ||
+        key === 'canTakeApprenticeship' ||
+        key === 'monthsOfCommercialExp' ||
+        key === 'education' ||
+        key === 'workExperience'
+      ) {
+        studentProfile[key] = value;
+      } else if (key === 'bonusProjectUrls' || key === 'portfolioUrls') {
+        studentProfile[key] = JSON.parse(value);
+      }
+    }
+    return studentProfile as SingleStudentProfile;
   }
 }
