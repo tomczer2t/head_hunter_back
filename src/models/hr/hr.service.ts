@@ -32,20 +32,20 @@ export class HrService {
   }
 
   async addStudentToInterview(
-    studentInfoId: string,
+    userId: string,
     hr: UserEntity,
   ): Promise<AddInterviewResponse> {
-    const student = await StudentInfoEntity.findOne({
-      where: { studentInfoId },
-      relations: ['user'],
+    const student = await UserEntity.findOne({
+      where: { id: userId },
+      relations: ['studentInfo'],
     });
 
     if (!student) {
       throw new NotFoundException('Student info not found');
     }
     if (
-      student.studentStatus === StudentStatus.BUSY ||
-      student.studentStatus === StudentStatus.HIRED
+      student.studentInfo.studentStatus === StudentStatus.BUSY ||
+      student.studentInfo.studentStatus === StudentStatus.HIRED
     ) {
       throw new ConflictException(
         'Selected student is already appointed or hired',
@@ -53,12 +53,12 @@ export class HrService {
     }
 
     const interview = new HrInterviewEntity();
-    interview.student = student.user;
+    interview.student = student;
     interview.hr = hr;
     await interview.save();
 
-    student.studentStatus = StudentStatus.BUSY;
-    await student.save();
+    student.studentInfo.studentStatus = StudentStatus.BUSY;
+    await student.studentInfo.save();
 
     return { isSuccess: true };
   }

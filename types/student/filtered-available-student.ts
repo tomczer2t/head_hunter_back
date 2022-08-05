@@ -2,7 +2,8 @@ import { StudentInfoEntity } from '../../src/models/student/entities';
 
 export type PickedStudentInfoProperties = Pick<
   StudentInfoEntity,
-  | 'studentInfoId'
+  | 'firstName'
+  | 'lastName'
   | 'courseEngagment'
   | 'courseCompletion'
   | 'teamProjectDegree'
@@ -16,5 +17,5 @@ export type PickedStudentInfoProperties = Pick<
 >;
 
 export interface FilteredAvailableStudent extends PickedStudentInfoProperties {
-  fullName: string;
+  userId: string;
 }

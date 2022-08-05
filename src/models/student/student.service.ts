@@ -103,8 +103,10 @@ export class StudentService {
   }
 
   filterAvailableStudents(students: UserEntity[]): FilteredAvailableStudent[] {
-    return students.map(({ studentInfo }) => ({
-      fullName: `${studentInfo.firstName} ${studentInfo.lastName[0]}.`,
+    return students.map(({ id, studentInfo }) => ({
+      userId: id,
+      firstName: studentInfo.firstName,
+      lastName: studentInfo.lastName[0],
       courseCompletion: studentInfo.courseCompletion,
       courseEngagment: studentInfo.courseEngagment,
       projectDegree: studentInfo.projectDegree,
@@ -115,7 +117,6 @@ export class StudentService {
       expectedSalary: studentInfo.expectedSalary,
       canTakeApprenticeship: studentInfo.canTakeApprenticeship,
       monthsOfCommercialExp: studentInfo.monthsOfCommercialExp,
-      studentInfoId: studentInfo.studentInfoId,
     }));
   }
 }

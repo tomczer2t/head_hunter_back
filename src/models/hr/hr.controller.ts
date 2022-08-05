@@ -19,9 +19,9 @@ export class HrController {
   @Post('/student')
   addStudentToInterview(
     @GetUser() hr: UserEntity,
-    @Body() { studentInfoId }: AddStudentToInterviewDto,
+    @Body() { userId }: AddStudentToInterviewDto,
   ) {
-    return this.hrService.addStudentToInterview(studentInfoId, hr);
+    return this.hrService.addStudentToInterview(userId, hr);
   }
 
   @Patch('/')
