@@ -4,15 +4,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { HrInterviewEntity } from './entities/hr-interview.entity';
-import { StudentInfoEntity } from '../student/entities';
 import { UserEntity } from '../user/entities';
-import { StudentStatus, UserRole } from 'types';
+import { StudentOnInterviewList, StudentStatus, UserRole } from 'types';
 import { AddInterviewResponse } from '../../../types';
 import { HrFormProfileDto } from './dto/hr-form-profile.dto';
 import { HrInfoEntity } from './entities';
 import { HrDto } from './dto/hr.dto';
 import { UserService } from '../user/user.service';
-import { StudentOnInterviewList } from '../../../types/student/student-on-interview-list';
 import { businessDaysFilter } from '../../common/utils/business-days-filter';
 
 @Injectable()
