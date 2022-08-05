@@ -139,7 +139,6 @@ export class StudentService {
 
     for (const [key, value] of Object.entries(student)) {
       if (
-        key === 'bonusProjectUrls' ||
         key === 'firstName' ||
         key === 'lastName' ||
         key === 'bio' ||
@@ -148,7 +147,6 @@ export class StudentService {
         key === 'courseCompletion' ||
         key === 'teamProjectDegree' ||
         key === 'projectDegree' ||
-        key === 'portfolioUrls' ||
         key === 'expectedTypeWork' ||
         key === 'targetWorkCity' ||
         key === 'expectedContractType' ||
@@ -159,6 +157,8 @@ export class StudentService {
         key === 'workExperience'
       ) {
         studentProfile[key] = value;
+      } else if (key === 'bonusProjectUrls' || key === 'portfolioUrls') {
+        studentProfile[key] = JSON.parse(value);
       }
     }
     return studentProfile as SingleStudentProfile;
