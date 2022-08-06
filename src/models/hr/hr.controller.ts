@@ -1,9 +1,17 @@
-import { Body, Controller, Get, Inject, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { HrService } from './hr.service';
 import { GetUser, SetAccessRole } from '../../common/decorators';
 import { UserRole } from '../../../types';
 import { UserEntity } from '../user/entities';
-import { AddStudentToInterviewDto } from './dto/add-student-to-interview.dto';
+import { StudentOnInterviewDto } from './dto/student-on-interview.dto';
 import { HrFormProfileDto } from './dto/hr-form-profile.dto';
 
 @SetAccessRole(UserRole.HR)
@@ -19,9 +27,16 @@ export class HrController {
   @Post('/student')
   addStudentToInterview(
     @GetUser() hr: UserEntity,
-    @Body() { userId }: AddStudentToInterviewDto,
+    @Body() { userId }: StudentOnInterviewDto,
   ) {
     return this.hrService.addStudentToInterview(userId, hr);
+  }
+  @Delete('/student')
+  deleteStudentFromInterview(
+    @GetUser() hr: UserEntity,
+    @Body() { userId }: StudentOnInterviewDto,
+  ) {
+    return this.hrService.deleteStudentFromInterview(userId, hr);
   }
 
   @Patch('/')

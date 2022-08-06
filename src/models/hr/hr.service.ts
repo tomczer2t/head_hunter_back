@@ -6,16 +6,20 @@ import {
 import { HrInterviewEntity } from './entities/hr-interview.entity';
 import { UserEntity } from '../user/entities';
 import { StudentOnInterviewList, StudentStatus, UserRole } from 'types';
-import { AddInterviewResponse } from '../../../types';
+import { AddInterviewResponse, RemoveInterviewResponse } from '../../../types';
 import { HrFormProfileDto } from './dto/hr-form-profile.dto';
 import { HrInfoEntity } from './entities';
 import { HrDto } from './dto/hr.dto';
 import { UserService } from '../user/user.service';
 import { businessDaysFilter } from '../../common/utils/business-days-filter';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class HrService {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private myDataSource: DataSource,
+  ) {}
 
   async allInterviewsFromOneHr(
     hrId: string,
@@ -39,7 +43,7 @@ export class HrService {
     });
 
     if (!student) {
-      throw new NotFoundException('Student info not found');
+      throw new NotFoundException('Student not found');
     }
     if (
       student.studentInfo.studentStatus === StudentStatus.BUSY ||
@@ -57,6 +61,32 @@ export class HrService {
 
     student.studentInfo.studentStatus = StudentStatus.BUSY;
     await student.studentInfo.save();
+
+    return { isSuccess: true };
+  }
+
+  async deleteStudentFromInterview(
+    userId: string,
+    hr: UserEntity,
+  ): Promise<RemoveInterviewResponse> {
+    const { affected } = await this.myDataSource
+      .createQueryBuilder()
+      .delete()
+      .from(HrInterviewEntity)
+      .where('studentId = :studentId', { studentId: userId })
+      .andWhere('hrId = :hrId', { hrId: hr.id })
+      .execute();
+
+    if (!affected) throw new NotFoundException('Student not found');
+
+    const { studentInfo } = await UserEntity.findOne({
+      where: { id: userId },
+      relations: ['studentInfo'],
+    });
+
+    studentInfo.studentStatus = StudentStatus.AVAILABLE;
+
+    await studentInfo.save();
 
     return { isSuccess: true };
   }

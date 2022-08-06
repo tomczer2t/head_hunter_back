@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsUUID } from 'class-validator';
 
-export class AddStudentToInterviewDto {
+export class StudentOnInterviewDto {
   @IsUUID()
   @IsNotEmpty()
   userId: string;
