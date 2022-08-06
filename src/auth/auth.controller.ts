@@ -31,7 +31,10 @@ export class AuthController {
   @UsePublic()
   @UseGuards(JwtRefreshGuard)
   @Get('/refresh')
-  refreshTokens(@GetUser('id') id: string) {
-    return this.authService.getNewTokens({ userId: id });
+  refresh(
+    @GetUser() user: UserEntity,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.refresh(res, user);
   }
 }

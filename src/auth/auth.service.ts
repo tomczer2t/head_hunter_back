@@ -52,12 +52,7 @@ export class AuthService {
     user.refreshTokenHash = await hash(refreshToken, 10);
     await user.save();
 
-    res.cookie('jwt-refresh-token', refreshToken, {
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    });
+    this.setRefreshCookie(res, refreshToken);
     return { ...this.filter(user), accessToken };
   }
 
@@ -87,4 +82,24 @@ export class AuthService {
 
     return { isSuccess: true };
   }
+
+  async refresh(res: Response, user: UserEntity) {
+    const { accessToken, refreshToken } = await this.getNewTokens({
+      userId: user.id,
+    });
+    user.refreshTokenHash = await hash(refreshToken, 10);
+    await user.save();
+
+    this.setRefreshCookie(res, refreshToken);
+    return { ...this.filter(user), accessToken };
+  }
+
+  setRefreshCookie = (res: Response, refreshToken) => {
+    res.cookie('jwt-refresh-token', refreshToken, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+  };
 }
