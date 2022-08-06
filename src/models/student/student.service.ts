@@ -13,6 +13,7 @@ import { DataSource } from 'typeorm';
 import { ListAvailableResponse } from '../../../types';
 import { FilteredAvailableStudent } from '../../../types';
 import { SingleStudentProfile } from '../../../types/student/single-student-profile';
+import { ListStudentsQueries } from '../../../types/student/list-students-queries';
 
 @Injectable()
 export class StudentService {
@@ -90,7 +91,9 @@ export class StudentService {
     return studentInfo;
   }
 
-  async listAvailable(): Promise<ListAvailableResponse> {
+  async listAvailable(
+    queries: ListStudentsQueries,
+  ): Promise<ListAvailableResponse> {
     const students = await this.dataSource
       .createQueryBuilder()
       .select('userEntity')
