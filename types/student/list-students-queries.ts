@@ -12,4 +12,5 @@ export enum SortBy {
 
 export interface ListStudentsQueries {
   sortBy?: SortBy;
+  courseCompletion: string[];
 }

@@ -94,15 +94,22 @@ export class StudentService {
   async listAvailable(
     queries: ListStudentsQueries,
   ): Promise<ListAvailableResponse> {
-    const students = await this.dataSource
+    const query = await this.dataSource
       .createQueryBuilder()
-      .select('userEntity')
-      .from(UserEntity, 'userEntity')
-      .leftJoinAndSelect('userEntity.studentInfo', 'studentInfo')
-      .where('studentInfo.studentStatus = :status', {
+      .select('user')
+      .from(UserEntity, 'user')
+      .leftJoinAndSelect('user.studentInfo', 'info')
+      .where('info.studentStatus = :status', {
         status: StudentStatus.AVAILABLE,
-      })
-      .getMany();
+      });
+    if (queries.courseCompletion?.length > 0) {
+      queries.courseCompletion.forEach((courseCompletionDegree) => {
+        query.andWhere('info.courseCompletion = :courseCompletion', {
+          courseCompletion: Number(courseCompletionDegree),
+        });
+      });
+    }
+    const students = await query.getMany();
     return this.filterAvailableStudents(students);
   }
 
