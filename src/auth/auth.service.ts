@@ -1,6 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload, LoginResponse, Tokens, LogoutResponse } from '../../types';
+import {
+  JwtPayload,
+  LoginResponse,
+  Tokens,
+  LogoutResponse,
+  RefreshResponse,
+} from '../../types';
 import { ConfigService } from '@nestjs/config';
 import { LoginDto } from './dto';
 import { Response } from 'express';
@@ -83,7 +89,7 @@ export class AuthService {
     return { isSuccess: true };
   }
 
-  async refresh(res: Response, user: UserEntity) {
+  async refresh(res: Response, user: UserEntity): Promise<RefreshResponse> {
     const { accessToken, refreshToken } = await this.getNewTokens({
       userId: user.id,
     });
