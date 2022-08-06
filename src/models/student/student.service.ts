@@ -121,7 +121,9 @@ export class StudentService {
     }));
   }
 
-  async showOneStudentFromHrList(userStudentId: string) {
+  async showOneStudentFromHrList(
+    userStudentId: string,
+  ): Promise<SingleStudentProfile> {
     const user = await UserEntity.findOne({
       where: { id: userStudentId },
     });
@@ -158,7 +160,11 @@ export class StudentService {
         key === 'workExperience'
       ) {
         studentProfile[key] = value;
-      } else if (key === 'bonusProjectUrls' || key === 'portfolioUrls') {
+      } else if (
+        key === 'bonusProjectUrls' ||
+        key === 'portfolioUrls' ||
+        key === 'projectUrls'
+      ) {
         studentProfile[key] = JSON.parse(value);
       }
     }

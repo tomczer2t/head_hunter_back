@@ -20,11 +20,10 @@ type Student = Pick<
   | 'monthsOfCommercialExp'
   | 'education'
   | 'workExperience'
+  | 'projectUrls'
 >;
 
 export interface SingleStudentProfile extends Student {
-  avatarUrl?: string;
-  scrumUrlsToRepositories?: string[];
   scrumOwnCommits?: string;
   scrumOwnCodeReviews?: string;
 }
