@@ -12,6 +12,7 @@ import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserEntity } from '../user/entities';
 import { UserRole, ListAvailableResponse } from '../../../types';
 import { GetUser, SetAccessRole } from '../../common/decorators';
+import { SingleStudentProfile } from '../../../types/student/single-student-profile';
 
 @SetAccessRole(UserRole.STUDENT)
 @Controller('/student')
@@ -39,7 +40,7 @@ export class StudentController {
   showOneStudentFromHrList(
     @Param('userStudentId', ParseUUIDPipe)
     userStudentId: string,
-  ) {
+  ): Promise<SingleStudentProfile> {
     return this.studentService.showOneStudentFromHrList(userStudentId);
   }
 }
