@@ -13,6 +13,7 @@ import { UserEntity } from '../user/entities';
 import { UserRole, ListAvailableResponse } from '../../../types';
 import { GetUser, SetAccessRole } from '../../common/decorators';
 import { SingleStudentProfile } from '../../../types/student/single-student-profile';
+import { StudentUpdateProfileResponse } from '../../../types/student/student-update-profile-response';
 
 @SetAccessRole(UserRole.STUDENT)
 @Controller('/student')
@@ -25,7 +26,7 @@ export class StudentController {
   updateStudent(
     @Body() studentFormProfileDto: StudentFormProfileDto,
     @GetUser() user: UserEntity,
-  ) {
+  ): Promise<StudentUpdateProfileResponse> {
     return this.studentService.updateStudent(studentFormProfileDto, user);
   }
 
