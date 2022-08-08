@@ -28,8 +28,11 @@ import {
   USER_INPUT_TYPE_OF_WORK_MAX_LENGTH,
 } from '../../../config/constants';
 import { Transform, Type } from 'class-transformer';
-import { ExpectedContractType } from '../../../../types';
-import { ExpectedWorkType } from '../../../../types/student/expected-work-type';
+import {
+  ExpectedContractType,
+  StudentStatus,
+  ExpectedWorkType,
+} from '../../../../types';
 
 export class StudentFormProfileDto {
   @IsOptional()
@@ -118,4 +121,10 @@ export class StudentFormProfileDto {
   @IsOptional()
   @IsString()
   courses: string;
+
+  @IsOptional()
+  @Min(StudentStatus.HIRED)
+  @Max(StudentStatus.HIRED)
+  @IsNumber()
+  studentStatus: StudentStatus.HIRED;
 }

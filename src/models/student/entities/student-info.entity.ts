@@ -19,8 +19,7 @@ import {
   USER_INPUT_TYPE_OF_WORK_MAX_LENGTH,
 } from '../../../config/constants';
 import { HrInfoEntity } from '../../hr/entities';
-import { ExpectedContractType } from '../../../../types';
-import { ExpectedWorkType } from '../../../../types/student/expected-work-type';
+import { ExpectedContractType, ExpectedWorkType } from '../../../../types';
 
 @Entity()
 export class StudentInfoEntity extends BaseEntity {
