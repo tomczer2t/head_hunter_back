@@ -41,7 +41,10 @@ import { IsValidNumberOf } from '../../../common/decorators/is-valid-number-of.d
 
 export class StudentFormProfileDto {
   @IsOptional()
-  @IsValidNumberOf(StudentFormProfileDto, (o: { country: any }) => o.country)
+  @IsValidNumberOf(
+    StudentFormProfileDto,
+    (o: { countryCode: any }) => o.countryCode,
+  )
   @MaxLength(USER_INPUT_TELEPHONE_NUMBER_MAX_LENGTH)
   @IsNumberString()
   tel: string;
@@ -49,7 +52,7 @@ export class StudentFormProfileDto {
   @IsNotEmpty()
   @IsISO31661Alpha2() // list of country codes which follow ISO 3166-1 alpha-2 standard can be found under https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
   @MaxLength(USER_INPUT_COUNTRY_CODE_MAX_LENGTH)
-  country: string;
+  countryCode: string;
 
   @IsNotEmpty()
   @IsString()
