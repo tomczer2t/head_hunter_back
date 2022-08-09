@@ -37,6 +37,7 @@ export class StudentsQueryDto {
   @IsBoolean()
   canTakeApprenticeship: boolean;
 
+  @Transform(({ value }) => decodeURI(value))
   @IsOptional()
   @IsEnum(ExpectedContractType)
   expectedContractType: ExpectedContractType;
