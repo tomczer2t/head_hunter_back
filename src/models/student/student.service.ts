@@ -103,7 +103,6 @@ export class StudentService {
         status: StudentStatus.AVAILABLE,
       });
 
-    console.log({ queries });
     if (queries.expectedTypeWork) {
       query.andWhere('info.expectedTypeWork = :expectedTypeWork', {
         expectedTypeWork: queries.expectedTypeWork,
@@ -123,9 +122,44 @@ export class StudentService {
     }
 
     if (queries.courseCompletion) {
-      console.log({ courseCompletion: queries.courseCompletion });
       query.andWhere('info.courseCompletion IN (:courseCompletion)', {
         courseCompletion: queries.courseCompletion,
+      });
+    }
+
+    if (queries.courseEngagment) {
+      query.andWhere('info.courseEngagment IN (:courseEngagment)', {
+        courseEngagment: queries.courseEngagment,
+      });
+    }
+
+    if (queries.projectDegree) {
+      query.andWhere('info.projectDegree IN (:projectDegree)', {
+        projectDegree: queries.projectDegree,
+      });
+    }
+
+    if (queries.teamProjectDegree) {
+      query.andWhere('info.teamProjectDegree IN (:teamProjectDegree)', {
+        teamProjectDegree: queries.teamProjectDegree,
+      });
+    }
+
+    if (queries.salaryFrom) {
+      query.andWhere('info.expectedSalary >= :salaryFrom', {
+        salaryFrom: queries.salaryFrom,
+      });
+    }
+
+    if (queries.salaryTo) {
+      query.andWhere('info.expectedSalary <= :salaryTo', {
+        salaryTo: queries.salaryTo,
+      });
+    }
+
+    if (queries.monthsOfCommercialExp) {
+      query.andWhere('info.monthsOfCommercialExp >= :monthsOfCommercialExp', {
+        monthsOfCommercialExp: queries.monthsOfCommercialExp,
       });
     }
 

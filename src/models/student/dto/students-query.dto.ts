@@ -1,4 +1,10 @@
-import { IsArray, IsBoolean, IsEnum, IsOptional } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+} from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import {
   ExpectedContractType,
@@ -42,4 +48,58 @@ export class StudentsQueryDto {
   @IsOptional()
   @IsEnum(ExpectedContractType)
   expectedContractType: ExpectedContractType;
+
+  @Transform(({ value: degrees }) => {
+    const numberDegrees: number[] = [];
+    for (const stringDegree of degrees) {
+      const numberDegree = Number(stringDegree);
+      if (isNaN(numberDegree)) break;
+      numberDegrees.push(numberDegree);
+    }
+    return numberDegrees;
+  })
+  @IsArray()
+  @IsOptional()
+  courseEngagment: string[];
+
+  @Transform(({ value: degrees }) => {
+    const numberDegrees: number[] = [];
+    for (const stringDegree of degrees) {
+      const numberDegree = Number(stringDegree);
+      if (isNaN(numberDegree)) break;
+      numberDegrees.push(numberDegree);
+    }
+    return numberDegrees;
+  })
+  @IsArray()
+  @IsOptional()
+  projectDegree: string[];
+
+  @Transform(({ value: degrees }) => {
+    const numberDegrees: number[] = [];
+    for (const stringDegree of degrees) {
+      const numberDegree = Number(stringDegree);
+      if (isNaN(numberDegree)) break;
+      numberDegrees.push(numberDegree);
+    }
+    return numberDegrees;
+  })
+  @IsArray()
+  @IsOptional()
+  teamProjectDegree: string[];
+
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  salaryFrom: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  salaryTo: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  monthsOfCommercialExp: number;
 }
