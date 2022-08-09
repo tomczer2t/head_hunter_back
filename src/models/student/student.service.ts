@@ -7,13 +7,12 @@ import {
   UserAccountStatus,
   UserRole,
   SingleStudentProfile,
-  } from '../../../types';
+} from '../../../types';
 import { StudentInfoEntity } from './entities';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities';
 import { DataSource } from 'typeorm';
-import { SingleStudentProfile } from '../../../types/student/single-student-profile';
 import { StudentUpdateProfileResponse } from '../../../types/student/student-update-profile-response';
 import { StudentsQueryDto } from './dto/students-query.dto';
 

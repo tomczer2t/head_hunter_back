@@ -11,7 +11,6 @@ import {
 import { StudentService } from './student.service';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserEntity } from '../user/entities';
-import { SingleStudentProfile } from '../../../types/student/single-student-profile';
 import { StudentUpdateProfileResponse } from '../../../types/student/student-update-profile-response';
 import {
   UserRole,
