@@ -4,16 +4,16 @@ import {
   StudentStatus,
   UserAccountStatus,
   UserRole,
+  FilteredAvailableStudent,
+  SingleStudentProfile,
+  ListAvailableResponse,
 } from '../../../types';
 import { StudentInfoEntity } from './entities';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities';
 import { DataSource } from 'typeorm';
-import { ListAvailableResponse } from '../../../types';
-import { FilteredAvailableStudent } from '../../../types';
-import { SingleStudentProfile } from '../../../types/student/single-student-profile';
-import { ListStudentsQueries } from '../../../types/student/list-students-queries';
+import { StudentsQueryDto } from './dto/students-query.dto';
 
 @Injectable()
 export class StudentService {
@@ -92,7 +92,7 @@ export class StudentService {
   }
 
   async listAvailable(
-    queries: ListStudentsQueries,
+    queries: StudentsQueryDto,
   ): Promise<ListAvailableResponse> {
     const query = await this.dataSource
       .createQueryBuilder()
@@ -102,13 +102,57 @@ export class StudentService {
       .where('info.studentStatus = :status', {
         status: StudentStatus.AVAILABLE,
       });
-    if (queries.courseCompletion?.length > 0) {
-      queries.courseCompletion.forEach((courseCompletionDegree) => {
-        query.andWhere('info.courseCompletion = :courseCompletion', {
-          courseCompletion: Number(courseCompletionDegree),
-        });
+
+    if (queries.expectedTypeWork) {
+      query.andWhere('info.expectedTypeWork = :expectedTypeWork', {
+        expectedTypeWork: queries.expectedTypeWork,
       });
     }
+
+    if (queries.courseCompletion?.length > 0) {
+      const courseCompletionQuery = query.andWhere(
+        'info.courseCompletion = :courseCompletion',
+        { courseCompletion: queries.courseCompletion[0] },
+      );
+      queries.courseCompletion.forEach((courseDegree, i) => {
+        if (i !== 0) {
+          courseCompletionQuery.orWhere(
+            'info.courseCompletion = :courseCompletion',
+            { courseCompletion: courseDegree },
+          );
+        }
+      });
+      query.andWhere(courseCompletionQuery.getQuery());
+    }
+
+    // if (queries.courseCompletion?.length > 0) {
+    //   // nie działa. trzeba zrobić zagnieżdżone query tylko dla tej opcji
+    //   queries.courseCompletion.forEach((courseCompletionDegree, index) => {
+    //     if (index === 0) {
+    //       query.andWhere('info.courseCompletion = :courseCompletion', {
+    //         courseCompletion: Number(courseCompletionDegree),
+    //       });
+    //     } else {
+    //       query.orWhere('info.courseCompletion = :courseCompletion', {
+    //         courseCompletion: Number(courseCompletionDegree),
+    //       });
+    //     }
+    //   });
+    // }
+
+    // if (queries.courseCompletion?.length > 0) {
+    //   const coordinate_source = await this.dataSource
+    //     .createQueryBuilder(StudentInfoEntity, 'studentInfo')
+    //     .where('studentInfo.courseCompletion IN (:...courseCompletion)', {
+    //       courseCompletion: queries.courseCompletion,
+    //     })
+    //     .andWhere('studentInfo.studentStatus = :status', {
+    //       status: StudentStatus.AVAILABLE,
+    //     });
+    //   console.log(coordinate_source.getQuery());
+    //   query.from(coordinate_source.getQuery, 'query');
+    // }
+
     const students = await query.getMany();
     return this.filterAvailableStudents(students);
   }

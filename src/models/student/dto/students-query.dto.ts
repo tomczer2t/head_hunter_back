@@ -1,10 +1,6 @@
-import {
-  ListStudentsQueries,
-  SortBy,
-} from '../../../../types/student/list-students-queries';
 import { IsArray, IsEnum, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { ExpectedWorkType } from '../../../../types';
+import { ExpectedWorkType, SortBy } from '../../../../types';
 
 export class StudentsQueryDto {
   @IsOptional()
