@@ -16,7 +16,7 @@ import {
   ListAvailableResponse,
   SingleStudentProfile,
 } from '../../../types';
-import { GetUser, SetAccessRole } from '../../common/decorators';
+import { GetUser, SetAccessRole, UsePublic } from '../../common/decorators';
 import { StudentsQueryDto } from './dto/students-query.dto';
 
 @SetAccessRole(UserRole.STUDENT)
@@ -39,7 +39,6 @@ export class StudentController {
   listAvailable(
     @Query() queryDto: StudentsQueryDto,
   ): Promise<ListAvailableResponse> {
-    console.log({ queryDto });
     return this.studentService.listAvailable(queryDto);
   }
 

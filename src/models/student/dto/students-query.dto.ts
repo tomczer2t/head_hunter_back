@@ -6,6 +6,11 @@ import {
   SortBy,
 } from '../../../../types';
 
+enum CanTakeApprenticeship {
+  TRUE = 'true',
+  FALSE = 'false',
+}
+
 export class StudentsQueryDto {
   @IsOptional()
   @IsEnum(SortBy)
@@ -18,7 +23,6 @@ export class StudentsQueryDto {
       if (isNaN(numberDegree)) break;
       numberDegrees.push(numberDegree);
     }
-    console.log(numberDegrees);
     return numberDegrees;
   })
   @IsArray()
@@ -30,12 +34,9 @@ export class StudentsQueryDto {
   @IsEnum(ExpectedWorkType)
   expectedTypeWork: ExpectedWorkType;
 
-  @Transform(({ value }) => {
-    return value ? JSON.parse(value) : undefined;
-  })
   @IsOptional()
-  @IsBoolean()
-  canTakeApprenticeship: boolean;
+  @IsEnum(CanTakeApprenticeship)
+  canTakeApprenticeship: CanTakeApprenticeship;
 
   @Transform(({ value }) => decodeURI(value))
   @IsOptional()

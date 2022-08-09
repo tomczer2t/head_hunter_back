@@ -103,6 +103,7 @@ export class StudentService {
         status: StudentStatus.AVAILABLE,
       });
 
+    console.log({ queries });
     if (queries.expectedTypeWork) {
       query.andWhere('info.expectedTypeWork = :expectedTypeWork', {
         expectedTypeWork: queries.expectedTypeWork,
@@ -121,49 +122,12 @@ export class StudentService {
       });
     }
 
-    // if (queries.courseCompletion?.length > 0) {
-    //   const courseCompletionQuery = query.andWhere(
-    //     'info.courseCompletion = :courseCompletion',
-    //     { courseCompletion: queries.courseCompletion[0] },
-    //   );
-    //   queries.courseCompletion.forEach((courseDegree, i) => {
-    //     if (i !== 0) {
-    //       courseCompletionQuery.orWhere(
-    //         'info.courseCompletion = :courseCompletion',
-    //         { courseCompletion: courseDegree },
-    //       );
-    //     }
-    //   });
-    //   query.andWhere(courseCompletionQuery.getQuery());
-    // }
-
-    // if (queries.courseCompletion?.length > 0) {
-    //   // nie działa. trzeba zrobić zagnieżdżone query tylko dla tej opcji
-    //   queries.courseCompletion.forEach((courseCompletionDegree, index) => {
-    //     if (index === 0) {
-    //       query.andWhere('info.courseCompletion = :courseCompletion', {
-    //         courseCompletion: Number(courseCompletionDegree),
-    //       });
-    //     } else {
-    //       query.orWhere('info.courseCompletion = :courseCompletion', {
-    //         courseCompletion: Number(courseCompletionDegree),
-    //       });
-    //     }
-    //   });
-    // }
-
-    // if (queries.courseCompletion?.length > 0) {
-    //   const coordinate_source = await this.dataSource
-    //     .createQueryBuilder(StudentInfoEntity, 'studentInfo')
-    //     .where('studentInfo.courseCompletion IN (:...courseCompletion)', {
-    //       courseCompletion: queries.courseCompletion,
-    //     })
-    //     .andWhere('studentInfo.studentStatus = :status', {
-    //       status: StudentStatus.AVAILABLE,
-    //     });
-    //   console.log(coordinate_source.getQuery());
-    //   query.from(coordinate_source.getQuery, 'query');
-    // }
+    if (queries.courseCompletion) {
+      console.log({ courseCompletion: queries.courseCompletion });
+      query.andWhere('info.courseCompletion IN (:courseCompletion)', {
+        courseCompletion: queries.courseCompletion,
+      });
+    }
 
     const students = await query.getMany();
     return this.filterAvailableStudents(students);
