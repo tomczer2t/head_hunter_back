@@ -35,19 +35,21 @@ export class StudentsQueryDto {
   @IsOptional()
   courseCompletion: number[];
 
-  @Transform(({ value }) => decodeURI(value))
+  @Transform(({ value }) => value.map((type) => decodeURI(type)))
   @IsOptional()
-  @IsEnum(ExpectedWorkType)
-  expectedTypeWork: ExpectedWorkType;
+  @IsArray()
+  @IsEnum(ExpectedWorkType, { each: true })
+  expectedTypeWork: ExpectedWorkType[];
 
   @IsOptional()
   @IsEnum(CanTakeApprenticeship)
   canTakeApprenticeship: CanTakeApprenticeship;
 
-  @Transform(({ value }) => decodeURI(value))
+  @Transform(({ value }) => value.map((type) => decodeURI(type)))
   @IsOptional()
-  @IsEnum(ExpectedContractType)
-  expectedContractType: ExpectedContractType;
+  @IsArray()
+  @IsEnum(ExpectedContractType, { each: true })
+  expectedContractType: ExpectedContractType[];
 
   @Transform(({ value: degrees }) => {
     const numberDegrees: number[] = [];

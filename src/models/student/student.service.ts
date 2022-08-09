@@ -104,7 +104,7 @@ export class StudentService {
       });
 
     if (queries.expectedTypeWork) {
-      query.andWhere('info.expectedTypeWork = :expectedTypeWork', {
+      query.andWhere('info.expectedTypeWork IN (:expectedTypeWork)', {
         expectedTypeWork: queries.expectedTypeWork,
       });
     }
@@ -116,7 +116,7 @@ export class StudentService {
     }
 
     if (queries.expectedContractType) {
-      query.andWhere('info.expectedContractType = :expectedContractType', {
+      query.andWhere('info.expectedContractType IN (:expectedContractType)', {
         expectedContractType: queries.expectedContractType,
       });
     }
