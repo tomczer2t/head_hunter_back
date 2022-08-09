@@ -6,14 +6,15 @@ import {
   StudentStatus,
   UserAccountStatus,
   UserRole,
+  SingleStudentProfile,
 } from '../../../types';
 import { StudentInfoEntity } from './entities';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities';
 import { DataSource } from 'typeorm';
-import { SingleStudentProfile } from '../../../types/student/single-student-profile';
 import { StudentUpdateProfileResponse } from '../../../types/student/student-update-profile-response';
+import { StudentsQueryDto } from './dto/students-query.dto';
 
 @Injectable()
 export class StudentService {
@@ -103,16 +104,79 @@ export class StudentService {
     return studentInfo;
   }
 
-  async listAvailable(): Promise<ListAvailableResponse> {
-    const students = await this.dataSource
+  async listAvailable(
+    queries: StudentsQueryDto,
+  ): Promise<ListAvailableResponse> {
+    const query = await this.dataSource
       .createQueryBuilder()
-      .select('userEntity')
-      .from(UserEntity, 'userEntity')
-      .leftJoinAndSelect('userEntity.studentInfo', 'studentInfo')
-      .where('studentInfo.studentStatus = :status', {
+      .select('user')
+      .from(UserEntity, 'user')
+      .leftJoinAndSelect('user.studentInfo', 'info')
+      .where('info.studentStatus = :status', {
         status: StudentStatus.AVAILABLE,
-      })
-      .getMany();
+      });
+
+    if (queries.expectedTypeWork) {
+      query.andWhere('info.expectedTypeWork IN (:expectedTypeWork)', {
+        expectedTypeWork: queries.expectedTypeWork,
+      });
+    }
+
+    if (queries.canTakeApprenticeship) {
+      query.andWhere('info.canTakeApprenticeship = :canTakeApprenticeship', {
+        canTakeApprenticeship: queries.canTakeApprenticeship,
+      });
+    }
+
+    if (queries.expectedContractType) {
+      query.andWhere('info.expectedContractType IN (:expectedContractType)', {
+        expectedContractType: queries.expectedContractType,
+      });
+    }
+
+    if (queries.courseCompletion) {
+      query.andWhere('info.courseCompletion IN (:courseCompletion)', {
+        courseCompletion: queries.courseCompletion,
+      });
+    }
+
+    if (queries.courseEngagment) {
+      query.andWhere('info.courseEngagment IN (:courseEngagment)', {
+        courseEngagment: queries.courseEngagment,
+      });
+    }
+
+    if (queries.projectDegree) {
+      query.andWhere('info.projectDegree IN (:projectDegree)', {
+        projectDegree: queries.projectDegree,
+      });
+    }
+
+    if (queries.teamProjectDegree) {
+      query.andWhere('info.teamProjectDegree IN (:teamProjectDegree)', {
+        teamProjectDegree: queries.teamProjectDegree,
+      });
+    }
+
+    if (queries.salaryFrom) {
+      query.andWhere('info.expectedSalary >= :salaryFrom', {
+        salaryFrom: queries.salaryFrom,
+      });
+    }
+
+    if (queries.salaryTo) {
+      query.andWhere('info.expectedSalary <= :salaryTo', {
+        salaryTo: queries.salaryTo,
+      });
+    }
+
+    if (queries.monthsOfCommercialExp) {
+      query.andWhere('info.monthsOfCommercialExp >= :monthsOfCommercialExp', {
+        monthsOfCommercialExp: queries.monthsOfCommercialExp,
+      });
+    }
+
+    const students = await query.getMany();
     return this.filterAvailableStudents(students);
   }
 

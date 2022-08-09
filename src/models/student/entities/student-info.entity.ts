@@ -59,7 +59,11 @@ export class StudentInfoEntity extends BaseEntity {
   @Column({ length: USER_INPUT_LASTNAME_MAX_LENGTH, nullable: true })
   lastName: string;
 
-  @Column({ length: USER_INPUT_GITHUB_USERNAME_MAX_LENGTH, nullable: true })
+  @Column({
+    length: USER_INPUT_GITHUB_USERNAME_MAX_LENGTH,
+    nullable: true,
+    unique: true,
+  })
   githubUsername: string;
 
   @Column({ type: 'longtext', nullable: true })
