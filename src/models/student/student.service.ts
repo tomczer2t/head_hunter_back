@@ -109,21 +109,27 @@ export class StudentService {
       });
     }
 
-    if (queries.courseCompletion?.length > 0) {
-      const courseCompletionQuery = query.andWhere(
-        'info.courseCompletion = :courseCompletion',
-        { courseCompletion: queries.courseCompletion[0] },
-      );
-      queries.courseCompletion.forEach((courseDegree, i) => {
-        if (i !== 0) {
-          courseCompletionQuery.orWhere(
-            'info.courseCompletion = :courseCompletion',
-            { courseCompletion: courseDegree },
-          );
-        }
+    if (queries.canTakeApprenticeship) {
+      query.andWhere('info.canTakeApprenticeship = :canTakeApprenticeship', {
+        canTakeApprenticeship: queries.canTakeApprenticeship,
       });
-      query.andWhere(courseCompletionQuery.getQuery());
     }
+
+    // if (queries.courseCompletion?.length > 0) {
+    //   const courseCompletionQuery = query.andWhere(
+    //     'info.courseCompletion = :courseCompletion',
+    //     { courseCompletion: queries.courseCompletion[0] },
+    //   );
+    //   queries.courseCompletion.forEach((courseDegree, i) => {
+    //     if (i !== 0) {
+    //       courseCompletionQuery.orWhere(
+    //         'info.courseCompletion = :courseCompletion',
+    //         { courseCompletion: courseDegree },
+    //       );
+    //     }
+    //   });
+    //   query.andWhere(courseCompletionQuery.getQuery());
+    // }
 
     // if (queries.courseCompletion?.length > 0) {
     //   // nie działa. trzeba zrobić zagnieżdżone query tylko dla tej opcji

@@ -1,5 +1,5 @@
-import { IsArray, IsEnum, IsOptional } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsArray, IsBoolean, IsEnum, IsOptional } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
 import { ExpectedWorkType, SortBy } from '../../../../types';
 
 export class StudentsQueryDto {
@@ -25,4 +25,11 @@ export class StudentsQueryDto {
   @IsOptional()
   @IsEnum(ExpectedWorkType)
   expectedTypeWork: ExpectedWorkType;
+
+  @Transform(({ value }) => {
+    return value ? JSON.parse(value) : undefined;
+  })
+  @IsOptional()
+  @IsBoolean()
+  canTakeApprenticeship: boolean;
 }
