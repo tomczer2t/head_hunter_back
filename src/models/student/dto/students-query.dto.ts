@@ -33,7 +33,7 @@ export class StudentsQueryDto {
   })
   @IsArray()
   @IsOptional()
-  courseCompletion?: string[];
+  courseCompletion: number[];
 
   @Transform(({ value }) => decodeURI(value))
   @IsOptional()
@@ -60,7 +60,7 @@ export class StudentsQueryDto {
   })
   @IsArray()
   @IsOptional()
-  courseEngagment: string[];
+  courseEngagment: number[];
 
   @Transform(({ value: degrees }) => {
     const numberDegrees: number[] = [];
@@ -73,7 +73,7 @@ export class StudentsQueryDto {
   })
   @IsArray()
   @IsOptional()
-  projectDegree: string[];
+  projectDegree: number[];
 
   @Transform(({ value: degrees }) => {
     const numberDegrees: number[] = [];
@@ -86,7 +86,7 @@ export class StudentsQueryDto {
   })
   @IsArray()
   @IsOptional()
-  teamProjectDegree: string[];
+  teamProjectDegree: number[];
 
   @IsOptional()
   @IsNumber()
