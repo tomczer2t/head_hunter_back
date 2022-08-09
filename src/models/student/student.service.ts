@@ -1,18 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import {
+  FilteredAvailableStudent,
+  ListAvailableResponse,
   StudentCsv,
   StudentStatus,
   UserAccountStatus,
   UserRole,
-  FilteredAvailableStudent,
   SingleStudentProfile,
-  ListAvailableResponse,
-} from '../../../types';
+  } from '../../../types';
 import { StudentInfoEntity } from './entities';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities';
 import { DataSource } from 'typeorm';
+import { SingleStudentProfile } from '../../../types/student/single-student-profile';
+import { StudentUpdateProfileResponse } from '../../../types/student/student-update-profile-response';
 import { StudentsQueryDto } from './dto/students-query.dto';
 
 @Injectable()
@@ -25,7 +27,7 @@ export class StudentService {
   async updateStudent(
     studentFormProfileDto: StudentFormProfileDto,
     user: UserEntity,
-  ) {
+  ): Promise<StudentUpdateProfileResponse> {
     const { studentInfo } = user;
     for (const [key, value] of Object.entries(studentFormProfileDto)) {
       if (key === 'portfolioUrls' || key === 'projectUrls') {
@@ -34,12 +36,24 @@ export class StudentService {
         studentInfo[key] = value;
       }
     }
-    user.accountStatus = UserAccountStatus.ACTIVE;
+
     await user.save();
+
+    if (!studentInfo.studentStatus) {
+      studentInfo.studentStatus = StudentStatus.AVAILABLE;
+      user.accountStatus = UserAccountStatus.ACTIVE;
+    }
+
     studentInfo.bonusProjectUrls = JSON.stringify(studentInfo.bonusProjectUrls);
-    studentInfo.studentStatus = StudentStatus.AVAILABLE;
+
     await studentInfo.save();
-    return studentInfo;
+
+    const { studentInfoId, ...studentProfile } = studentInfo;
+
+    return {
+      userId: user.id,
+      ...studentProfile,
+    };
   }
 
   async addStudentOrUpdate(
