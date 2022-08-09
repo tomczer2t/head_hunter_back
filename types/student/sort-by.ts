@@ -9,8 +9,3 @@ export enum SortBy {
   canTakeApprenticeship = 'canTakeApprenticeship',
   monthsOfCommercialExp = 'monthsOfCommercialExp',
 }
-
-export interface ListStudentsQueries {
-  sortBy?: SortBy;
-  courseCompletion: string[];
-}
