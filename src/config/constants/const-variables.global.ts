@@ -1,5 +1,4 @@
-import { ExpectedContractType } from '../../../types';
-import { ExpectedWorkType } from '../../../types/student/expected-work-type';
+import { ExpectedContractType, ExpectedWorkType } from '../../../types';
 
 export const USER_INPUT_EMAIL_MAX_LENGTH = 254; // total number of user input + domain https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address#:~:text=%22There%20is%20a%20length%20limit,total%20length%20of%20320%20characters.
 
@@ -44,3 +43,7 @@ export const USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_DTO =
   +USER_INPUT_MONTHS_OF_COMMERCIAL_EXP;
 export const USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_ENTITY =
   USER_INPUT_MONTHS_OF_COMMERCIAL_EXP.length;
+
+export const USER_INPUT_COUNTRY_CODE_MAX_LENGTH = 2; // https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+
+export const USER_INPUT_TELEPHONE_NUMBER_MAX_LENGTH = 22; // https://stackoverflow.com/questions/723587/whats-the-longest-possible-worldwide-phone-number-i-should-consider-in-sql-varc

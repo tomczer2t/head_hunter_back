@@ -16,6 +16,7 @@ import {
   USER_INPUT_GITHUB_USERNAME_MAX_LENGTH,
   USER_INPUT_LASTNAME_MAX_LENGTH,
   USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_ENTITY,
+  USER_INPUT_TELEPHONE_NUMBER_MAX_LENGTH,
   USER_INPUT_TYPE_OF_WORK_MAX_LENGTH,
 } from '../../../config/constants';
 import { HrInfoEntity } from '../../hr/entities';
@@ -50,8 +51,8 @@ export class StudentInfoEntity extends BaseEntity {
   @Column({ type: 'longtext' })
   bonusProjectUrls: string;
 
-  @Column({ width: 9, nullable: true })
-  tel: number;
+  @Column({ length: USER_INPUT_TELEPHONE_NUMBER_MAX_LENGTH, nullable: true })
+  tel: string;
 
   @Column({ length: USER_INPUT_FIRSTNAME_MAX_LENGTH, nullable: true })
   firstName: string;
