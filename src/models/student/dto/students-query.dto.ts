@@ -1,6 +1,10 @@
 import { IsArray, IsBoolean, IsEnum, IsOptional } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { ExpectedWorkType, SortBy } from '../../../../types';
+import {
+  ExpectedContractType,
+  ExpectedWorkType,
+  SortBy,
+} from '../../../../types';
 
 export class StudentsQueryDto {
   @IsOptional()
@@ -32,4 +36,8 @@ export class StudentsQueryDto {
   @IsOptional()
   @IsBoolean()
   canTakeApprenticeship: boolean;
+
+  @IsOptional()
+  @IsEnum(ExpectedContractType)
+  expectedContractType: ExpectedContractType;
 }

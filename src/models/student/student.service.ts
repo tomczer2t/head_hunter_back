@@ -115,6 +115,12 @@ export class StudentService {
       });
     }
 
+    if (queries.expectedContractType) {
+      query.andWhere('info.expectedContractType = :expectedContractType', {
+        expectedContractType: queries.expectedContractType,
+      });
+    }
+
     // if (queries.courseCompletion?.length > 0) {
     //   const courseCompletionQuery = query.andWhere(
     //     'info.courseCompletion = :courseCompletion',
