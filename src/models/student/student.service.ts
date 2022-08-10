@@ -234,7 +234,9 @@ export class StudentService {
         key === 'canTakeApprenticeship' ||
         key === 'monthsOfCommercialExp' ||
         key === 'education' ||
-        key === 'workExperience'
+        key === 'workExperience' ||
+        key === 'courses' ||
+        key === 'tel'
       ) {
         studentProfile[key] = value;
       } else if (

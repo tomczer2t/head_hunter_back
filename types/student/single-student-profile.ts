@@ -2,7 +2,6 @@ import { StudentInfoEntity } from '../../src/models/student/entities';
 
 type Student = Pick<
   StudentInfoEntity,
-  | 'bonusProjectUrls'
   | 'firstName'
   | 'lastName'
   | 'bio'
@@ -11,7 +10,6 @@ type Student = Pick<
   | 'courseCompletion'
   | 'teamProjectDegree'
   | 'projectDegree'
-  | 'portfolioUrls'
   | 'expectedTypeWork'
   | 'targetWorkCity'
   | 'expectedContractType'
@@ -20,10 +18,15 @@ type Student = Pick<
   | 'monthsOfCommercialExp'
   | 'education'
   | 'workExperience'
-  | 'projectUrls'
 >;
 
 export interface SingleStudentProfile extends Student {
   scrumOwnCommits?: string;
   scrumOwnCodeReviews?: string;
+  portfolioUrls: string[];
+  projectUrls: string[];
+  bonusProjectUrls: string[];
+  courses: string;
+  tel: string;
+  email: string;
 }
