@@ -6,3 +6,4 @@ export * from './filtered-available-student';
 export * from './student-on-interview-list';
 export * from './sort-by';
 export * from './single-student-profile';
+export * from './student-update-profile-response';
