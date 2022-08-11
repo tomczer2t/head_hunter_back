@@ -5,7 +5,12 @@ import {
 } from '@nestjs/common';
 import { HrInterviewEntity } from './entities/hr-interview.entity';
 import { UserEntity } from '../user/entities';
-import { StudentOnInterviewList, StudentStatus, UserRole } from 'types';
+import {
+  ListAvailableResponse,
+  StudentOnInterviewList,
+  StudentStatus,
+  UserRole,
+} from 'types';
 import { AddInterviewResponse, RemoveInterviewResponse } from '../../../types';
 import { HrFormProfileDto } from './dto/hr-form-profile.dto';
 import { HrInfoEntity } from './entities';
@@ -13,12 +18,15 @@ import { HrDto } from './dto/hr.dto';
 import { UserService } from '../user/user.service';
 import { businessDaysFilter } from '../../common/utils/business-days-filter';
 import { DataSource } from 'typeorm';
+import { StudentService } from '../student/student.service';
+import { StudentsQueryDto } from '../student/dto/students-query.dto';
 
 @Injectable()
 export class HrService {
   constructor(
     private userService: UserService,
     private myDataSource: DataSource,
+    private studentService: StudentService,
   ) {}
 
   async allInterviewsFromOneHr(
@@ -147,5 +155,11 @@ export class HrService {
     }
     await newHrInfo.save();
     return newHrInfo;
+  }
+
+  async listAvailableStudents(
+    queries: StudentsQueryDto,
+  ): Promise<ListAvailableResponse> {
+    return this.studentService.listAvailable(queries);
   }
 }

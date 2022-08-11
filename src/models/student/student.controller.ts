@@ -35,12 +35,9 @@ export class StudentController {
     return this.studentService.updateStudent(studentFormProfileDto, user);
   }
 
-  @SetAccessRole(UserRole.HR)
-  @Get('/')
-  listAvailable(
-    @Query() queryDto: StudentsQueryDto,
-  ): Promise<ListAvailableResponse> {
-    return this.studentService.listAvailable(queryDto);
+  @Get('/cv')
+  getCv(@GetUser() user: UserEntity) {
+    return this.studentService.getCv(user);
   }
 
   @SetAccessRole(UserRole.HR)

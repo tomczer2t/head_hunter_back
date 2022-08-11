@@ -236,17 +236,18 @@ export class StudentService {
         key === 'education' ||
         key === 'workExperience' ||
         key === 'courses' ||
-        key === 'tel'
-      ) {
-        studentProfile[key] = value;
-      } else if (
+        key === 'tel' ||
         key === 'bonusProjectUrls' ||
         key === 'portfolioUrls' ||
         key === 'projectUrls'
       ) {
-        studentProfile[key] = JSON.parse(value);
+        studentProfile[key] = value;
       }
     }
     return studentProfile as SingleStudentProfile;
+  }
+
+  getCv(student: UserEntity) {
+    return this.filterStudentProfile(student.studentInfo);
   }
 }
