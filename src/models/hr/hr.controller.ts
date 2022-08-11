@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Inject,
+  Param,
   Patch,
   Post,
   Query,
@@ -33,12 +34,12 @@ export class HrController {
   ) {
     return this.hrService.addStudentToInterview(userId, hr);
   }
-  @Delete('/student')
+  @Delete('/student/:studentId')
   deleteStudentFromInterview(
     @GetUser() hr: UserEntity,
-    @Body() { userId }: StudentOnInterviewDto,
+    @Param('studentId') studentId: string,
   ) {
-    return this.hrService.deleteStudentFromInterview(userId, hr);
+    return this.hrService.deleteStudentFromInterview(studentId, hr);
   }
 
   @Patch('/')
