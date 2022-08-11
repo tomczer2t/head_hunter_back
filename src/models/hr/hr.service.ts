@@ -56,7 +56,7 @@ export class HrService {
 
     if (student.studentInfo.studentStatus === StudentStatus.HIRED) {
       throw new ConflictException(
-        'Selected student is already appointed or hired',
+        'Selected student is already hired',
       );
     }
     const studentAlreadyAddedByCurrentHr = await this.myDataSource
