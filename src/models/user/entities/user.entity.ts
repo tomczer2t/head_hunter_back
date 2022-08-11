@@ -45,9 +45,9 @@ export class UserEntity extends BaseEntity {
   })
   hrInfo: HrInfoEntity;
 
-  @OneToOne(() => HrInterviewEntity, (entity) => entity.student)
-  interview: HrInterviewEntity;
+  @OneToMany(() => HrInterviewEntity, (entity) => entity.student)
+  StudentInterviews: HrInterviewEntity[];
 
   @OneToMany(() => HrInterviewEntity, (entity) => entity.hr)
-  interviews: HrInterviewEntity[];
+  HrInterviews: HrInterviewEntity[];
 }
