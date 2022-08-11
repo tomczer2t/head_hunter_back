@@ -53,12 +53,23 @@ export class HrService {
     if (!student) {
       throw new NotFoundException('Student not found');
     }
-    if (
-      student.studentInfo.studentStatus === StudentStatus.BUSY ||
-      student.studentInfo.studentStatus === StudentStatus.HIRED
-    ) {
+
+    if (student.studentInfo.studentStatus === StudentStatus.HIRED) {
       throw new ConflictException(
         'Selected student is already appointed or hired',
+      );
+    }
+    const studentAlreadyAddedByCurrentHr = await this.myDataSource
+      .createQueryBuilder()
+      .select('id')
+      .from(HrInterviewEntity, 'id')
+      .where('studentId = :studentId', { studentId: userId })
+      .andWhere('hrId = :hrId', { hrId: hr.id })
+      .getOne();
+
+    if (studentAlreadyAddedByCurrentHr) {
+      throw new ConflictException(
+        'Selected student is already added to your interview list',
       );
     }
 
@@ -66,9 +77,6 @@ export class HrService {
     interview.student = student;
     interview.hr = hr;
     await interview.save();
-
-    student.studentInfo.studentStatus = StudentStatus.BUSY;
-    await student.studentInfo.save();
 
     return { isSuccess: true };
   }
