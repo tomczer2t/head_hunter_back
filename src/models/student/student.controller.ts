@@ -6,19 +6,16 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
-  Query,
 } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserEntity } from '../user/entities';
-import { StudentUpdateProfileResponse } from '../../../types/student/student-update-profile-response';
 import {
-  UserRole,
-  ListAvailableResponse,
   SingleStudentProfile,
+  UserRole,
+  StudentUpdateProfileResponse,
 } from '../../../types';
 import { GetUser, SetAccessRole } from '../../common/decorators';
-import { StudentsQueryDto } from './dto/students-query.dto';
 
 @SetAccessRole(UserRole.STUDENT)
 @Controller('/student')

@@ -4,7 +4,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserEntity } from '../../user/entities';
@@ -15,12 +14,12 @@ export class HrInterviewEntity extends BaseEntity {
   id: string;
 
   @JoinColumn()
-  @OneToOne(() => UserEntity, (entity) => entity.interview, {
+  @ManyToOne(() => UserEntity, (entity) => entity.StudentInterviews, {
     eager: true,
   })
   student: UserEntity;
 
-  @ManyToOne(() => UserEntity, (entity) => entity.interviews)
+  @ManyToOne(() => UserEntity, (entity) => entity.HrInterviews)
   hr: UserEntity;
 
   @Column({
