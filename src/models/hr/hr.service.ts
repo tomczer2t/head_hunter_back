@@ -55,9 +55,7 @@ export class HrService {
     }
 
     if (student.studentInfo.studentStatus === StudentStatus.HIRED) {
-      throw new ConflictException(
-        'Selected student is already hired',
-      );
+      throw new ConflictException('Selected student is already hired');
     }
     const studentAlreadyAddedByCurrentHr = await this.myDataSource
       .createQueryBuilder()
@@ -99,8 +97,6 @@ export class HrService {
       where: { id: userId },
       relations: ['studentInfo'],
     });
-
-    studentInfo.studentStatus = StudentStatus.AVAILABLE;
 
     await studentInfo.save();
 
