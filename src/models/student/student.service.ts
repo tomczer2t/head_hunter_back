@@ -123,8 +123,9 @@ export class StudentService {
     }
 
     if (queries.canTakeApprenticeship) {
+      const canTake = queries.canTakeApprenticeship === 'true' ? 1 : 0;
       query.andWhere('info.canTakeApprenticeship = :canTakeApprenticeship', {
-        canTakeApprenticeship: queries.canTakeApprenticeship,
+        canTakeApprenticeship: canTake,
       });
     }
 
