@@ -1,19 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import {
+  ExpectedContractType,
+  ExpectedWorkType,
   FilteredAvailableStudent,
   ListAvailableResponse,
+  SingleStudentProfile,
   StudentCsv,
   StudentStatus,
   UserAccountStatus,
   UserRole,
-  SingleStudentProfile,
+  CanTakeApprenticeship,
+  StudentUpdateProfileResponse,
 } from '../../../types';
 import { StudentInfoEntity } from './entities';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities';
 import { DataSource } from 'typeorm';
-import { StudentUpdateProfileResponse } from '../../../types/student/student-update-profile-response';
 import { StudentsQueryDto } from './dto/students-query.dto';
 
 @Injectable()
@@ -66,6 +69,10 @@ export class StudentService {
     if (!student) {
       student = await this.userService.addUser(email, UserRole.STUDENT);
       student.studentInfo = await this.addStudentInfo(restStudentData);
+      student.studentInfo.expectedContractType =
+        ExpectedContractType.NO_PREFERENCES;
+      student.studentInfo.expectedTypeWork = ExpectedWorkType.NO_PREFERENCES;
+      student.studentInfo.canTakeApprenticeship = !!CanTakeApprenticeship.YES;
     } else {
       isUpdated = true;
       await this.updateStudentInfoFromCsv(studentCsvData, student.studentInfo);
