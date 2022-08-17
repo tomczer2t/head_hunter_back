@@ -247,5 +247,9 @@ export class StudentService {
     return this.filterStudentProfile(student);
   }
 
-  async hire(user: UserEntity) {}
+  async hire(user: UserEntity) {
+    user.studentInfo.studentStatus = StudentStatus.HIRED;
+    await user.studentInfo.save();
+    return { isSuccess: true };
+  }
 }
