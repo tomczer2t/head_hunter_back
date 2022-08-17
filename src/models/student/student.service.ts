@@ -208,47 +208,40 @@ export class StudentService {
     if (!user) {
       throw new NotFoundException('Student not found');
     }
-    const student = user.studentInfo;
 
-    return this.filterStudentProfile(student);
+    return this.filterStudentProfile(user);
   }
 
-  private filterStudentProfile(
-    student: StudentInfoEntity,
-  ): SingleStudentProfile {
-    const studentProfile = {};
-
-    for (const [key, value] of Object.entries(student)) {
-      if (
-        key === 'firstName' ||
-        key === 'lastName' ||
-        key === 'bio' ||
-        key === 'githubUsername' ||
-        key === 'courseEngagment' ||
-        key === 'courseCompletion' ||
-        key === 'teamProjectDegree' ||
-        key === 'projectDegree' ||
-        key === 'expectedTypeWork' ||
-        key === 'targetWorkCity' ||
-        key === 'expectedContractType' ||
-        key === 'expectedSalary' ||
-        key === 'canTakeApprenticeship' ||
-        key === 'monthsOfCommercialExp' ||
-        key === 'education' ||
-        key === 'workExperience' ||
-        key === 'courses' ||
-        key === 'tel' ||
-        key === 'bonusProjectUrls' ||
-        key === 'portfolioUrls' ||
-        key === 'projectUrls'
-      ) {
-        studentProfile[key] = value;
-      }
-    }
+  private filterStudentProfile(user: UserEntity): SingleStudentProfile {
+    const student = user.studentInfo;
+    const studentProfile: SingleStudentProfile = {
+      firstName: student.firstName,
+      lastName: student.lastName,
+      email: user.email,
+      bio: student.bio,
+      githubUsername: student.githubUsername,
+      courseEngagment: student.courseEngagment,
+      courseCompletion: student.courseCompletion,
+      teamProjectDegree: student.teamProjectDegree,
+      projectDegree: student.projectDegree,
+      expectedTypeWork: student.expectedTypeWork,
+      expectedSalary: student.expectedSalary,
+      canTakeApprenticeship: student.canTakeApprenticeship,
+      monthsOfCommercialExp: student.monthsOfCommercialExp,
+      education: student.education,
+      workExperience: student.workExperience,
+      courses: student.courses,
+      tel: student.tel,
+      bonusProjectUrls: JSON.parse(student.bonusProjectUrls),
+      portfolioUrls: JSON.parse(student.portfolioUrls),
+      projectUrls: JSON.parse(student.projectUrls),
+      targetWorkCity: student.targetWorkCity,
+      expectedContractType: student.expectedContractType,
+    };
     return studentProfile as SingleStudentProfile;
   }
 
   getCv(student: UserEntity) {
-    return this.filterStudentProfile(student.studentInfo);
+    return this.filterStudentProfile(student);
   }
 }
