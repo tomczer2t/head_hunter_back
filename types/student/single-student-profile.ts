@@ -29,4 +29,5 @@ export interface SingleStudentProfile extends Student {
   courses: string;
   tel: string;
   email: string;
+  userId: string;
 }

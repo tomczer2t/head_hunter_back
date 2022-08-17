@@ -215,6 +215,7 @@ export class StudentService {
   private filterStudentProfile(user: UserEntity): SingleStudentProfile {
     const student = user.studentInfo;
     const studentProfile: SingleStudentProfile = {
+      userId: user.id,
       firstName: student.firstName,
       lastName: student.lastName,
       email: user.email,
