@@ -34,11 +34,6 @@ export class JwtAccessStrategy extends PassportStrategy(
     if (!user) {
       throw new UnauthorizedException();
     }
-    if (user.studentInfo) {
-      user.studentInfo.bonusProjectUrls = JSON.parse(
-        user.studentInfo.bonusProjectUrls,
-      );
-    }
     return user;
   }
 }

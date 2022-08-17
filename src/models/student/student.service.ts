@@ -213,6 +213,7 @@ export class StudentService {
   }
 
   private filterStudentProfile(user: UserEntity): SingleStudentProfile {
+    console.log({ user });
     const student = user.studentInfo;
     const studentProfile: SingleStudentProfile = {
       userId: user.id,
