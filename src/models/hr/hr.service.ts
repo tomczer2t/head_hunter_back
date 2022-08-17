@@ -25,19 +25,27 @@ import { StudentsQueryDto } from '../student/dto/students-query.dto';
 export class HrService {
   constructor(
     private userService: UserService,
-    private myDataSource: DataSource,
+    private dataSource: DataSource,
     private studentService: StudentService,
   ) {}
 
   async allInterviewsFromOneHr(
     hrId: string,
   ): Promise<StudentOnInterviewList[]> {
-    const interviews = await HrInterviewEntity.find({
-      relations: ['student'],
-      where: { hr: { id: hrId } },
-    });
-    if (interviews.length === 0) return [];
+    const interviews = await this.dataSource
+      .createQueryBuilder()
+      .select('hi')
+      .from(HrInterviewEntity, 'hi')
+      .leftJoin('hi.hr', 'hr')
+      .where('hr.id = :hrId', { hrId })
+      .leftJoinAndSelect('hi.student', 'student')
+      .leftJoinAndSelect('student.studentInfo', 'si')
+      .andWhere('si.studentStatus != :studentStatus', {
+        studentStatus: StudentStatus.HIRED,
+      })
+      .getMany();
 
+    if (interviews.length === 0) return [];
     return this.filterStudentsForInterview(interviews);
   }
 
@@ -55,11 +63,9 @@ export class HrService {
     }
 
     if (student.studentInfo.studentStatus === StudentStatus.HIRED) {
-      throw new ConflictException(
-        'Selected student is already hired',
-      );
+      throw new ConflictException('Selected student is already hired');
     }
-    const studentAlreadyAddedByCurrentHr = await this.myDataSource
+    const studentAlreadyAddedByCurrentHr = await this.dataSource
       .createQueryBuilder()
       .select('id')
       .from(HrInterviewEntity, 'id')
@@ -85,7 +91,7 @@ export class HrService {
     userId: string,
     hr: UserEntity,
   ): Promise<RemoveInterviewResponse> {
-    const { affected } = await this.myDataSource
+    const { affected } = await this.dataSource
       .createQueryBuilder()
       .delete()
       .from(HrInterviewEntity)
