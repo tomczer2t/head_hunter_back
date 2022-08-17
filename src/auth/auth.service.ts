@@ -53,7 +53,10 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('Wrong email or password');
     }
-    if (user.studentInfo.studentStatus === StudentStatus.HIRED) {
+    if (
+      user.studentInfo &&
+      user.studentInfo.studentStatus === StudentStatus.HIRED
+    ) {
       throw new ForbiddenException('Student is hired');
     }
     const pwdMatch = await compare(loginDto.password, user?.passwordHash);
