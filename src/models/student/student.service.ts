@@ -112,6 +112,7 @@ export class StudentService {
         studentInfo[key] = value;
       }
     }
+    console.log({ studentInfo });
     await studentInfo.save();
     return studentInfo;
   }
