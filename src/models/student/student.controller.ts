@@ -37,6 +37,11 @@ export class StudentController {
     return this.studentService.getCv(user);
   }
 
+  @Patch('/hire')
+  hire(@GetUser() user: UserEntity) {
+    return this.studentService.hire(user);
+  }
+
   @SetAccessRole(UserRole.HR)
   @Get('/:userStudentId')
   showOneStudentFromHrList(

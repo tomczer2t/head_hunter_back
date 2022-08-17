@@ -246,4 +246,6 @@ export class StudentService {
   getCv(student: UserEntity) {
     return this.filterStudentProfile(student);
   }
+
+  async hire(user: UserEntity) {}
 }

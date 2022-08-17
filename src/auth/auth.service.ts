@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import {
   JwtPayload,
@@ -6,6 +11,7 @@ import {
   Tokens,
   LogoutResponse,
   RefreshResponse,
+  StudentStatus,
 } from '../../types';
 import { ConfigService } from '@nestjs/config';
 import { LoginDto } from './dto';
@@ -13,6 +19,7 @@ import { Response } from 'express';
 import { UserService } from '../models/user/user.service';
 import { UserEntity } from '../models/user/entities';
 import { compare, hash } from 'bcrypt';
+import { StudentController } from '../models/student/student.controller';
 
 @Injectable()
 export class AuthService {
@@ -45,6 +52,9 @@ export class AuthService {
     );
     if (!user) {
       throw new BadRequestException('Wrong email or password');
+    }
+    if (user.studentInfo.studentStatus === StudentStatus.HIRED) {
+      throw new ForbiddenException('Student is hired');
     }
     const pwdMatch = await compare(loginDto.password, user?.passwordHash);
     if (!pwdMatch) {
