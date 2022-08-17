@@ -73,6 +73,7 @@ export class StudentService {
         ExpectedContractType.NO_PREFERENCES;
       student.studentInfo.expectedTypeWork = ExpectedWorkType.NO_PREFERENCES;
       student.studentInfo.canTakeApprenticeship = !!CanTakeApprenticeship.YES;
+      student.studentInfo.countryCode = 'PL';
     } else {
       isUpdated = true;
       await this.updateStudentInfoFromCsv(studentCsvData, student.studentInfo);
@@ -84,16 +85,20 @@ export class StudentService {
   async addStudentInfo(
     studentInfoCsvData: Omit<StudentCsv, 'email'>,
   ): Promise<StudentInfoEntity> {
-    const studentInfo = new StudentInfoEntity();
-    for (const [key, value] of Object.entries(studentInfoCsvData)) {
-      if (key === 'bonusProjectUrls') {
-        studentInfo[key] = JSON.stringify(value);
-      } else {
-        studentInfo[key] = value;
+    try {
+      const studentInfo = new StudentInfoEntity();
+      for (const [key, value] of Object.entries(studentInfoCsvData)) {
+        if (key === 'bonusProjectUrls') {
+          studentInfo[key] = JSON.stringify(value);
+        } else {
+          studentInfo[key] = value;
+        }
       }
+      await studentInfo.save();
+      return studentInfo;
+    } catch (e) {
+      console.log(e);
     }
-    await studentInfo.save();
-    return studentInfo;
   }
 
   async updateStudentInfoFromCsv(
@@ -246,6 +251,7 @@ export class StudentService {
       projectUrls: JSON.parse(student.projectUrls),
       targetWorkCity: student.targetWorkCity,
       expectedContractType: student.expectedContractType,
+      countryCode: student.countryCode,
     };
     return studentProfile as SingleStudentProfile;
   }

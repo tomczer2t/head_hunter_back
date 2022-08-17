@@ -40,7 +40,7 @@ export class IsValidNumberOfConstraint implements ValidatorConstraintInterface {
     }
 
     // Checks if the value (number) belongs in the extracted countryCode
-    const formattedPhoneNumber = util.parse(value, countryCode);
+    const formattedPhoneNumber = util.parse(value + '', countryCode);
     const isValidPhoneNumber = util.isValidNumberForRegion(
       formattedPhoneNumber,
       countryCode,

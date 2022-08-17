@@ -47,6 +47,9 @@ export class StudentFormProfileDto {
   )
   @MaxLength(USER_INPUT_TELEPHONE_NUMBER_MAX_LENGTH)
   @IsNumberString()
+  @Transform(({ value }) => {
+    return value + '';
+  })
   tel: string;
 
   @IsNotEmpty()

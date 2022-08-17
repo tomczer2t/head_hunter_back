@@ -30,4 +30,5 @@ export interface SingleStudentProfile extends Student {
   tel: string;
   email: string;
   userId: string;
+  countryCode: string;
 }

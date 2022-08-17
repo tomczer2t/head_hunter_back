@@ -111,4 +111,7 @@ export class StudentInfoEntity extends BaseEntity {
 
   @Column({ width: 1, nullable: true })
   studentStatus: number;
+
+  @Column({ length: 2, default: 'PL' })
+  countryCode: string;
 }
