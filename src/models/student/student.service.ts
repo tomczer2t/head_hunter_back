@@ -266,4 +266,9 @@ export class StudentService {
     await user.studentInfo.save();
     return { isSuccess: true };
   }
+
+  async getStudentById(studentId: string): Promise<UserEntity | null> {
+    const student = await UserEntity.findOneBy({ id: studentId });
+    return student ? student : null;
+  }
 }
