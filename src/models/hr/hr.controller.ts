@@ -42,6 +42,14 @@ export class HrController {
     return this.hrService.deleteStudentFromInterview(studentId, hr);
   }
 
+  @Patch('/hire-student/:studentId')
+  hireStudent(
+    @GetUser() hr: UserEntity,
+    @Param('studentId') studentId: string,
+  ) {
+    return this.hrService.hireStudent(hr, studentId);
+  }
+
   @Patch('/')
   updateHrInfo(
     @Body() hrFormProfileDto: HrFormProfileDto,

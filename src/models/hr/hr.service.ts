@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { HrInterviewEntity } from './entities/hr-interview.entity';
@@ -20,6 +21,11 @@ import { businessDaysFilter } from '../../common/utils/business-days-filter';
 import { DataSource } from 'typeorm';
 import { StudentService } from '../student/student.service';
 import { StudentsQueryDto } from '../student/dto/students-query.dto';
+import {
+  hrRegistrationTemplate,
+  hrStudentHireTemplate,
+} from '../../providers/email/templates';
+import { EmailProviderService } from '../../providers/email/provider.service';
 
 @Injectable()
 export class HrService {
@@ -27,6 +33,7 @@ export class HrService {
     private userService: UserService,
     private dataSource: DataSource,
     private studentService: StudentService,
+    private emailProviderService: EmailProviderService,
   ) {}
 
   async allInterviewsFromOneHr(
@@ -175,5 +182,35 @@ export class HrService {
     queries: StudentsQueryDto,
   ): Promise<ListAvailableResponse> {
     return this.studentService.listAvailable(queries);
+  }
+
+  async hireStudent(hr: UserEntity, studentId: string) {
+    const student = await this.studentService.getStudentById(studentId);
+    if (!student) throw new NotFoundException('Student not found');
+    const { isSuccess } = await this.studentService.hire(student);
+    if (!isSuccess) {
+      throw new InternalServerErrorException('Changing student status failed.');
+    }
+    const hrForEmail = {
+      id: hr.id,
+      firstName: hr.hrInfo.firstName,
+      lastName: hr.hrInfo.lastName,
+      company: hr.hrInfo.company,
+    };
+    const studentForEmail = {
+      id: student.id,
+      firstName: student.studentInfo.firstName,
+      lastName: student.studentInfo.lastName,
+    };
+    const emailBody = hrStudentHireTemplate({
+      hr: hrForEmail,
+      student: studentForEmail,
+    });
+    const subject = `${hrForEmail.firstName} ${hrForEmail.lastName} zatrudnił kursanta!`;
+    const admin = await UserEntity.findOneBy({ role: UserRole.ADMIN });
+
+    await this.emailProviderService.sendMail(admin.email, subject, emailBody);
+
+    return { isSuccess: true };
   }
 }
