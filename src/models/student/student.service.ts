@@ -77,6 +77,7 @@ export class StudentService {
       await this.updateStudentInfoFromCsv(studentCsvData, student.studentInfo);
     }
     await student.save();
+    await student.studentInfo.save();
     return { student, isUpdated };
   }
 
