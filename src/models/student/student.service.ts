@@ -41,14 +41,10 @@ export class StudentService {
       }
     }
 
-    await user.save();
-
     if (!studentInfo.studentStatus) {
       studentInfo.studentStatus = StudentStatus.AVAILABLE;
       user.accountStatus = UserAccountStatus.ACTIVE;
     }
-
-    studentInfo.bonusProjectUrls = JSON.stringify(studentInfo.bonusProjectUrls);
 
     await studentInfo.save();
 
