@@ -19,6 +19,7 @@ import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities';
 import { DataSource } from 'typeorm';
 import { StudentsQueryDto } from './dto/students-query.dto';
+import { HrInterviewEntity } from '../hr/entities/hr-interview.entity';
 
 @Injectable()
 export class StudentService {
@@ -266,6 +267,16 @@ export class StudentService {
     try {
       user.studentInfo.studentStatus = StudentStatus.HIRED;
       await user.studentInfo.save();
+      const allStudentInterviews = await this.dataSource
+        .createQueryBuilder()
+        .select('interview')
+        .from(HrInterviewEntity, 'interview')
+        .leftJoin('interview.student', 'student')
+        .where('student.id = :id', { id: user.id })
+        .getMany();
+      for (const interview of allStudentInterviews) {
+        await interview.remove();
+      }
       return { isSuccess: true };
     } catch (e) {
       return { isSuccess: false };
