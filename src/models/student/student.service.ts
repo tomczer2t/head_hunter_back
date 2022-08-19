@@ -11,6 +11,7 @@ import {
   UserRole,
   CanTakeApprenticeship,
   StudentUpdateProfileResponse,
+  HireResponse,
 } from '../../../types';
 import { StudentInfoEntity } from './entities';
 import { StudentFormProfileDto } from './dto/student-form-profile.dto';
@@ -261,10 +262,14 @@ export class StudentService {
     return this.filterStudentProfile(student);
   }
 
-  async hire(user: UserEntity) {
-    user.studentInfo.studentStatus = StudentStatus.HIRED;
-    await user.studentInfo.save();
-    return { isSuccess: true };
+  async hire(user: UserEntity): Promise<HireResponse> {
+    try {
+      user.studentInfo.studentStatus = StudentStatus.HIRED;
+      await user.studentInfo.save();
+      return { isSuccess: true };
+    } catch (e) {
+      return { isSuccess: false };
+    }
   }
 
   async getStudentById(studentId: string): Promise<UserEntity | null> {

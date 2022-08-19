@@ -14,6 +14,7 @@ import {
   SingleStudentProfile,
   UserRole,
   StudentUpdateProfileResponse,
+  HireResponse,
 } from '../../../types';
 import { GetUser, SetAccessRole } from '../../common/decorators';
 
@@ -38,7 +39,7 @@ export class StudentController {
   }
 
   @Patch('/hire')
-  hire(@GetUser() user: UserEntity) {
+  hire(@GetUser() user: UserEntity): Promise<HireResponse> {
     return this.studentService.hire(user);
   }
 
