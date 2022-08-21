@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -21,10 +22,7 @@ import { businessDaysFilter } from '../../common/utils/business-days-filter';
 import { DataSource } from 'typeorm';
 import { StudentService } from '../student/student.service';
 import { StudentsQueryDto } from '../student/dto/students-query.dto';
-import {
-  hrRegistrationTemplate,
-  hrStudentHireTemplate,
-} from '../../providers/email/templates';
+import { hrStudentHireTemplate } from '../../providers/email/templates';
 import { EmailProviderService } from '../../providers/email/provider.service';
 
 @Injectable()
@@ -60,10 +58,12 @@ export class HrService {
     userId: string,
     hr: UserEntity,
   ): Promise<AddInterviewResponse> {
-    const student = await UserEntity.findOne({
-      where: { id: userId },
-      relations: ['studentInfo'],
-    });
+    const [student] = await Promise.all([
+      UserEntity.findOne({
+        where: { id: userId },
+        relations: ['studentInfo'],
+      }),
+    ]);
 
     if (!student) {
       throw new NotFoundException('Student not found');
@@ -72,17 +72,27 @@ export class HrService {
     if (student.studentInfo.studentStatus === StudentStatus.HIRED) {
       throw new ConflictException('Selected student is already hired');
     }
-    const studentAlreadyAddedByCurrentHr = await this.dataSource
-      .createQueryBuilder()
-      .select('id')
-      .from(HrInterviewEntity, 'id')
-      .where('studentId = :studentId', { studentId: userId })
-      .andWhere('hrId = :hrId', { hrId: hr.id })
-      .getOne();
 
-    if (studentAlreadyAddedByCurrentHr) {
+    const studentsFromCurrentHr = await this.dataSource
+      .createQueryBuilder()
+      .select('hi')
+      .from(HrInterviewEntity, 'hi')
+      .leftJoin('hi.hr', 'hr')
+      .where('hr.id = :hrId', { hrId: hr.id })
+      .leftJoinAndSelect('hi.student', 'student')
+      .leftJoinAndSelect('student.studentInfo', 'si')
+      .getMany();
+
+    if (studentsFromCurrentHr.some((item) => item.student.id === userId)) {
       throw new ConflictException(
         'Selected student is already added to your interview list',
+      );
+    }
+
+    if (studentsFromCurrentHr.length >= hr.hrInfo.maxReservedStudents) {
+      throw new HttpException(
+        'Number of allowed students for interviews has been exceeded',
+        417,
       );
     }
 
