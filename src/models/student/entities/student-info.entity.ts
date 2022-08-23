@@ -97,6 +97,7 @@ export class StudentInfoEntity extends BaseEntity {
   @Column({
     width: USER_INPUT_MONTHS_OF_COMMERCIAL_EXP_MAX_LENGTH_ENTITY,
     nullable: true,
+    default: 0,
   })
   monthsOfCommercialExp: number;
 
